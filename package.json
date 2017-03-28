@@ -13,7 +13,7 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": "https://github.com/shuriu/ember-do-forms",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
