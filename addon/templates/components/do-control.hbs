@@ -1,0 +1,15 @@
+{{#if hasBlock}}
+  {{yield (hash
+    id=id
+    value=value
+    validationClass=validationClass
+  )}}
+{{else}}
+  {{component oneWayControl
+    id=id
+    value=value
+    class=validationClass
+    classNames=classNames
+    update=update
+  }}
+{{/if}}

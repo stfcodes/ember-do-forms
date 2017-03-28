@@ -1,0 +1,15 @@
+{{yield (hash
+  object=object
+  propertyName=propertyName
+
+  do-label=(component 'do-label'
+    for=controlId
+  )
+
+  do-control=(component 'do-control'
+    value=(get object propertyName)
+    id=controlId
+    validationClass=controlValidationClasses
+    update=(action 'onUpdate' object propertyName)
+  )
+)}}

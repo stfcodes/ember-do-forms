@@ -46,5 +46,9 @@ module.exports = function(environment) {
 
   }
 
+  ENV['ember-do-form'] = {
+    fieldClasses: ['form-group']
+  };
+
   return ENV;
 };
