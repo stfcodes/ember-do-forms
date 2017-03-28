@@ -1,6 +1,6 @@
 {
   "name": "ember-do-forms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ember-do-forms handles the icky parts of forms that you don't want to, and leaves the rest to you.",
   "keywords": [
     "ember-addon",
