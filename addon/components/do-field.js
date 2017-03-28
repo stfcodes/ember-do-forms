@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/do-field';
 import presence from '../utils/presence';
+import hasOnlyEmberView from '../utils/has-only-ember-view';
 
 const {
   assert,
@@ -55,7 +56,7 @@ const DoLabelComponent = Component.extend({
     assert('{{do-field}} requires an object to be passed in', isPresent(get(this, 'object')));
     assert('{{do-field}} requires a propertyName to be passed in', isPresent(propertyName));
 
-    if (isEmpty(classNames)) {
+    if (isEmpty(classNames) || hasOnlyEmberView(classNames)) {
       set(this, 'classNames', classNames.concat(classes.field));
     }
 

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/do-control';
+import hasOnlyEmberView from '../utils/has-only-ember-view';
 
 const {
   computed,
@@ -26,7 +27,7 @@ const DoControlComponent = Component.extend({
     let classNames = get(this, 'classNames');
     let classes    = getWithDefault(this, 'config.defaultClasses', {});
 
-    if (isEmpty(classNames)) {
+    if (isEmpty(classNames) || hasOnlyEmberView(classNames)) {
       set(this, 'classNames', classNames.concat(classes.control));
     }
   }

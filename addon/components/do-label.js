@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/do-label';
+import hasOnlyEmberView from '../utils/has-only-ember-view';
 
 const {
   Component,
@@ -23,7 +24,7 @@ const DoLabelComponent = Component.extend({
     let classNames = get(this, 'classNames');
     let classes    = getWithDefault(this, 'config.defaultClasses', {});
 
-    if (isEmpty(classNames)) {
+    if (isEmpty(classNames) || hasOnlyEmberView(classNames)) {
       set(this, 'classNames', classNames.concat(classes.label));
     }
   }
