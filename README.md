@@ -1,5 +1,9 @@
 # ember-do-forms
 
+[![Build Status](https://travis-ci.org/shuriu/ember-do-forms.svg?branch=master)](https://travis-ci.org/shuriu/ember-do-forms)
+[![npm version](https://badge.fury.io/js/ember-do-forms.svg)](https://badge.fury.io/js/ember-do-forms)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-do-forms.svg)](https://emberobserver.com/addons/ember-do-forms)
+
 Yet another ember forms library that handles the icky parts of forms that you don't want to do. Why? Because [features](#features).
 
 Get started with:
