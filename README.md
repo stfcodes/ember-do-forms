@@ -11,9 +11,10 @@ Get started with:
   `ember install ember-do-forms`
 
 ## Features
-* Extremely easy to customise, thanks to contextual components.
+
+* [Extremely](#css-customizations) [easy](#inline-component-customizations) to [customise](#component-customizations), thanks to contextual components.
 * Uses [`ember-one-way-controls`](https://github.com/DockYard/ember-one-way-controls) under the hood for controls. But easily extensible with any control type.
-* Bare minimum HTML with no CSS by default. Use it with frontend framework you like.
+* Bare minimum HTML with no CSS by default. Use it with any frontend framework you like.
 * Binds error and success classes on a field `focusOut` or just before `submit`. Works with [`ember-cp-validations`](https://github.com/offirgolan/ember-cp-validations) by default.
 
 ## Usage
@@ -154,4 +155,4 @@ I will also give commit rights to anyone submitting quality PRs (code adheres to
 * [`ember-form-for`](https://github.com/martndemus/ember-form-for) for everything.
 * [`ember-bootstrap`](https://github.com/kaliber5/ember-bootstrap) the forms part.
 
-I'm extremely thankful for the contributors of these projects as they've been a huge inspiration for me. I have learned a lot by looking at the code and just experimenting and asking questions.
+I'm extremely thankful for the contributors of these projects as they've been a huge inspiration for me. From being an absolute beginner and not knowing what contextual components are, I have learned a lot by looking at the code and just experimenting and asking questions.
