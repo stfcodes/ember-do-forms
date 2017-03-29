@@ -13,7 +13,7 @@ const {
 
 const DoLabelComponent = Component.extend({
   layout,
-  config: service('do-form/config'),
+  config: service('ember-do-forms/config'),
 
   tagName: 'label',
   attributeBindings: ['for'],

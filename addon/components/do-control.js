@@ -16,7 +16,7 @@ const DoControlComponent = Component.extend({
   layout,
   tagName: '',
 
-  config: service('do-form/config'),
+  config: service('ember-do-forms/config'),
 
   oneWayControl: computed('controlType', function() {
     return `one-way-${get(this, 'controlType')}`;

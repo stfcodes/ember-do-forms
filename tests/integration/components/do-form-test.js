@@ -22,8 +22,8 @@ const ConfigStub = Service.extend(configDefaults({
 moduleForComponent('do-form', 'Integration | Component | do form', {
   integration: true,
   beforeEach() {
-    this.register('service:do-form/config', ConfigStub);
-    this.inject.service('do-form/config', { as: 'config' });
+    this.register('service:ember-do-forms/config', ConfigStub);
+    this.inject.service('ember-do-forms/config', { as: 'config' });
 
     set(this, 'submitted', false);
 

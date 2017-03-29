@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('service:do-form/config', 'Unit | Service | do form/config', {
+moduleFor('service:ember-do-forms/config', 'Unit | Service | ember do forms/config', {
   // Specify the other units that are required for this test.
   // needs: ['service:foo']
 });
