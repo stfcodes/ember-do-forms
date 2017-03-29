@@ -8,7 +8,7 @@ const {
 } = Ember;
 
 export function initialize(application) {
-  let doFormConfig  = merge(configDefaults(), config['ember-do-form']);
+  let doFormConfig  = merge(configDefaults(), config['ember-do-forms']);
   let configService = application.lookup('service:do-form/config');
 
   Object.keys(doFormConfig).forEach((key) => {
