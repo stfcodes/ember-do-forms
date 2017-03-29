@@ -46,5 +46,9 @@ module.exports = function(environment) {
 
   }
 
+  ENV['ember-do-forms'] = {
+    errorsPath: 'myNewPath'
+  };
+
   return ENV;
 };

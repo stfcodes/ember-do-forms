@@ -9,7 +9,7 @@ const {
 
 export function initialize(application) {
   let doFormConfig  = merge(configDefaults(), config['ember-do-forms']);
-  let configService = application.lookup('service:do-form/config');
+  let configService = application.lookup('service:ember-do-forms/config');
 
   Object.keys(doFormConfig).forEach((key) => {
     set(configService, key, doFormConfig[key]);
@@ -17,7 +17,6 @@ export function initialize(application) {
 }
 
 export default {
-  name: 'do-form/initializer',
+  name: 'ember-do-forms/initializer',
   initialize
 };
-
