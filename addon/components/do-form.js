@@ -13,6 +13,8 @@ const DoFormComponent = Component.extend({
   layout,
   tagName: 'form',
 
+  fieldComponent: 'do-field',
+
   showAllValidations: false,
 
   didReceiveAttrs() {

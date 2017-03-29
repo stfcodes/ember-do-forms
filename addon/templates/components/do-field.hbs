@@ -2,11 +2,11 @@
   object=object
   propertyName=propertyName
 
-  do-label=(component 'do-label'
+  do-label=(component labelComponent
     for=controlId
   )
 
-  do-control=(component 'do-control'
+  do-control=(component controlComponent
     value=(get object propertyName)
     id=controlId
     validationClass=controlValidationClasses

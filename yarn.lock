@@ -1989,6 +1989,13 @@ ember-export-application-global@^2.0.0:
   dependencies:
     ember-cli-babel "^6.0.0-beta.7"
 
+ember-factory-for-polyfill@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ember-factory-for-polyfill/-/ember-factory-for-polyfill-1.1.1.tgz#c1124d541a058baaa6681d9611340c16f0baf660"
+  dependencies:
+    ember-cli-babel "^5.1.7"
+    ember-cli-version-checker "^1.2.0"
+
 ember-get-config@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/ember-get-config/-/ember-get-config-0.2.1.tgz#a1325cceefcb4534c78fc6ccb2be87a3feda6817"
@@ -2002,6 +2009,14 @@ ember-get-helper@~1.1.0:
   dependencies:
     ember-cli-babel "^5.1.6"
     ember-cli-version-checker "^1.1.3"
+
+ember-getowner-polyfill@^1.0.1:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/ember-getowner-polyfill/-/ember-getowner-polyfill-1.2.2.tgz#cdab739e89cc8f25af0f78735422df1a61193e92"
+  dependencies:
+    ember-cli-babel "^5.1.6"
+    ember-cli-version-checker "^1.2.0"
+    ember-factory-for-polyfill "^1.1.0"
 
 ember-inflector@^1.11.0:
   version "1.11.0"
@@ -2086,6 +2101,13 @@ ember-source@~2.12.0:
     resolve "^1.1.7"
     rsvp "^3.4.0"
     simple-dom "^0.3.0"
+
+ember-test-component@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ember-test-component/-/ember-test-component-0.2.0.tgz#bc0fb1e876effd591a1be1cdd477e72e8fab70d0"
+  dependencies:
+    ember-cli-babel "^5.1.6"
+    ember-getowner-polyfill "^1.0.1"
 
 ember-test-helpers@^0.6.0-beta.1:
   version "0.6.3"

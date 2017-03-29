@@ -20,6 +20,9 @@ const DoLabelComponent = Component.extend({
   layout,
   config: service('ember-do-forms/config'),
 
+  labelComponent: 'do-label',
+  controlComponent: 'do-control',
+
   classNameBindings: ['validationClasses'],
 
   showValidation: computed.or('showSelfValidation', 'showAllValidations').readOnly(),

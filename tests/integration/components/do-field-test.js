@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import registerTestComponent from '../../ember-test-component';
 import configDefaults from 'ember-do-forms/utils/config-defaults';
 
 const {
@@ -68,6 +69,17 @@ test('it can a label with correct context', function(assert) {
   assert.equal(this.$('label').attr('for'), 'myControl', 'label has the correct for attribute');
 });
 
+test('the label component can be changed to any component', function(assert) {
+  assert.expect(1);
+  registerTestComponent(this);
+  this.render(hbs`
+    {{#do-field 'name' object=object labelComponent='test-component' as |field|}}
+      {{field.do-label}}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('dummy').length, 1, 'custom component is used when specified');
+});
+
 test('it can render an input with correct context', function(assert) {
   assert.expect(3);
   this.render(hbs`
@@ -78,6 +90,17 @@ test('it can render an input with correct context', function(assert) {
   assert.equal(this.$('input').length, 1);
   assert.equal(this.$('input').attr('id'), 'myControl', 'input has the correct id');
   assert.equal(this.$('input').val(), get(this, 'object.name'), "the input's value is bound to the object property");
+});
+
+test('the input component can be changed to any component', function(assert) {
+  assert.expect(1);
+  registerTestComponent(this);
+  this.render(hbs`
+    {{#do-field 'name' object=object controlComponent='test-component' as |field|}}
+      {{field.do-control}}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('dummy').length, 1, 'custom component is used when specified');
 });
 
 test("it changes the bound object's value on input", function(assert) {
