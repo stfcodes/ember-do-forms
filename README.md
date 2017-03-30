@@ -12,7 +12,7 @@ Get started with:
 
 ## Features
 
-* [Extremely](#css-customizations) [easy](#inline-component-customizations) to [customise](#component-customizations), thanks to contextual components.
+* [Extremely](#css-customizations) [easy](#inline-component-customizations) to [customize](#component-customizations), thanks to contextual components.
 * Uses [`ember-one-way-controls`](https://github.com/DockYard/ember-one-way-controls) under the hood for controls. But easily extensible with any control type.
 * Bare minimum HTML with no CSS by default. Use it with any frontend framework you like.
 * Binds error and success classes on a field `focusOut` or just before `submit`. Works with [`ember-cp-validations`](https://github.com/offirgolan/ember-cp-validations) by default.
