@@ -1,4 +1,4 @@
-import hasOnlyEmberView from 'dummy/utils/has-only-ember-view';
+import hasOnlyEmberView from 'ember-do-forms/utils/has-only-ember-view';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | has only ember view');

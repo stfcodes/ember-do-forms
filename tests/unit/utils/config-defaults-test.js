@@ -1,4 +1,4 @@
-import configDefaults from 'dummy/utils/config-defaults';
+import configDefaults from 'ember-do-forms/utils/config-defaults';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | config defaults');

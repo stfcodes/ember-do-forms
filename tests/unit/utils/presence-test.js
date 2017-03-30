@@ -1,4 +1,4 @@
-import presence from 'dummy/utils/presence';
+import presence from 'ember-do-forms/utils/presence';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | presence');
