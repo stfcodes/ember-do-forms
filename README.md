@@ -139,11 +139,11 @@ module.exports = function(environment) {
 
 ## TODO
 
-* Pass more options to the controls. Currently only the bare minimum is passed down.
-* Add some default controls.
-* Improve README.
-* Add CHANGELOG.
-* Interactive example page. Maybe?
+* ~~Pass more options to the controls. Currently only the bare minimum is passed down~~
+* ~~Improve README~~
+* Add some default controls
+* Add CHANGELOG
+* Interactive example page
 
 ## Contributing
 The usual flow: fork > feature / bugfix > PR > profit.

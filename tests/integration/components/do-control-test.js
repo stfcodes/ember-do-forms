@@ -4,6 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 import configDefaults from 'ember-do-forms/utils/config-defaults';
 
 const {
+  get,
   set,
   Service
 } = Ember;
@@ -73,4 +74,80 @@ test('configuration inputClasses can be overridden by own classNames', function(
   assert.expect(1);
   this.render(hbs`{{do-control 'text' classNames='my-custom-input-class'}}`);
   assert.equal(this.$('input').hasClass('my-custom-input-class'), true, 'inputClasses are overridden correctly');
+});
+
+test('text controls support a variety of HTML5 attributes', function(assert) {
+  this.setProperties({
+    autocomplete: 'name',
+    autofocus: true,
+    checked: true,
+    disabled: true,
+    inputmode: 'verbatim',
+    list: 'datalist-id',
+    max: 999,
+    maxlength: 10,
+    min: 0,
+    minlength: 1,
+    multiple: true,
+    pattern: /[a-z]/,
+    placeholder: 'never gonna give you up',
+    readonly: true,
+    required: true,
+    size: 6,
+    spellcheck: true,
+    step: 9,
+    tabindex: 2,
+    title: 'never gonna let you down'
+  });
+
+  this.render(hbs`{{do-control 'text'
+    autocomplete=autocomplete
+    autofocus=autofocus
+    disabled=disabled
+    inputmode=inputmode
+    list=list
+    max=max
+    maxlength=maxlength
+    min=min
+    minlength=minlength
+    pattern=pattern
+    placeholder=placeholder
+    readonly=readonly
+    required=required
+    selectionDirection=selectionDirection
+    selectionEnd=selectionEnd
+    selectionStart=selectionStart
+    size=size
+    spellcheck=spellcheck
+    step=step
+    tabindex=tabindex
+    title=title
+  }}`);
+
+  assert.equal(this.$('input').attr('autocomplete'), get(this, 'autocomplete'), 'it sets the autocomplete attribute');
+  assert.equal(this.$('input').attr('autofocus'), 'autofocus', 'it sets the autofocus attribute');
+  assert.equal(this.$('input').attr('disabled'), 'disabled', 'it sets the disabled attribute');
+  assert.equal(this.$('input').attr('inputmode'), get(this, 'inputmode'), 'it sets the inputmode attribute');
+  assert.equal(this.$('input').attr('list'), get(this, 'list'), 'it sets the list attribute');
+  assert.equal(this.$('input').attr('maxlength'), get(this, 'maxlength'), 'it sets the maxlength attribute');
+  assert.equal(this.$('input').attr('minlength'), get(this, 'minlength'), 'it sets the minlength attribute');
+  assert.equal(this.$('input').attr('pattern'), get(this, 'pattern'), 'it sets the pattern attribute');
+  assert.equal(this.$('input').attr('placeholder'), get(this, 'placeholder'), 'it sets the placeholder attribute');
+  assert.equal(this.$('input').attr('readonly'), 'readonly', 'it sets the readonly attribute');
+  assert.equal(this.$('input').attr('required'), 'required', 'it sets the required attribute');
+  assert.equal(this.$('input').attr('size'), get(this, 'size'), 'it sets the size attribute');
+  assert.equal(this.$('input').attr('spellcheck'), 'true', 'it sets the spellcheck attribute');
+  assert.equal(this.$('input').attr('tabindex'), get(this, 'tabindex'), 'it sets the tabindex attribute');
+  assert.equal(this.$('input').attr('title'), get(this, 'title'), 'it sets the title attribute');
+
+  this.render(hbs`{{do-control 'number' min=min max=max step=step}}`);
+  assert.equal(this.$('input').attr('max'), get(this, 'max'), 'it sets the max attribute');
+  assert.equal(this.$('input').attr('min'), get(this, 'min'), 'it sets the min attribute');
+  assert.equal(this.$('input').attr('step'), get(this, 'step'), 'it sets the step attribute');
+
+  this.render(hbs`{{do-control 'checkbox' checked=checked}}`);
+  assert.ok(this.$('input').is(':checked'), 'it sets the checked attribute');
+
+  this.render(hbs`{{do-control 'email' multiple=multiple}}`);
+  assert.equal(this.$('input').attr('multiple'), 'multiple', 'it sets the multiple attribute');
 });
