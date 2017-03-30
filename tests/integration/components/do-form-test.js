@@ -62,7 +62,7 @@ test('it has an object as the first positional param', function(assert) {
 test('if can submit', function(assert) {
   assert.expect(5);
   this.set('object.validations', {
-    attrs: { lastName: { errors: ["can't be blank"] } }
+    attrs: { lastName: { errors: [{ message: "can't be blank" }] } }
   });
 
   this.render(hbs`

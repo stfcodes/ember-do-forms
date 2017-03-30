@@ -10,7 +10,7 @@ export default Route.extend({
     return Object.create({
       firstName: 'Stefan',
       lastName: '',
-      validations: { attrs: { lastName: { errors: ["can't be blank"] } } }
+      validations: { attrs: { lastName: { errors: [{ message: "can't be blank" }] } } }
     });
   }
 });

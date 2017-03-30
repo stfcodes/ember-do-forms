@@ -22,27 +22,35 @@ const DoLabelComponent = Component.extend({
 
   labelComponent: 'do-label',
   controlComponent: 'do-control',
+  feedbackComponent: 'do-feedback',
 
   classNameBindings: ['validationClasses'],
 
   showValidation: computed.or('showSelfValidation', 'showAllValidations').readOnly(),
+  hasErrors: computed.notEmpty('errors').readOnly(),
 
   controlId: computed('propertyName', function() {
     return `${get(this, 'propertyName')}-${get(this, 'elementId')}`;
   }),
 
-  validationClasses: computed('showValidation', 'errors', function() {
+  // Should work with cp-validations and changeset-validations as well
+  errorMessage: computed('errors.[]', function() {
+    let firstError = this.get('errors.0') || {};
+    return firstError.message || firstError.validation;
+  }),
+
+  validationClasses: computed('showValidation', 'hasErrors', function() {
     let classes = get(this, 'config.validationClasses');
-    let hasErrors = isPresent(get(this, 'errors'));
+    let hasErrors = get(this, 'hasErrors');
 
     if (get(this, 'showValidation')) {
       return presence(hasErrors ? classes.fieldError : classes.fieldSuccess);
     }
   }).readOnly(),
 
-  controlValidationClasses: computed('showValidation', 'errors', function() {
+  controlValidationClasses: computed('showValidation', 'hasErrors', function() {
     let classes = get(this, 'config.validationClasses');
-    let hasErrors = isPresent(get(this, 'errors'));
+    let hasErrors = get(this, 'hasErrors');
 
     if (get(this, 'showValidation')) {
       return presence(hasErrors ? classes.controlError : classes.controlSuccess);

@@ -1,0 +1,11 @@
+{{#if showFeedback}}
+  {{#if message}}
+    {{#ember-do-forms/feedback-wrapper tagName=wrapperTagName classNames=classNames}}
+      {{#if hasBlock}}
+        {{yield message}}
+      {{else}}
+        {{message}}
+      {{/if}}
+    {{/ember-do-forms/feedback-wrapper}}
+  {{/if}}
+{{/if}}

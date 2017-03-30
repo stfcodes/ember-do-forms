@@ -30,6 +30,7 @@ module('Unit | Instance Initializer | ember do forms/initializer', {
 // Couldn't find a way to set the environment of the instance app programatically,
 // so just use the dummy app environment.js for overrides
 test('it sets defaults and overrides', function(assert) {
+  assert.expect(2);
   let configService = this.appInstance.lookup('service:ember-do-forms/config');
   let defaults = configDefaults();
 

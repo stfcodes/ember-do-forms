@@ -29,6 +29,22 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+    ENV['ember-do-forms'] = {
+      defaultClasses: {
+        field: ['form-group'],
+        label: ['col-form-label'],
+        control: ['form-control'],
+        feedback: ['form-control-feedback']
+      },
+
+      validationClasses: {
+        fieldSuccess: ['has-success'],
+        fieldError: ['has-danger'],
+        controlSuccess: ['form-control-success'],
+        controlError: ['form-control-danger']
+      }
+    }
   }
 
   if (environment === 'test') {
@@ -40,15 +56,15 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+
+    ENV['ember-do-forms'] = {
+      errorsPath: 'myNewPath'
+    };
   }
 
   if (environment === 'production') {
 
   }
-
-  ENV['ember-do-forms'] = {
-    errorsPath: 'myNewPath'
-  };
 
   return ENV;
 };
