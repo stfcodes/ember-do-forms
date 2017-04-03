@@ -65,7 +65,7 @@ You can modify the content of a field easily. Below there is a [Bootstrap 4 cust
 
   {{#form.do-field 'profileVisible' classNames='form-group' as |field|}}
     {{#field.do-label classNames='custom-control custom-checkbox'}}
-      {{field.do-control 'checkbox' classNames='custom-control custom-checkbox'}}
+      {{field.do-control 'checkbox' classNames='custom-control-input'}}
       <span class="custom-control-indicator"></span>
       <span class="custom-control-description">Profile visible?</span>
     {{/field.do-label}}
