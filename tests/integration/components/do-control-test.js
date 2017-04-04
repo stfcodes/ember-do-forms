@@ -76,7 +76,7 @@ test('configuration inputClasses can be overridden by own classNames', function(
   assert.equal(this.$('input').hasClass('my-custom-input-class'), true, 'inputClasses are overridden correctly');
 });
 
-test('text controls support a variety of HTML5 attributes', function(assert) {
+test('controls support a variety of HTML5 attributes', function(assert) {
   this.setProperties({
     autocomplete: 'name',
     autofocus: true,
@@ -106,20 +106,14 @@ test('text controls support a variety of HTML5 attributes', function(assert) {
     disabled=disabled
     inputmode=inputmode
     list=list
-    max=max
     maxlength=maxlength
-    min=min
     minlength=minlength
     pattern=pattern
     placeholder=placeholder
     readonly=readonly
     required=required
-    selectionDirection=selectionDirection
-    selectionEnd=selectionEnd
-    selectionStart=selectionStart
     size=size
     spellcheck=spellcheck
-    step=step
     tabindex=tabindex
     title=title
   }}`);

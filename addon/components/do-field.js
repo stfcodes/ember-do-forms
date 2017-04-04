@@ -20,6 +20,8 @@ const DoLabelComponent = Component.extend({
   layout,
   config: service('ember-do-forms/config'),
 
+  controlType: 'text',
+
   labelComponent: 'do-label',
   controlComponent: 'do-control',
   feedbackComponent: 'do-feedback',
