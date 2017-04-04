@@ -23,6 +23,7 @@ const DoLabelComponent = Component.extend({
   labelComponent: 'do-label',
   controlComponent: 'do-control',
   feedbackComponent: 'do-feedback',
+  hintComponent: 'do-hint',
 
   classNameBindings: ['validationClasses'],
 

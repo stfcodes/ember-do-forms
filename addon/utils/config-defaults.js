@@ -12,7 +12,8 @@ export default function configDefaults(others) {
       field: [],
       label: [],
       control: [],
-      feedback: []
+      feedback: [],
+      hint: []
     },
 
     validationClasses: {

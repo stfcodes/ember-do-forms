@@ -35,7 +35,8 @@ module.exports = function(environment) {
         field: ['form-group'],
         label: ['col-form-label'],
         control: ['form-control'],
-        feedback: ['form-control-feedback']
+        feedback: ['form-control-feedback'],
+        hint: ['form-text', 'text-muted']
       },
 
       validationClasses: {

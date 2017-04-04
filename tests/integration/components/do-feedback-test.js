@@ -52,13 +52,13 @@ test('it renders some feedback', function(assert) {
   assert.equal(this.$('span').text().trim(), get(this, 'message'), 'correctly yields the feedback message');
 });
 
-test("it's tag is a div by default", function(assert) {
+test('its tag is a div by default', function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-feedback message showFeedback=hasErrors}}`);
   assert.equal(this.$('div.feedback-element').length, 1);
 });
 
-test("it's tag can be changed", function(assert) {
+test('its tag can be changed', function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-feedback message showFeedback=hasErrors wrapperTagName='span'}}`);
   assert.equal(this.$('span.feedback-element').length, 1);

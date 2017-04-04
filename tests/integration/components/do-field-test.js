@@ -287,6 +287,27 @@ test('the feedback component can be changed to any component', function(assert) 
   assert.equal(this.$('dummy').length, 1, 'custom component is used for feedback');
 });
 
+test('it has a hint contextual component', function(assert) {
+  assert.expect(1);
+  this.render(hbs`
+    {{#do-field 'name' object=object as |field|}}
+      {{field.do-hint 'hint-text'}}
+    {{/do-field}}
+  `);
+  assert.equal(this.$().text().trim(), 'hint-text', 'renders the hint component');
+});
+
+test('the hint component can be changed to any component', function(assert) {
+  assert.expect(1);
+  registerTestComponent(this);
+  this.render(hbs`
+    {{#do-field 'name' object=object hintComponent='test-component' as |field|}}
+      {{field.do-hint}}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('dummy').length, 1, 'custom component is used for hint');
+});
+
 test('it has fieldClasses applied from configuration', function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-field 'name' object=object}}`);
