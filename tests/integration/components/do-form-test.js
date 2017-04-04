@@ -46,7 +46,7 @@ test('it requires an object as context', function(assert) {
   }, /{{do-form}} requires an object/);
 });
 
-test('it requires an object as context', function(assert) {
+test('it requires a submit action', function(assert) {
   assert.expect(1);
   assert.expectAssertion(() => {
     this.render(hbs`{{do-form object}}`);
@@ -57,6 +57,19 @@ test('it has an object as the first positional param', function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-form object submit=(action submitTask)}}`);
   assert.equal(this.$('form').length, 1);
+});
+
+test('it passes down its objectName to the context', function(assert) {
+  assert.expect(1);
+  this.render(hbs`
+    {{#do-form object submit=(action submitTask) objectName='pizza' as |form|}}
+      {{#form.do-field 'name' as |field|}}
+        {{field.do-control 'text'}}
+      {{/form.do-field}}
+    {{/do-form}}
+  `);
+
+  assert.equal(this.$('input').attr('name'), 'pizza[name]', 'controls have objectName in their names');
 });
 
 test('if can submit', function(assert) {

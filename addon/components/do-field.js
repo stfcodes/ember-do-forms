@@ -33,6 +33,17 @@ const DoLabelComponent = Component.extend({
     return `${get(this, 'propertyName')}-${get(this, 'elementId')}`;
   }),
 
+  // Should work with ember-buffered-proxy and ember-changeset as well
+  controlName: computed('objectName', 'propertyName', function() {
+    let prop = get(this, 'propertyName');
+    let name = get(this, 'objectName')
+      || get(this, 'object.constructor.modelName')
+      || get(this, 'object.content.constructor.modelName')
+      || get(this, 'object._content.constructor.modelName');
+
+    return isPresent(name) ? `${name}[${prop}]` : prop;
+  }).readOnly(),
+
   // Should work with cp-validations and changeset-validations as well
   errorMessage: computed('errors.[]', function() {
     let firstError = this.get('errors.0') || {};

@@ -93,6 +93,71 @@ test('it can render an input with correct context', function(assert) {
   assert.equal(this.$('input').val(), get(this, 'object.name'), "the input's value is bound to the object property");
 });
 
+test('uses its objectName for the name of the control by default', function(assert) {
+  assert.expect(2);
+  this.render(hbs`
+    {{#do-field 'name' object=object objectName='pizza' as |field|}}
+      {{field.do-control 'text' }}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('input').attr('name'), 'pizza[name]', 'input has the correct name');
+
+  this.set('object.constructor.modelName', 'bigger-pizza');
+  this.render(hbs`
+    {{#do-field 'name' object=object objectName='pizza' as |field|}}
+      {{field.do-control 'text' }}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('input').attr('name'), 'pizza[name]', 'objectName takes precedence over computed modelName');
+  this.set('object.constructor.modelName', undefined);
+});
+
+test('it uses propertyName as the name of the control when objectName is missing', function(assert) {
+  assert.expect(1);
+  this.render(hbs`
+    {{#do-field 'firstName' object=object as |field|}}
+      {{field.do-control 'text' }}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('input').attr('name'), 'firstName', 'input has the correct name');
+});
+
+test('it uses the constructor.modelName of the object for its name, when objectName is missing', function(assert) {
+  assert.expect(1);
+  this.set('object.constructor.modelName', 'pizza');
+  this.render(hbs`
+    {{#do-field 'name' object=object as |field|}}
+      {{field.do-control 'text' }}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('input').attr('name'), 'pizza[name]', 'input has the correct name');
+  this.set('object.constructor.modelName', undefined);
+});
+
+test('it uses the content from ember-changeset when objectName is missing', function(assert) {
+  assert.expect(1);
+  this.set('object._content', { constructor: { modelName: 'changeset' } });
+  this.render(hbs`
+    {{#do-field 'name' object=object as |field|}}
+      {{field.do-control 'text' }}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('input').attr('name'), 'changeset[name]', 'input has the changeset name');
+  this.set('object._content', undefined);
+});
+
+test('it uses the content from buffered-proxy when objectName is missing', function(assert) {
+  assert.expect(1);
+  this.set('object.content', { constructor: { modelName: 'bufferered-proxy' } });
+  this.render(hbs`
+    {{#do-field 'name' object=object as |field|}}
+      {{field.do-control 'text' }}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('input').attr('name'), 'bufferered-proxy[name]', 'input has the buffered-proxy name');
+  this.set('object.content', undefined);
+});
+
 test('the input component can be changed to any component', function(assert) {
   assert.expect(1);
   registerTestComponent(this);
