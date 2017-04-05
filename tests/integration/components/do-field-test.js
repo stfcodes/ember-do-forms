@@ -81,7 +81,27 @@ test('the label component can be changed to any component', function(assert) {
   assert.equal(this.$('dummy').length, 1, 'custom component is used for label');
 });
 
-test('it can render an input with correct context', function(assert) {
+test('it renders a text input by default as a control', function(assert) {
+  assert.expect(1);
+  this.render(hbs`
+    {{#do-field 'name' object=object as |field|}}
+      {{field.do-control }}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('input').attr('type'), 'text', 'input has the correct type');
+});
+
+test('it renders a different input type as a control when specifying controlType', function(assert) {
+  assert.expect(1);
+  this.render(hbs`
+    {{#do-field 'email' object=object controlType='email' as |field|}}
+      {{field.do-control }}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('input').attr('type'), 'email', 'input has the correct type');
+});
+
+test('it renders an input with correct context', function(assert) {
   assert.expect(3);
   this.render(hbs`
     {{#do-field 'name' object=object controlId='myControl' as |field|}}

@@ -1,0 +1,32 @@
+{{#do-field propertyName object=object objectName=objectName showAllValidations=showAllValidations classNames=classNames as |field|}}
+  {{#if label}}
+    {{field.do-label label classNames=labelClasses }}
+  {{/if}}
+
+  {{field.do-control controlType classNames=controlClasses
+    autocomplete=autocomplete
+    autofocus=autofocus
+    disabled=disabled
+    inputmode=inputmode
+    list=list
+    max=max
+    maxlength=maxlength
+    min=min
+    minlength=minlength
+    pattern=pattern
+    placeholder=placeholder
+    readonly=readonly
+    required=required
+    size=size
+    spellcheck=spellcheck
+    step=step
+    tabindex=tabindex
+    title=title
+  }}
+
+  {{field.do-feedback classNames=feedbackClasses}}
+
+  {{#if hint}}
+    {{field.do-hint hint classNames=hintClasses}}
+  {{/if}}
+{{/do-field}}

@@ -72,6 +72,18 @@ test('it passes down its objectName to the context', function(assert) {
   assert.equal(this.$('input').attr('name'), 'pizza[name]', 'controls have objectName in their names');
 });
 
+test('passes an input-field to the context', function(assert) {
+  this.render(hbs`
+    {{#do-form object submit=(action submitTask) as |form|}}
+      {{form.input-field 'name' label='Full name' hint='Never gonna give you up'}}
+    {{/do-form}}
+  `);
+  assert.equal(this.$('input').attr('type'), 'text', 'has a text input');
+  assert.equal(this.$('input').val(), get(this, 'object.name'), 'input has the correct value');
+  assert.equal(this.$('label').text().trim(), 'Full name', 'has correct label');
+  assert.equal(this.$('small').text().trim(), 'Never gonna give you up', 'has correct hint text');
+});
+
 test('if can submit', function(assert) {
   assert.expect(5);
   this.set('object.validations', {
