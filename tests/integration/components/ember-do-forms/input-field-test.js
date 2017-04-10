@@ -156,6 +156,9 @@ test('passes down relevant attributes to the control', function(assert) {
 
 test('children classNames can be overridden', function(assert) {
   assert.expect(10);
+  this.set('object.validations', {
+    attrs: { name: { errors: [{ message: 'too cool' }] } }
+  });
   this.render(hbs`
     {{ember-do-forms/input-field 'name' object=object showAllValidations=true
       label='name'
@@ -177,8 +180,8 @@ test('children classNames can be overridden', function(assert) {
   assert.equal(this.$('.control').length, 0, 'there is no default control class');
   assert.equal(this.$('.control-class').length, 1, 'control class is overridable');
 
-  assert.equal(this.$('.hint').length, 0, 'there is no default hint class');
-  assert.equal(this.$('.hint-class').length, 1, 'hint class is overridable');
+  assert.equal(this.$('.feedback').length, 0, 'there is no default feedback class');
+  assert.equal(this.$('.feedback-class').length, 1, 'feedback class is overridable');
 
   assert.equal(this.$('.hint').length, 0, 'there is no default hint class');
   assert.equal(this.$('.hint-class').length, 1, 'hint class is overridable');

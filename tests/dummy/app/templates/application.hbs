@@ -1,6 +1,11 @@
 <h2>ember-do-forms</h2>
 
 <hr>
+<h4>Experimental</h4>
+{{#do-form model submit=(action 'saveTask') as |form|}}
+  {{form.input-field 'lastName' label='Last Name' hint='First name followed by last name'}}
+{{/do-form}}
+<hr>
 
 {{#do-form model submit=(action 'saveTask') as |form|}}
   {{#form.do-field 'firstName' as |field|}}
