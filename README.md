@@ -160,6 +160,21 @@ If you have more complex components for controls for example, rest assured, you 
 {{/do-form}}
 ```
 
+#### Input field
+You can also use the `{{ember-do-forms/input-field}}` component to combine all of the goodness of the `{{do-field}}` component (and its contextual components) into a single line:
+
+```hbs
+{{#do-form object submit=(action 'saveTask') as |form|}}
+  {{form.input-field 'lastName' label='Last Name' hint='First name followed by last name'}}
+
+  <button type='submit'>Save</button>
+{{/do-form}}
+```
+
+If you want to skip labels and hints, just omit the `label` and `hint` arguments.
+
+Also the classNames of its rendered sub-components can be modified using `labelClasses`, `controlClasses`, `feedbackClasses` and `hintClasses`.
+
 ## Configuration
 
 The default configuration only tells `ember-do-forms` where to find the errors property.
