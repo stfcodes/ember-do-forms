@@ -18,9 +18,8 @@ const DoHintComponent = Component.extend({
   tagName: 'small',
   text: '',
 
-  didReceiveAttrs() {
+  init() {
     this._super(...arguments);
-
     let classNames = get(this, 'classNames');
     let classes    = getWithDefault(this, 'config.defaultClasses', {});
 

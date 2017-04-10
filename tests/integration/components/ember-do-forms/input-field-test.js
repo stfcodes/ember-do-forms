@@ -186,3 +186,16 @@ test('children classNames can be overridden', function(assert) {
   assert.equal(this.$('.hint').length, 0, 'there is no default hint class');
   assert.equal(this.$('.hint-class').length, 1, 'hint class is overridable');
 });
+
+test('it actually works', function(assert) {
+  assert.expect(2);
+  this.set('object.validations', {
+    attrs: { name: { errors: [{ message: 'too cool' }] } }
+  });
+  this.render(hbs`{{ember-do-forms/input-field 'name' object=object showAllValidations=true label='Your Name' hint='First and last'}}`);
+  this.$('input').val('Rick');
+  this.$('input').change();
+
+  assert.equal(this.$('input').val(), 'Rick', 'it actually sets the input value correctly');
+  assert.equal(get(this, 'object.name'), 'Rick', 'it actually sets the object value correctly');
+});

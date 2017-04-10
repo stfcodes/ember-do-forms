@@ -22,7 +22,7 @@ const DoControlComponent = Component.extend({
     return `one-way-${get(this, 'controlType')}`;
   }).readOnly(),
 
-  didReceiveAttrs() {
+  init() {
     this._super(...arguments);
     let classNames = get(this, 'classNames');
     let classes    = getWithDefault(this, 'config.defaultClasses', {});

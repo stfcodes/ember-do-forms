@@ -18,9 +18,8 @@ const DoLabelComponent = Component.extend({
   tagName: 'label',
   attributeBindings: ['for'],
 
-  didReceiveAttrs() {
+  init() {
     this._super(...arguments);
-
     let classNames = get(this, 'classNames');
     let classes    = getWithDefault(this, 'config.defaultClasses', {});
 

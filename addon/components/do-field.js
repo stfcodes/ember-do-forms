@@ -71,19 +71,23 @@ const DoLabelComponent = Component.extend({
     }
   }).readOnly(),
 
-  didReceiveAttrs() {
+  init() {
     this._super(...arguments);
-    let classNames    = get(this, 'classNames');
-    let propertyName  = get(this, 'propertyName');
-    let errorsPath    = `object.${get(this, 'config.errorsPath')}`.replace(new RegExp('{PROPERTY_NAME}'), propertyName);
-    let classes       = getWithDefault(this, 'config.defaultClasses', {});
-
-    assert('{{do-field}} requires an object to be passed in', isPresent(get(this, 'object')));
-    assert('{{do-field}} requires a propertyName to be passed in', isPresent(propertyName));
+    let classNames  = get(this, 'classNames');
+    let classes     = getWithDefault(this, 'config.defaultClasses', {});
 
     if (isEmpty(classNames) || hasOnlyEmberView(classNames)) {
       set(this, 'classNames', classNames.concat(classes.field));
     }
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+    let propertyName  = get(this, 'propertyName');
+    let errorsPath    = `object.${get(this, 'config.errorsPath')}`.replace(new RegExp('{PROPERTY_NAME}'), propertyName);
+
+    assert('{{do-field}} requires an object to be passed in', isPresent(get(this, 'object')));
+    assert('{{do-field}} requires a propertyName to be passed in', isPresent(propertyName));
 
     mixin(this, {
       errors: computed(errorsPath, function() {

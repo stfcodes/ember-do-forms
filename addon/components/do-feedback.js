@@ -20,9 +20,8 @@ const DoFeedbackComponent = Component.extend({
 
   showFeedback: false,
 
-  didReceiveAttrs() {
+  init() {
     this._super(...arguments);
-
     let classNames = get(this, 'classNames');
     let classes    = getWithDefault(this, 'config.defaultClasses', {});
 
