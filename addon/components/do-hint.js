@@ -5,10 +5,8 @@ import hasOnlyEmberView from '../utils/has-only-ember-view';
 const {
   Component,
   get,
-  getWithDefault,
   inject: { service },
-  isEmpty,
-  set
+  isEmpty
 } = Ember;
 
 const DoHintComponent = Component.extend({
@@ -20,11 +18,10 @@ const DoHintComponent = Component.extend({
 
   init() {
     this._super(...arguments);
-    let classNames = get(this, 'classNames');
-    let classes    = getWithDefault(this, 'config.defaultClasses', {});
+    let defaultClasses = get(this, 'config.defaultClasses.hint');
 
-    if (isEmpty(classNames) || hasOnlyEmberView(classNames)) {
-      set(this, 'classNames', classNames.concat(classes.hint));
+    if (isEmpty(this.classNames) || hasOnlyEmberView(this.classNames)) {
+      this.classNames = this.classNames.concat(defaultClasses);
     }
   }
 

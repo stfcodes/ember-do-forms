@@ -5,10 +5,8 @@ import hasOnlyEmberView from '../utils/has-only-ember-view';
 const {
   Component,
   get,
-  getWithDefault,
   inject: { service },
-  isEmpty,
-  set
+  isEmpty
 } = Ember;
 
 const DoFeedbackComponent = Component.extend({
@@ -20,13 +18,13 @@ const DoFeedbackComponent = Component.extend({
 
   showFeedback: false,
 
-  init() {
+  // TODO: Not sure why this needs to be on didReceiveAttrs to work correctly.
+  didReceiveAttrs() {
     this._super(...arguments);
-    let classNames = get(this, 'classNames');
-    let classes    = getWithDefault(this, 'config.defaultClasses', {});
+    let defaultClasses = get(this, 'config.defaultClasses.feedback');
 
-    if (isEmpty(classNames) || hasOnlyEmberView(classNames)) {
-      set(this, 'classNames', classNames.concat(classes.feedback));
+    if (isEmpty(this.classNames) || hasOnlyEmberView(this.classNames)) {
+      this.classNames = this.classNames.concat(defaultClasses);
     }
   }
 });

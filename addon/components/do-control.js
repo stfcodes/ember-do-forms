@@ -6,10 +6,8 @@ const {
   computed,
   Component,
   get,
-  getWithDefault,
   inject: { service },
-  isEmpty,
-  set
+  isEmpty
 } = Ember;
 
 const DoControlComponent = Component.extend({
@@ -24,11 +22,10 @@ const DoControlComponent = Component.extend({
 
   init() {
     this._super(...arguments);
-    let classNames = get(this, 'classNames');
-    let classes    = getWithDefault(this, 'config.defaultClasses', {});
+    let defaultClasses = get(this, 'config.defaultClasses.control');
 
-    if (isEmpty(classNames) || hasOnlyEmberView(classNames)) {
-      set(this, 'classNames', classNames.concat(classes.control));
+    if (isEmpty(this.classNames) || hasOnlyEmberView(this.classNames)) {
+      this.classNames = this.classNames.concat(defaultClasses);
     }
   }
 });
