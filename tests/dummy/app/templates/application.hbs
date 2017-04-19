@@ -1,42 +1,54 @@
-<h2>ember-do-forms</h2>
+<div class="row justify-content-center">
+  <div class="container">
+    <h1 class='mb-5'>ember-do-forms</h1>
+    <div class="row">
+      <div class="col-6">
+        <h4>Input Fields</h4>
+        {{#do-form this submit=(action 'saveTask') as |form|}}
+          {{form.input-field 'firstName' label='First Name' hint='What your mother calls you'}}
+          {{form.input-field 'lastName' label='Last Name' hint='What your teacher calls you' feedbackClasses='my-feedback-class'}}
+          <button type='submit' class='btn btn-primary'>{{if isSaving 'Saving...' 'Save'}}</button>
+        {{/do-form}}
+      </div>
 
-<hr>
-<h4>Experimental</h4>
-{{#do-form model submit=(action 'saveTask') as |form|}}
-  {{form.input-field 'lastName' label='Last Name' hint='First name followed by last name'}}
-{{/do-form}}
-<hr>
+      <div class="col-6">
+        <h4>Do fields</h4>
+        {{#do-form this submit=(action 'saveTask') as |form|}}
+          {{#form.do-field 'firstName' as |field|}}
+            {{field.do-label 'First name'}}
+            {{field.do-control 'text'}}
+            {{field.do-feedback}}
+            {{field.do-hint 'What your mother calls you'}}
+          {{/form.do-field}}
 
-{{#do-form model submit=(action 'saveTask') as |form|}}
-  {{#form.do-field 'firstName' as |field|}}
-    {{field.do-label 'First name'}}
-    {{field.do-control 'text'}}
-    {{field.do-feedback}}
-  {{/form.do-field}}
+          {{#form.do-field 'lastName' as |field|}}
+            {{field.do-label 'Last name'}}
+            {{field.do-control 'text'}}
+            {{field.do-feedback}}
+            {{field.do-hint 'What your teacher calls you'}}
+          {{/form.do-field}}
 
-  {{#form.do-field 'lastName' as |field|}}
-    {{field.do-label 'Last name'}}
-    {{field.do-control 'text'}}
-    {{field.do-feedback}}
-  {{/form.do-field}}
+          {{#form.do-field 'profileVisible' classNames='form-group' as |field|}}
+            {{#field.do-label classNames='custom-control custom-checkbox'}}
+              {{field.do-control 'checkbox' classNames='custom-control-input'}}
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Profile visible?</span>
+            {{/field.do-label}}
+            {{field.do-hint 'Check this to make your profile visible' classNames='form-text text-muted'}}
+          {{/form.do-field}}
 
-  {{#form.do-field 'profileVisible' classNames='form-group' as |field|}}
-    {{#field.do-label classNames='custom-control custom-checkbox'}}
-      {{field.do-control 'checkbox' classNames='custom-control custom-checkbox'}}
-      <span class="custom-control-indicator"></span>
-      <span class="custom-control-description">Profile visible?</span>
-    {{/field.do-label}}
-    {{field.do-feedback}}
-  {{/form.do-field}}
+          {{#form.do-field 'customValue' tagName='span' classNames='my-custom-field' as |field|}}
+            {{field.do-label 'Custom Field'}}
+            {{#field.do-control as |c|}}
+              <input value={{c.value}} id={{c.id}} class="{{c.validationClass}}">
+            {{/field.do-control}}
+            {{field.do-feedback}}
+          {{/form.do-field}}
+          <br>
 
-  {{#form.do-field 'customValue' tagName='span' classNames='my-custom-field' as |field|}}
-    {{field.do-label 'Custom Field'}}
-    {{#field.do-control as |c|}}
-      <input value={{c.value}} id={{c.id}} class="{{c.validationClass}}">
-    {{/field.do-control}}
-    {{field.do-feedback}}
-  {{/form.do-field}}
-
-  <br>
-  <button type='submit'>{{if isSaving 'Saving...' 'Save'}}</button>
-{{/do-form}}
+          <button type='submit' class='btn btn-primary'>{{if isSaving 'Saving...' 'Save'}}</button>
+        {{/do-form}}
+      </div>
+    </div>
+  </div>
+</div>
