@@ -5,12 +5,17 @@ const {
   assert,
   Component,
   get,
-  isPresent
+  isPresent,
+  isEmpty,
+  inject: { service },
+  set
 } = Ember;
 
 const InputFieldComponent = Component.extend({
   layout,
   tagName: '',
+
+  config: service('ember-do-forms/config'),
 
   controlType: 'text',
 
@@ -20,6 +25,27 @@ const InputFieldComponent = Component.extend({
   controlClasses: [],
   feedbackClasses: [],
   hintClasses: [],
+
+  init() {
+    this._super(...arguments);
+    let defaultClasses = get(this, 'config.defaultClasses');
+
+    if (isEmpty(get(this, 'labelClasses'))) {
+      set(this, 'labelClasses', defaultClasses.label);
+    }
+
+    if (isEmpty(get(this, 'controlClasses'))) {
+      set(this, 'controlClasses', defaultClasses.control);
+    }
+
+    if (isEmpty(get(this, 'feedbackClasses'))) {
+      set(this, 'feedbackClasses', defaultClasses.feedback);
+    }
+
+    if (isEmpty(get(this, 'hintClasses'))) {
+      set(this, 'hintClasses', defaultClasses.hint);
+    }
+  },
 
   didReceiveAttrs() {
     this._super(...arguments);

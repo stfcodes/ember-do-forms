@@ -18,8 +18,7 @@ const DoFeedbackComponent = Component.extend({
 
   showFeedback: false,
 
-  // TODO: Not sure why this needs to be on didReceiveAttrs to work correctly.
-  didReceiveAttrs() {
+  init() {
     this._super(...arguments);
     let defaultClasses = get(this, 'config.defaultClasses.feedback');
 
