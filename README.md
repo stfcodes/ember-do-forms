@@ -215,7 +215,7 @@ module.exports = function(environment) {
 
 - [x] Pass more options to the controls. Currently only the bare minimum is passed down
 - [x] Improve README
-- [ ] Add CHANGELOG
+- [x] Add CHANGELOG
 - [ ] Add theming support
 - [ ] Add some default controls
 - [ ] Interactive example page
