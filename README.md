@@ -1,5 +1,7 @@
 # ember-do-forms
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/shuriu/ember-do-forms.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/shuriu/ember-do-forms.svg?branch=master)](https://travis-ci.org/shuriu/ember-do-forms)
 [![npm version](https://badge.fury.io/js/ember-do-forms.svg)](https://badge.fury.io/js/ember-do-forms)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-do-forms.svg)](https://emberobserver.com/addons/ember-do-forms)
