@@ -216,18 +216,22 @@ test('it binds to any errorsPath for validations', function(assert) {
 });
 
 test('it binds validation classes to the field and input when focusing out', function(assert) {
-  assert.expect(4);
+  assert.expect(8);
   this.set('object.validations', {
     attrs: { lastName: { errors: [{ message: "can't be blank" }] } }
   });
+
   this.render(hbs`
     {{#do-field 'name' object=object as |field|}}
       {{field.do-control 'text' }}
     {{/do-field}}
   `);
   this.$('div').trigger('focusout');
-  assert.equal(this.$('div').hasClass('field-success'), true, 'adds .field-success to the field if it has errors');
-  assert.equal(this.$('input').hasClass('control-success'), true, 'adds .control-success to the input with error');
+
+  assert.ok(this.$('div').hasClass('field-success'), 'adds .field-success to the field if it has errors');
+  assert.ok(this.$('input').hasClass('control-success'), 'adds .control-success to the input with error');
+  assert.notOk(this.$('div').hasClass('field-error'), 'no .field-error class initially');
+  assert.notOk(this.$('input').hasClass('control-error'), 'no .control-error class initially');
 
   this.render(hbs`
     {{#do-field 'lastName' object=object as |field|}}
@@ -235,8 +239,11 @@ test('it binds validation classes to the field and input when focusing out', fun
     {{/do-field}}
   `);
   this.$('div').trigger('focusout');
-  assert.equal(this.$('div').hasClass('field-error'), true, 'adds .field-error to fields with errors');
-  assert.equal(this.$('input').hasClass('control-error'), true, 'adds .control-error to the input with error');
+
+  assert.ok(this.$('div').hasClass('field-error'), 'adds .field-error to fields with errors');
+  assert.ok(this.$('input').hasClass('control-error'), 'adds .control-error to the input with error');
+  assert.notOk(this.$('div').hasClass('field-success'), 'no .field-success class');
+  assert.notOk(this.$('input').hasClass('control-success'), 'no .control-success class');
 });
 
 test('it shows feedback when it has errors', function(assert) {
@@ -273,7 +280,7 @@ test('the feedback can also read its message from the validation key', function(
 });
 
 test('feedback changes as errors get fixed', function(assert) {
-  assert.expect(2);
+  assert.expect(3);
   this.set('object.validations', {
     attrs: { lastName: { errors: [
       { message: "can't be blank" },
@@ -294,6 +301,11 @@ test('feedback changes as errors get fixed', function(assert) {
     attrs: { lastName: { errors: [{ message: 'Never gonna give you up' }] } }
   });
   assert.equal(this.$('.feedback-class').text().trim(), 'Never gonna give you up', 'feedback text changes as errors dissappear');
+
+  this.set('object.validations', {
+    attrs: { lastName: { errors: [] } }
+  });
+  assert.equal(this.$('.feedback-class').length, 0, 'feedback is no longer visible');
 });
 
 test('the feedback component can be changed to any component', function(assert) {

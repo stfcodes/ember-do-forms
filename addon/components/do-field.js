@@ -72,17 +72,9 @@ const DoLabelComponent = Component.extend({
 
   init() {
     this._super(...arguments);
-    let defaultClasses = get(this, 'config.defaultClasses.field');
-
-    if (isEmpty(this.classNames) || hasOnlyEmberView(this.classNames)) {
-      this.classNames = this.classNames.concat(defaultClasses);
-    }
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    let propertyName  = get(this, 'propertyName');
-    let errorsPath    = `object.${get(this, 'config.errorsPath')}`.replace(new RegExp('{PROPERTY_NAME}'), propertyName);
+    let propertyName    = get(this, 'propertyName');
+    let errorsPath      = `object.${get(this, 'config.errorsPath')}`.replace(new RegExp('{PROPERTY_NAME}'), propertyName);
+    let defaultClasses  = get(this, 'config.defaultClasses.field');
 
     assert('{{do-field}} requires an object to be passed in', isPresent(get(this, 'object')));
     assert('{{do-field}} requires a propertyName to be passed in', isPresent(propertyName));
@@ -92,6 +84,10 @@ const DoLabelComponent = Component.extend({
         return get(this, errorsPath) || [];
       })
     });
+
+    if (isEmpty(this.classNames) || hasOnlyEmberView(this.classNames)) {
+      this.classNames = this.classNames.concat(defaultClasses);
+    }
   },
 
   update(object, propertyName, value) {

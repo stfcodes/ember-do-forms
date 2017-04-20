@@ -84,34 +84,36 @@ test('passes an input-field to the context', function(assert) {
   assert.equal(this.$('small').text().trim(), 'Never gonna give you up', 'has correct hint text');
 });
 
-test('if can submit', function(assert) {
-  assert.expect(5);
+test('it can submit', function(assert) {
+  assert.expect(7);
   this.set('object.validations', {
     attrs: { lastName: { errors: [{ message: "can't be blank" }] } }
   });
 
   this.render(hbs`
     {{#do-form object submit=(action submitTask) as |form|}}
-      {{#form.do-field 'name' as |field|}}
-        {{field.do-control 'text'}}
-      {{/form.do-field}}
-
-      {{#form.do-field 'lastName' as |field|}}
-        {{field.do-control 'text'}}
-      {{/form.do-field}}
-
+      {{form.do-field 'name'}}
+      {{form.do-field 'lastName'}}
       <button type='submit'>Submit</button>
     {{/do-form}}
   `);
 
+  assert.equal(this.$('.field-error').length, 0, 'no error fields initially');
+  assert.equal(this.$('.field-success').length, 0, 'no success fields initially');
+
   this.$('form').submit();
   assert.equal(get(this, 'submitted'), true, 'submit action was called');
 
-  assert.ok(this.$('div:first').hasClass('field-success'), "there's a field that's valid");
-  assert.ok(this.$('div:first > input').hasClass('control-success'), "there's an input that's valid");
+  assert.equal(this.$('.field-error').length, 1, 'one field with error');
+  assert.equal(this.$('.field-success').length, 1, 'one field with success');
 
-  assert.ok(this.$('div:last').hasClass('field-error'), "there's a field that's invalid");
-  assert.ok(this.$('div:last > input').hasClass('control-error'), "there's an input that's invalid");
+  // Clear the validations
+  this.set('object.validations', {
+    attrs: { lastName: { errors: [] } }
+  });
+
+  assert.equal(this.$('.field-error').length, 0, 'no error fields now');
+  assert.equal(this.$('.field-success').length, 2, 'all the fields are successful now');
 });
 
 test('the field component can be changed to any component', function(assert) {
