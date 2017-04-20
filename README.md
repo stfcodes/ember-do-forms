@@ -213,12 +213,12 @@ module.exports = function(environment) {
 
 ## TODO
 
-* ~~Pass more options to the controls. Currently only the bare minimum is passed down~~
-* ~~Improve README~~
-* Add theming support
-* Add CHANGELOG
-* Add some default controls
-* Interactive example page
+- [x] Pass more options to the controls. Currently only the bare minimum is passed down
+- [x] Improve README
+- [ ] Add CHANGELOG
+- [ ] Add theming support
+- [ ] Add some default controls
+- [ ] Interactive example page
 
 ## Contributing
 
