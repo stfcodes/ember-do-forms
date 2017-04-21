@@ -1,6 +1,13 @@
-{{#do-field propertyName object=object objectName=objectName showAllValidations=showAllValidations classNames=classNames as |field|}}
+{{#do-field propertyName
+  object=object
+  objectName=objectName
+  showAllValidations=showAllValidations
+  classNames=classNames
+  data-test-input-field=_dataTestSelectorInputField
+  as |field|}}
+
   {{#if label}}
-    {{field.do-label label classNames=labelClasses }}
+    {{field.do-label label classNames=labelClasses data-test-do-label=_dataTestSelectorLabel}}
   {{/if}}
 
   {{field.do-control controlType classNames=controlClasses
@@ -22,11 +29,13 @@
     step=step
     tabindex=tabindex
     title=title
+
+    data-test-do-control=_dataTestSelectorControl
   }}
 
-  {{field.do-feedback classNames=feedbackClasses}}
+  {{field.do-feedback classNames=feedbackClasses data-test-do-feedback=_dataTestSelectorFeedback}}
 
   {{#if hint}}
-    {{field.do-hint hint classNames=hintClasses}}
+    {{field.do-hint hint classNames=hintClasses data-test-do-hint=_dataTestSelectorHint}}
   {{/if}}
 {{/do-field}}

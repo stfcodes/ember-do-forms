@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/do-control';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
+import setDataTestSelector from '../utils/set-data-test-selector';
 
 const {
   computed,
@@ -23,6 +24,8 @@ const DoControlComponent = Component.extend({
   }).readOnly(),
 
   init() {
+    setDataTestSelector(this, 'do-control');
+
     this._super(...arguments);
     let defaultClasses = get(this, 'config.defaultClasses.control');
 

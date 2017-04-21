@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/do-feedback';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
+import setDataTestSelector from '../utils/set-data-test-selector';
 
 const {
   Component,
@@ -19,6 +20,8 @@ const DoFeedbackComponent = Component.extend({
   showFeedback: false,
 
   init() {
+    setDataTestSelector(this, 'do-feedback');
+
     this._super(...arguments);
     let defaultClasses = get(this, 'config.defaultClasses.feedback');
 

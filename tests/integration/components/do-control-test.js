@@ -152,3 +152,9 @@ test('controls support a variety of HTML5 attributes', function(assert) {
   this.render(hbs`{{do-control 'email' multiple=multiple}}`);
   assert.equal(this.$('input').attr('multiple'), 'multiple', 'it sets the multiple attribute');
 });
+
+test('it passes down data-test-do-control to the one-way-input', function(assert) {
+  assert.expect(1);
+  this.render(hbs`{{do-control data-test-do-control='first-name'}}`);
+  assert.equal(this.$('input').attr('data-test-do-control'), 'first-name', 'has the data attribute');
+});

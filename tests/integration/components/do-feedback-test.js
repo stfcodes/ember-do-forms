@@ -80,3 +80,9 @@ test('configuration feedbackClasses can be overridden by own classNames', functi
   assert.equal(this.$('div').hasClass('my-custom-feedback-class'), true, 'feedbackClasses are overridden correctly');
   assert.equal(this.$('div').hasClass('feedback-element'), false, 'no default feedbackClasses');
 });
+
+test('it passes down data-test-do-feedback to the wrapper component', function(assert) {
+  assert.expect(1);
+  this.render(hbs`{{do-feedback showFeedback=hasErrors message=message data-test-do-feedback='feedback-element'}}`);
+  assert.equal(this.$('div').attr('data-test-do-feedback'), 'feedback-element', 'has the data attribute');
+});

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../../templates/components/ember-do-forms/input-field';
+import setDataTestSelector from '../../utils/set-data-test-selector';
 
 const {
   assert,
@@ -27,6 +28,12 @@ const InputFieldComponent = Component.extend({
   hintClasses: [],
 
   init() {
+    setDataTestSelector(this, 'input-field', '_dataTestSelectorInputField');
+    setDataTestSelector(this, 'do-label', '_dataTestSelectorLabel');
+    setDataTestSelector(this, 'do-control', '_dataTestSelectorControl');
+    setDataTestSelector(this, 'do-feedback', '_dataTestSelectorFeedback');
+    setDataTestSelector(this, 'do-hint', '_dataTestSelectorHint');
+
     this._super(...arguments);
     let defaultClasses = get(this, 'config.defaultClasses');
 

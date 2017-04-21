@@ -199,3 +199,25 @@ test('it actually works', function(assert) {
   assert.equal(this.$('input').val(), 'Rick', 'it actually sets the input value correctly');
   assert.equal(get(this, 'object.name'), 'Rick', 'it actually sets the object value correctly');
 });
+
+test('it passes down data-test-* attributes to its child components', function(assert) {
+  this.set('object.validations', {
+    attrs: { name: { errors: [{ message: 'too cool' }] } }
+  });
+
+  this.render(hbs`
+    {{ember-do-forms/input-field 'name' object=object showAllValidations=true label='Your Name' hint='First and last'
+      data-test-input-field='name'
+      data-test-do-label='label'
+      data-test-do-control='control'
+      data-test-do-feedback='feedback'
+      data-test-do-hint='hint'
+    }}
+  `);
+
+  assert.equal(this.$('div').attr('data-test-input-field'), 'name', 'field has the data attribute');
+  assert.equal(this.$('.label').attr('data-test-do-label'), 'label', 'label has the data attribute');
+  assert.equal(this.$('.control').attr('data-test-do-control'), 'control', 'control has the data attribute');
+  assert.equal(this.$('.feedback').attr('data-test-do-feedback'), 'feedback', 'feedback has the data attribute');
+  assert.equal(this.$('.hint').attr('data-test-do-hint'), 'hint', 'hint has the data attribute');
+});

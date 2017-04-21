@@ -1,6 +1,6 @@
 {{#if showFeedback}}
   {{#if message}}
-    {{#ember-do-forms/feedback-wrapper tagName=wrapperTagName classNames=classNames}}
+    {{#ember-do-forms/feedback-wrapper tagName=wrapperTagName classNames=classNames data-test-do-feedback=_dataTestSelector}}
       {{#if hasBlock}}
         {{yield message}}
       {{else}}

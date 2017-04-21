@@ -45,6 +45,7 @@
     "ember-resolver": "^4.1.0",
     "ember-source": "^2.12.1",
     "ember-test-component": "^0.2.0",
+    "ember-test-selectors": "^0.3.2",
     "eslint-plugin-ember-suave": "^1.0.0",
     "loader.js": "^4.3.0"
   },
