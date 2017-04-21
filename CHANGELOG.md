@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.6.0](https://github.com/shuriu/ember-do-forms/tree/v1.6.0) (2017-04-21)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.5.4...v1.6.0)
+
+**Merged pull requests:**
+
+- Add Greenkeeper badge 🌴 [\#1](https://github.com/shuriu/ember-do-forms/pull/1) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+
 ## [v1.5.4](https://github.com/shuriu/ember-do-forms/tree/v1.5.4) (2017-04-20)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.5.3...v1.5.4)
 
