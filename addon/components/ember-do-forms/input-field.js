@@ -30,6 +30,9 @@ const InputFieldComponent = Component.extend({
     this._super(...arguments);
     let defaultClasses = get(this, 'config.defaultClasses');
 
+    assert('{{ember-do-forms/input-field}} requires an object to be passed in', isPresent(get(this, 'object')));
+    assert('{{ember-do-forms/input-field}} requires a propertyName to be passed in', isPresent(get(this, 'propertyName')));
+
     if (isEmpty(get(this, 'labelClasses'))) {
       set(this, 'labelClasses', defaultClasses.label);
     }
@@ -45,12 +48,6 @@ const InputFieldComponent = Component.extend({
     if (isEmpty(get(this, 'hintClasses'))) {
       set(this, 'hintClasses', defaultClasses.hint);
     }
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    assert('{{ember-do-forms/input-field}} requires an object to be passed in', isPresent(get(this, 'object')));
-    assert('{{ember-do-forms/input-field}} requires a propertyName to be passed in', isPresent(get(this, 'propertyName')));
   }
 });
 
