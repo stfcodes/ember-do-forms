@@ -14,7 +14,7 @@ Get started with:
 
 ## Philosophy
 
-My experience with my ambitious application has proven that other (maintained) form builder addons either **do too much**, or are **hard to customise**. So I created `ember-do-forms` because it assumes very little about my form needs.
+My experience with my ambitious application has proven that other (maintained) form builder addons either **do too much**, or are **hard to customize**. So I created `ember-do-forms` because it assumes very little about my form needs.
 
 The basic idea for `ember-do-forms` is simple: assume as little as possible about my HTML and CSS structure, while providing **some** syntactic sugar for the icky parts.
 
@@ -24,10 +24,25 @@ Another icky part is customisation, which most other form builder addons fail sh
 
 ## Features
 
-* [Extremely](#css-customizations) [easy](#inline-component-customizations) to [customize](#component-customizations), thanks to contextual components.
+* [Extremely](#css-customizations) [easy](#component-block-form) to [customize](#component-customizations), thanks to contextual components.
 * Bare minimum HTML with no CSS by default. Use it with any CSS framework you like. 
 * Binds error and success classes (if found) on a field `focusOut` or just before `submit`. Works with [`ember-cp-validations`](https://github.com/offirgolan/ember-cp-validations) by default. [`ember-changeset-validations`](https://github.com/DockYard/ember-changeset-validations) works too with a small configuration tweak.
 * Uses [`ember-one-way-controls`](https://github.com/DockYard/ember-one-way-controls) under the hood for controls. But easily extensible with any control type.
+* [Fully compatible](#test-selectors) with [`ember-test-selectors`](https://github.com/simplabs/ember-test-selectors).
+
+## Table of contents
+
+1. [Usage](#usage)
+    * [Basic Usage](#basic-usage)
+    * [Input field](#input-field)
+    * [CSS customizations](#css-customizations)
+    * [Component block form](#component-block-form)
+    * [Test selectors](#test-selectors)
+    * [Component customizations](#component-customizations)
+2. [Configuration](#configuration)
+3. [Roadmap](#roadmap)
+4. [Contributing](#contributing)
+5. [Credits](#credits--inspiration)
 
 ## Usage
 
@@ -42,6 +57,8 @@ Another icky part is customisation, which most other form builder addons fail sh
     {{field.do-hint hintText}}
   {{/form.do-field}}
 
+  {{form.input-field propertyName controlType='email' label='Label' hint='Hint'}}
+
   <button type='submit'>Save</button>
 {{/do-form}}
 ```
@@ -55,6 +72,21 @@ Another icky part is customisation, which most other form builder addons fail sh
 * `{{do-hint}}` shows any hint text you want via the `hintText` parameter.
 * use any type of button you want. Use a bare `<button type='Submit'>`, use it with [`ember-async-button`](https://github.com/DockYard/ember-async-button) or do it [with style](http://ember-concurrency.com/#/docs/examples/loading-ui).
 
+#### Input field
+You can also use the `{{ember-do-forms/input-field}}` component to combine all of the goodness of the `{{do-field}}` component (and its contextual components) into a single line:
+
+```hbs
+{{#do-form object submit=(action 'saveTask') as |form|}}
+  {{form.input-field 'lastName' label='Last Name' hint='First name followed by last name'}}
+
+  <button type='submit'>Save</button>
+{{/do-form}}
+```
+
+If you want to skip labels and hints, just omit the `label` and `hint` arguments.
+
+Also the classNames of its rendered sub-components can be modified using `labelClasses`, `controlClasses`, `feedbackClasses` and `hintClasses`.
+
 #### CSS customizations
 You can customize the rendered CSS by modifying the default [config](#configuration). But you can also customize classes by individual component.
 
@@ -63,7 +95,7 @@ You can customize the rendered CSS by modifying the default [config](#configurat
 
   {{#form.do-field 'fullName' classNames='my-custom-field-class' as |field|}}
     {{field.do-label 'fullName' classNames='my-custom-label-class'}}
-    {{field.do-control 'text' classNames='my-custom-control-class'}}
+    {{field.do-control classNames='my-custom-control-class'}}
     {{field.do-feedback classNames='my-custom-feedback-class'}}
     {{field.do-hint 'First name, followed by last name' classNames='my-custom-hint-class'}}
   {{/form.do-field}}
@@ -71,8 +103,8 @@ You can customize the rendered CSS by modifying the default [config](#configurat
 {{/do-form}}
 ```
 
-#### Inline component customizations
-You can modify the content of a field easily. Below there is a [Bootstrap 4 custom checkbox](https://v4-alpha.getbootstrap.com/components/forms/#checkboxes) for example. The default `tagName` for a field is `<div>`.
+#### Component block form
+You can modify the contents of a field easily. Below there is a [Bootstrap 4 custom checkbox](https://v4-alpha.getbootstrap.com/components/forms/#checkboxes) for example. The default `tagName` for a field is `<div>`.
 ```hbs
 {{#do-form user submit=(action 'saveTask') as |form|}}
 
@@ -118,7 +150,7 @@ The `{{do-feedback}}` component can be easily customized as well. Just pass a bl
 {{/do-form}}
 ```
 
-The `{{do-hint}}` component is very easy to customise. Just pass a block and it will have access to `hintText`. The default `tagName` is `<small>`.
+The `{{do-hint}}` component is very easy to customize. Just pass a block and it will have access to `hintText`. The default `tagName` is `<small>`.
 ```hbs
 {{#do-form user submit=(action 'saveTask') as |form|}}
 
@@ -134,11 +166,39 @@ The `{{do-hint}}` component is very easy to customise. Just pass a block and it 
 {{/do-form}}
 ```
 
+#### Test selectors
+If you have added the excellent [`ember-test-selectors`](https://github.com/simplabs/ember-test-selectors) addon to your project you can freely use `data-test-*` to components that have tags and the `ember-test-selectors` will work as advertised.
+
+It doesn't work though for components that are wrapper components for other components, which `ember-do-forms` uses in many places (and other form builders as well).
+
+Fear not, because `ember-do-forms` has your back for its tagless components:
+```hbs
+{{#do-form user submit=(action 'saveTask') as |form|}}
+  {{#form.do-field 'firstName' as |field|}}
+    {{field.do-control data-test-do-control='first-name-control'}}
+    {{field.do-feedback data-test-do-feedback='first-name-feedback'}}
+  {{/form.do-field}}
+
+  <!-- You probably won't need as many data-test-*  -->
+  {{form.input-field 'lastName' label='Last name' hint='What your teacher calls you'
+    data-test-input-field='last-name-field'
+    data-test-do-label='last-name-label'
+    data-test-do-control='last-name-control'
+    data-test-do-feedback='last-name-feedback'
+    data-test-do-hint='last-name-hint'
+  }}
+{{/do-form}}
+```
+After this you can freely use `find(testSelector('last-name-field'))` in your acceptance tests.
+
+The __caveat__ here is that the names of the `data-test-*` attributes __must match those in the examples__ for `do-control`, `do-feedback` and `input-field` components, and __only those attributes are supported__.
+
+For components with tags, like `do-form`, `do-field`, `do-label` and `do-hint`, these restrictions don't apply.
+
 #### Component customizations
 If you have more complex components for controls for example, rest assured, you can use them. Even some context gets passed in to your custom components!
 ```hbs
 {{#do-form user submit=(action 'saveTask') as |form|}}
-
   {{#form.do-field 'customValue'
     labelComponent='my-very-smart-i18n-label'
     controlComponent='my-fancy-datepicker'
@@ -156,26 +216,9 @@ If you have more complex components for controls for example, rest assured, you 
 
     <!-- This is will now render 'my-hint' -->
     {{field.do-hint}}
-
   {{/form.do-field}}
-
 {{/do-form}}
 ```
-
-#### Input field
-You can also use the `{{ember-do-forms/input-field}}` component to combine all of the goodness of the `{{do-field}}` component (and its contextual components) into a single line:
-
-```hbs
-{{#do-form object submit=(action 'saveTask') as |form|}}
-  {{form.input-field 'lastName' label='Last Name' hint='First name followed by last name'}}
-
-  <button type='submit'>Save</button>
-{{/do-form}}
-```
-
-If you want to skip labels and hints, just omit the `label` and `hint` arguments.
-
-Also the classNames of its rendered sub-components can be modified using `labelClasses`, `controlClasses`, `feedbackClasses` and `hintClasses`.
 
 ## Configuration
 
@@ -214,7 +257,7 @@ module.exports = function(environment) {
 };
 ```
 
-## TODO
+## Roadmap
 
 - [x] Pass more options to the controls. Currently only the bare minimum is passed down
 - [x] Improve README
