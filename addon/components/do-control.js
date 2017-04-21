@@ -16,6 +16,8 @@ const DoControlComponent = Component.extend({
 
   config: service('ember-do-forms/config'),
 
+  controlType: 'text',
+
   oneWayControl: computed('controlType', function() {
     return `one-way-${get(this, 'controlType')}`;
   }).readOnly(),

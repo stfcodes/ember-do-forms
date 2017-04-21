@@ -23,6 +23,12 @@ moduleForComponent('do-control', 'Integration | Component | do control', {
   }
 });
 
+test('it has a default controlType of text', function(assert) {
+  assert.expect(1);
+  this.render(hbs`{{do-control}}`);
+  assert.equal(this.$().children().attr('type'), 'text', 'default control type is text');
+});
+
 test('it needs a valid one-way-control controlType as the first argument', function(assert) {
   assert.expect(1);
   assert.expectAssertion(() => {
