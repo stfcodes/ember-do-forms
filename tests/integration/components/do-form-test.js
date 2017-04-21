@@ -12,6 +12,9 @@ const {
 } = Ember;
 
 const ConfigStub = Service.extend(configDefaults({
+  defaultClasses: {
+    form: ['default-form-class']
+  },
   validationClasses: {
     fieldSuccess: ['field-success'],
     fieldError: ['field-error'],
@@ -125,4 +128,17 @@ test('the field component can be changed to any component', function(assert) {
     {{/do-form}}
   `);
   assert.equal(this.$('dummy').length, 1, 'custom component is used when specified');
+});
+
+test('it has formClasses applied from configuration', function(assert) {
+  assert.expect(1);
+  this.render(hbs`{{do-form object submit=(action submitTask)}}`);
+  assert.equal(this.$('form').hasClass('default-form-class'), true, 'has default formClasses');
+});
+
+test('configuration formClasses can be overridden by own classNames', function(assert) {
+  assert.expect(2);
+  this.render(hbs`{{do-form object submit=(action submitTask) classNames='my-custom-form-class'}}`);
+  assert.equal(this.$('form').hasClass('my-custom-form-class'), true, 'formClasses are overridden correctly');
+  assert.equal(this.$('form').hasClass('default-form-class'), false, 'no default formClasses');
 });

@@ -347,7 +347,8 @@ test('it has fieldClasses applied from configuration', function(assert) {
 });
 
 test('configuration fieldClasses can be overridden by own classNames', function(assert) {
-  assert.expect(1);
+  assert.expect(2);
   this.render(hbs`{{do-field 'name' object=object classNames='my-custom-field-class'}}`);
   assert.equal(this.$('div').hasClass('my-custom-field-class'), true, 'fieldClasses are overridden correctly');
+  assert.equal(this.$('div').hasClass('default-field-class'), false, 'no default fieldClasses');
 });

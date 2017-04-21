@@ -59,13 +59,13 @@ Another icky part is customisation, which most other form builder addons fail sh
 You can customize the rendered CSS by modifying the default [config](#configuration). But you can also customize classes by individual component.
 
 ```hbs
-{{#do-form user submit=(action 'saveTask') as |form|}}
+{{#do-form user submit=(action 'saveTask') classNames='my-custom-form-class' as |form|}}
 
   {{#form.do-field 'fullName' classNames='my-custom-field-class' as |field|}}
     {{field.do-label 'fullName' classNames='my-custom-label-class'}}
     {{field.do-control 'text' classNames='my-custom-control-class'}}
-    {{field.do-feedback classNames='my-feedback-class'}}
-    {{field.do-hint 'First name, followed by last name' classNames='my-hint-class'}}
+    {{field.do-feedback classNames='my-custom-feedback-class'}}
+    {{field.do-hint 'First name, followed by last name' classNames='my-custom-hint-class'}}
   {{/form.do-field}}
 
 {{/do-form}}
@@ -196,6 +196,7 @@ module.exports = function(environment) {
   var ENV = {
     'ember-do-forms': {
       defaultClasses: {
+        form: [],
         field: ['form-group'],
         label: ['col-form-label'],
         control: ['form-control'],
@@ -218,6 +219,7 @@ module.exports = function(environment) {
 - [x] Pass more options to the controls. Currently only the bare minimum is passed down
 - [x] Improve README
 - [x] Add CHANGELOG
+- [ ] Add code documentation
 - [ ] Add theming support
 - [ ] Add some default controls
 - [ ] Interactive example page

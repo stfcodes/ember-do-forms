@@ -9,6 +9,7 @@ export default function configDefaults(others) {
     errorsPath: 'validations.attrs.{PROPERTY_NAME}.errors',
 
     defaultClasses: {
+      form: [],
       field: [],
       label: [],
       control: [],

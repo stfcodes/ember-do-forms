@@ -71,9 +71,10 @@ test('it has inputClasses applied from configuration', function(assert) {
 });
 
 test('configuration inputClasses can be overridden by own classNames', function(assert) {
-  assert.expect(1);
+  assert.expect(2);
   this.render(hbs`{{do-control 'text' classNames='my-custom-input-class'}}`);
   assert.equal(this.$('input').hasClass('my-custom-input-class'), true, 'inputClasses are overridden correctly');
+  assert.equal(this.$('input').hasClass('default-input-class'), false, 'no default inputClasses');
 });
 
 test('controls support a variety of HTML5 attributes', function(assert) {
