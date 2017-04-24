@@ -1,5 +1,15 @@
 # Change Log
 
+## [v1.7.1](https://github.com/shuriu/ember-do-forms/tree/v1.7.1) (2017-04-24)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.7.0...v1.7.1)
+
+**Merged pull requests:**
+
+- Update ember-cli to the latest version 🚀 [\#4](https://github.com/shuriu/ember-do-forms/pull/4) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+
+## [v1.7.0](https://github.com/shuriu/ember-do-forms/tree/v1.7.0) (2017-04-21)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.6.0...v1.7.0)
+
 ## [v1.6.0](https://github.com/shuriu/ember-do-forms/tree/v1.6.0) (2017-04-21)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.5.4...v1.6.0)
 
