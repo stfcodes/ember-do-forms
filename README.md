@@ -189,7 +189,12 @@ Fear not, because `ember-do-forms` has your back for its tagless components:
   }}
 {{/do-form}}
 ```
-After this you can freely use `find(testSelector('last-name-field'))` in your acceptance tests.
+After this you can freely use `testSelector` in your acceptance tests:
+* `find(testSelector('input-field', 'last-name-field'))`
+* `find(testSelector('do-label', 'last-name-label'))`
+* `find(testSelector('do-control', 'last-name-control'))`
+* `find(testSelector('do-feedback', 'last-name-feedback'))`
+* `find(testSelector('do-hint', 'last-name-hint'))`
 
 The __caveat__ here is that the names of the `data-test-*` attributes __must match those in the examples__ for `do-control`, `do-feedback` and `input-field` components, and __only those attributes are supported__.
 
