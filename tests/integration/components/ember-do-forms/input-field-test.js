@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import configDefaults from 'ember-do-forms/utils/config-defaults';
+import attrsFor from '../../../helpers/control-attributes';
 
 const {
   get,
@@ -96,30 +97,14 @@ test('hint is shown only if present', function(assert) {
 });
 
 test('passes down relevant attributes to the control', function(assert) {
-  assert.expect(15);
-
-  this.setProperties({
-    autocomplete: 'name',
-    autofocus: true,
-    disabled: true,
-    inputmode: 'verbatim',
-    list: 'datalist-id',
-    maxlength: 10,
-    minlength: 1,
-    multiple: true,
-    pattern: /[a-z]/,
-    placeholder: 'never gonna give you up',
-    readonly: true,
-    required: true,
-    size: 6,
-    spellcheck: true,
-    tabindex: 2,
-    title: 'never gonna let you down'
-  });
+  // assert.expect(16);
+  let inputAttrs = attrsFor('input');
+  this.setProperties(inputAttrs);
 
   this.render(hbs`
     {{ember-do-forms/input-field 'name' object=object
       autocomplete=autocomplete
+      form=form
       autofocus=autofocus
       disabled=disabled
       inputmode=inputmode
@@ -137,21 +122,22 @@ test('passes down relevant attributes to the control', function(assert) {
     }}
   `);
 
-  assert.equal(this.$('input').attr('autocomplete'), get(this, 'autocomplete'), 'it sets the autocomplete attribute');
+  assert.equal(this.$('input').attr('autocomplete'), inputAttrs.autocomplete, 'it sets the autocomplete attribute');
   assert.equal(this.$('input').attr('autofocus'), 'autofocus', 'it sets the autofocus attribute');
   assert.equal(this.$('input').attr('disabled'), 'disabled', 'it sets the disabled attribute');
-  assert.equal(this.$('input').attr('inputmode'), get(this, 'inputmode'), 'it sets the inputmode attribute');
-  assert.equal(this.$('input').attr('list'), get(this, 'list'), 'it sets the list attribute');
-  assert.equal(this.$('input').attr('maxlength'), get(this, 'maxlength'), 'it sets the maxlength attribute');
-  assert.equal(this.$('input').attr('minlength'), get(this, 'minlength'), 'it sets the minlength attribute');
-  assert.equal(this.$('input').attr('pattern'), get(this, 'pattern'), 'it sets the pattern attribute');
-  assert.equal(this.$('input').attr('placeholder'), get(this, 'placeholder'), 'it sets the placeholder attribute');
+  assert.equal(this.$('input').attr('form'), inputAttrs.form, 'it sets the form attribute');
+  assert.equal(this.$('input').attr('inputmode'), inputAttrs.inputmode, 'it sets the inputmode attribute');
+  assert.equal(this.$('input').attr('list'), inputAttrs.list, 'it sets the list attribute');
+  assert.equal(this.$('input').attr('maxlength'), inputAttrs.maxlength, 'it sets the maxlength attribute');
+  assert.equal(this.$('input').attr('minlength'), inputAttrs.minlength, 'it sets the minlength attribute');
+  assert.equal(this.$('input').attr('pattern'), inputAttrs.pattern, 'it sets the pattern attribute');
+  assert.equal(this.$('input').attr('placeholder'), inputAttrs.placeholder, 'it sets the placeholder attribute');
   assert.equal(this.$('input').attr('readonly'), 'readonly', 'it sets the readonly attribute');
   assert.equal(this.$('input').attr('required'), 'required', 'it sets the required attribute');
-  assert.equal(this.$('input').attr('size'), get(this, 'size'), 'it sets the size attribute');
+  assert.equal(this.$('input').attr('size'), inputAttrs.size, 'it sets the size attribute');
   assert.equal(this.$('input').attr('spellcheck'), 'true', 'it sets the spellcheck attribute');
-  assert.equal(this.$('input').attr('tabindex'), get(this, 'tabindex'), 'it sets the tabindex attribute');
-  assert.equal(this.$('input').attr('title'), get(this, 'title'), 'it sets the title attribute');
+  assert.equal(this.$('input').attr('tabindex'), inputAttrs.tabindex, 'it sets the tabindex attribute');
+  assert.equal(this.$('input').attr('title'), inputAttrs.title, 'it sets the title attribute');
 });
 
 test('children classNames can be overridden', function(assert) {

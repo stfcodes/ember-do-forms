@@ -2,9 +2,9 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import configDefaults from 'ember-do-forms/utils/config-defaults';
+import attrsFor from '../../helpers/control-attributes';
 
 const {
-  get,
   set,
   Service
 } = Ember;
@@ -84,32 +84,13 @@ test('configuration inputClasses can be overridden by own classNames', function(
 });
 
 test('controls support a variety of HTML5 attributes', function(assert) {
-  this.setProperties({
-    autocomplete: 'name',
-    autofocus: true,
-    checked: true,
-    disabled: true,
-    inputmode: 'verbatim',
-    list: 'datalist-id',
-    max: 999,
-    maxlength: 10,
-    min: 0,
-    minlength: 1,
-    multiple: true,
-    pattern: /[a-z]/,
-    placeholder: 'never gonna give you up',
-    readonly: true,
-    required: true,
-    size: 6,
-    spellcheck: true,
-    step: 9,
-    rows: 3,
-    tabindex: 2,
-    title: 'never gonna let you down'
-  });
+  let inputAttrs = attrsFor('input');
+  let textareaAttrs = attrsFor('textarea');
+  this.setProperties(inputAttrs);
 
   this.render(hbs`{{do-control 'text'
     autocomplete=autocomplete
+    form=form
     autofocus=autofocus
     disabled=disabled
     inputmode=inputmode
@@ -127,33 +108,39 @@ test('controls support a variety of HTML5 attributes', function(assert) {
     title=title
   }}`);
 
-  assert.equal(this.$('input').attr('autocomplete'), get(this, 'autocomplete'), 'it sets the autocomplete attribute');
+  assert.equal(this.$('input').attr('autocomplete'), inputAttrs.autocomplete, 'it sets the autocomplete attribute');
   assert.equal(this.$('input').attr('autofocus'), 'autofocus', 'it sets the autofocus attribute');
   assert.equal(this.$('input').attr('disabled'), 'disabled', 'it sets the disabled attribute');
-  assert.equal(this.$('input').attr('inputmode'), get(this, 'inputmode'), 'it sets the inputmode attribute');
-  assert.equal(this.$('input').attr('list'), get(this, 'list'), 'it sets the list attribute');
-  assert.equal(this.$('input').attr('maxlength'), get(this, 'maxlength'), 'it sets the maxlength attribute');
-  assert.equal(this.$('input').attr('minlength'), get(this, 'minlength'), 'it sets the minlength attribute');
-  assert.equal(this.$('input').attr('pattern'), get(this, 'pattern'), 'it sets the pattern attribute');
-  assert.equal(this.$('input').attr('placeholder'), get(this, 'placeholder'), 'it sets the placeholder attribute');
+  assert.equal(this.$('input').attr('form'), inputAttrs.form, 'it sets the form attribute');
+  assert.equal(this.$('input').attr('inputmode'), inputAttrs.inputmode, 'it sets the inputmode attribute');
+  assert.equal(this.$('input').attr('list'), inputAttrs.list, 'it sets the list attribute');
+  assert.equal(this.$('input').attr('maxlength'), inputAttrs.maxlength, 'it sets the maxlength attribute');
+  assert.equal(this.$('input').attr('minlength'), inputAttrs.minlength, 'it sets the minlength attribute');
+  assert.equal(this.$('input').attr('pattern'), inputAttrs.pattern, 'it sets the pattern attribute');
+  assert.equal(this.$('input').attr('placeholder'), inputAttrs.placeholder, 'it sets the placeholder attribute');
   assert.equal(this.$('input').attr('readonly'), 'readonly', 'it sets the readonly attribute');
   assert.equal(this.$('input').attr('required'), 'required', 'it sets the required attribute');
-  assert.equal(this.$('input').attr('size'), get(this, 'size'), 'it sets the size attribute');
-  assert.equal(this.$('input').attr('rows'), get(this, 'rows'), 'it sets the rows attribute');
+  assert.equal(this.$('input').attr('size'), inputAttrs.size, 'it sets the size attribute');
   assert.equal(this.$('input').attr('spellcheck'), 'true', 'it sets the spellcheck attribute');
-  assert.equal(this.$('input').attr('tabindex'), get(this, 'tabindex'), 'it sets the tabindex attribute');
-  assert.equal(this.$('input').attr('title'), get(this, 'title'), 'it sets the title attribute');
+  assert.equal(this.$('input').attr('tabindex'), inputAttrs.tabindex, 'it sets the tabindex attribute');
+  assert.equal(this.$('input').attr('title'), inputAttrs.title, 'it sets the title attribute');
 
   this.render(hbs`{{do-control 'number' min=min max=max step=step}}`);
-  assert.equal(this.$('input').attr('max'), get(this, 'max'), 'it sets the max attribute');
-  assert.equal(this.$('input').attr('min'), get(this, 'min'), 'it sets the min attribute');
-  assert.equal(this.$('input').attr('step'), get(this, 'step'), 'it sets the step attribute');
+  assert.equal(this.$('input').attr('max'), inputAttrs.max, 'it sets the max attribute');
+  assert.equal(this.$('input').attr('min'), inputAttrs.min, 'it sets the min attribute');
+  assert.equal(this.$('input').attr('step'), inputAttrs.step, 'it sets the step attribute');
 
   this.render(hbs`{{do-control 'checkbox' checked=checked}}`);
   assert.ok(this.$('input').is(':checked'), 'it sets the checked attribute');
 
   this.render(hbs`{{do-control 'email' multiple=multiple}}`);
   assert.equal(this.$('input').attr('multiple'), 'multiple', 'it sets the multiple attribute');
+
+  this.setProperties(textareaAttrs);
+  this.render(hbs`{{do-control 'textarea' rows=rows cols=cols wrap=wrap}}`);
+  assert.equal(this.$('textarea').attr('rows'), textareaAttrs.rows, 'it sets the rows attribute');
+  assert.equal(this.$('textarea').attr('cols'), textareaAttrs.cols, 'it sets the cols attribute');
+  assert.equal(this.$('textarea').attr('wrap'), textareaAttrs.wrap, 'it sets the wrap attribute');
 });
 
 test('it passes down data-test-do-control to the one-way-input', function(assert) {
