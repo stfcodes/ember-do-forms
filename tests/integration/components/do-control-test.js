@@ -103,6 +103,7 @@ test('controls support a variety of HTML5 attributes', function(assert) {
     size: 6,
     spellcheck: true,
     step: 9,
+    rows: 3,
     tabindex: 2,
     title: 'never gonna let you down'
   });
@@ -119,6 +120,7 @@ test('controls support a variety of HTML5 attributes', function(assert) {
     placeholder=placeholder
     readonly=readonly
     required=required
+    rows=rows
     size=size
     spellcheck=spellcheck
     tabindex=tabindex
@@ -137,6 +139,7 @@ test('controls support a variety of HTML5 attributes', function(assert) {
   assert.equal(this.$('input').attr('readonly'), 'readonly', 'it sets the readonly attribute');
   assert.equal(this.$('input').attr('required'), 'required', 'it sets the required attribute');
   assert.equal(this.$('input').attr('size'), get(this, 'size'), 'it sets the size attribute');
+  assert.equal(this.$('input').attr('rows'), get(this, 'rows'), 'it sets the rows attribute');
   assert.equal(this.$('input').attr('spellcheck'), 'true', 'it sets the spellcheck attribute');
   assert.equal(this.$('input').attr('tabindex'), get(this, 'tabindex'), 'it sets the tabindex attribute');
   assert.equal(this.$('input').attr('title'), get(this, 'title'), 'it sets the title attribute');
