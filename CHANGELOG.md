@@ -1,5 +1,21 @@
 # Change Log
 
+## [v1.8.0](https://github.com/shuriu/ember-do-forms/tree/v1.8.0) (2017-04-27)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.7.1...v1.8.0)
+
+**Implemented enhancements:**
+
+- Add a do-fields component [\#9](https://github.com/shuriu/ember-do-forms/issues/9)
+- Allow autogeneration of data-test-\* attributes [\#8](https://github.com/shuriu/ember-do-forms/issues/8)
+
+**Fixed bugs:**
+
+- do-control is missing some attributes  [\#7](https://github.com/shuriu/ember-do-forms/issues/7)
+
+**Merged pull requests:**
+
+- Add support for textarea rows [\#6](https://github.com/shuriu/ember-do-forms/pull/6) ([kevintraver](https://github.com/kevintraver))
+
 ## [v1.7.1](https://github.com/shuriu/ember-do-forms/tree/v1.7.1) (2017-04-24)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.7.0...v1.7.1)
 
