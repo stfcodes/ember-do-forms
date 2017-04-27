@@ -116,6 +116,37 @@ test('it can submit', function(assert) {
   assert.equal(this.$('.field-success').length, 2, 'all the fields are successful now');
 });
 
+test('has a do-fields contextual component', function(assert) {
+  set(this, 'differentObject', EmObject.create({
+    name: 'Rick',
+    validations: {
+      attrs: { name: { errors: [{ message: 'too cool' }] } }
+    }
+  }));
+  this.render(hbs`
+    {{#do-form object submit=(action submitTask) as |form|}}
+      {{form.input-field 'name'}}
+
+      {{#form.do-fields differentObject as |fields|}}
+        {{fields.input-field 'name'}}
+      {{/form.do-fields}}
+
+      <button type='submit'>Submit</button>
+    {{/do-form}}
+  `);
+
+  assert.equal(this.$('input:first').val(), 'Stefan', 'first control has correct context');
+  assert.equal(this.$('input:last').val(), 'Rick', 'second control has correct context');
+
+  assert.equal(this.$('.field-error').length, 0, 'no error fields initially');
+  assert.equal(this.$('.field-success').length, 0, 'no success fields initially');
+
+  this.$('form').submit();
+
+  assert.equal(this.$('.field-error').length, 1, 'one field with error');
+  assert.equal(this.$('.field-success').length, 1, 'one field with success');
+});
+
 test('the field component can be changed to any component', function(assert) {
   assert.expect(1);
   registerTestComponent(this);
