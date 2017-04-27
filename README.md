@@ -40,9 +40,8 @@ Another icky part is customisation, which most other form builder addons fail sh
     * [Test selectors](#test-selectors)
     * [Component customizations](#component-customizations)
 2. [Configuration](#configuration)
-3. [Roadmap](#roadmap)
-4. [Contributing](#contributing)
-5. [Credits](#credits--inspiration)
+3. [Contributing](#contributing)
+4. [Credits](#credits--inspiration)
 
 ## Usage
 
@@ -288,16 +287,6 @@ module.exports = function(environment) {
   };
 };
 ```
-
-## Roadmap
-
-- [x] Pass more options to the controls. Currently only the bare minimum is passed down
-- [x] Improve README
-- [x] Add CHANGELOG
-- [ ] Add code documentation
-- [ ] Add theming support
-- [ ] Add some default controls
-- [ ] Interactive example page
 
 ## Contributing
 
