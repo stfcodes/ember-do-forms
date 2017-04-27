@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import configDefaults from 'ember-do-forms/utils/config-defaults';
 
 const {
   get,
@@ -9,11 +8,7 @@ const {
   Service
 } = Ember;
 
-const ConfigStub = Service.extend(configDefaults({
-  defaultClasses: {
-    hint: ['hint-element']
-  }
-}));
+const ConfigStub = Service.extend();
 
 moduleForComponent('do-hint', 'Integration | Component | do hint', {
   integration: true,
@@ -26,6 +21,7 @@ moduleForComponent('do-hint', 'Integration | Component | do hint', {
 });
 
 test('it renders', function(assert) {
+  assert.expect(2);
   this.render(hbs`{{do-hint}}`);
   assert.equal(this.$().text().trim(), '', 'renders nothing by default');
 
@@ -38,6 +34,7 @@ test('it renders', function(assert) {
 });
 
 test('it has a text positionalParam', function(assert) {
+  assert.expect(2);
   this.render(hbs`{{do-hint hintText}}`);
   assert.equal(this.$().text().trim(), get(this, 'hintText'), 'renders the text');
 
@@ -62,12 +59,34 @@ test('its tag can be changed', function(assert) {
 });
 
 test('it has hintClasses applied from configuration', function(assert) {
+  assert.expect(1);
+  this.set('config.defaultClasses', {
+    hint: ['hint-element']
+  });
   this.render(hbs`{{do-hint hintText}}`);
   assert.equal(this.$('small').hasClass('hint-element'), true, 'has default hintClasses');
 });
 
 test('configuration hintClasses can be overridden by own classNames', function(assert) {
+  assert.expect(2);
+  this.set('config.defaultClasses', {
+    hint: ['hint-element']
+  });
   this.render(hbs`{{do-hint hintText classNames='my-custom-hint-class'}}`);
   assert.equal(this.$('small').hasClass('my-custom-hint-class'), true, 'hintClasses are overridden correctly');
   assert.equal(this.$('small').hasClass('hint-element'), false, 'no default hintClasses');
+});
+
+test('data-test-do-hint attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.render(hbs`{{do-hint propertyName='firstName'}}`);
+  assert.equal(this.$('small').attr('data-test-do-hint'), 'firstName', 'has the data attribute');
+});
+
+test('data-test-do-hint attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.render(hbs`{{do-hint propertyName='firstName' data-test-do-hint='something-else'}}`);
+  assert.equal(this.$('small').attr('data-test-do-hint'), 'something-else', 'has the data attribute');
 });

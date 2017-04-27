@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/do-field';
 import presence from '../utils/presence';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
+import setDataTestSelector from '../utils/set-data-test-selector';
 
 const {
   assert,
@@ -18,6 +19,7 @@ const {
 const DoLabelComponent = Component.extend({
   layout,
   config: service('ember-do-forms/config'),
+  tagName: 'div',
 
   controlType: 'text',
 
@@ -71,6 +73,12 @@ const DoLabelComponent = Component.extend({
   }).readOnly(),
 
   init() {
+    setDataTestSelector(this, {
+      testSelector: 'do-field',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
+    });
+
     this._super(...arguments);
     let propertyName    = get(this, 'propertyName');
     let errorsPath      = `object.${get(this, 'config.errorsPath')}`.replace(new RegExp('{PROPERTY_NAME}'), propertyName);

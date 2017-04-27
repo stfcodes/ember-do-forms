@@ -28,17 +28,54 @@ const InputFieldComponent = Component.extend({
   hintClasses: [],
 
   init() {
-    setDataTestSelector(this, 'input-field', '_dataTestSelectorInputField');
-    setDataTestSelector(this, 'do-label', '_dataTestSelectorLabel');
-    setDataTestSelector(this, 'do-control', '_dataTestSelectorControl');
-    setDataTestSelector(this, 'do-feedback', '_dataTestSelectorFeedback');
-    setDataTestSelector(this, 'do-hint', '_dataTestSelectorHint');
+    this._setTestSelectors();
 
     this._super(...arguments);
-    let defaultClasses = get(this, 'config.defaultClasses');
 
     assert('{{ember-do-forms/input-field}} requires an object to be passed in', isPresent(get(this, 'object')));
     assert('{{ember-do-forms/input-field}} requires a propertyName to be passed in', isPresent(get(this, 'propertyName')));
+
+    this._setChildClasses();
+  },
+
+  _setTestSelectors() {
+    // FIXME: data-test-input-field should be removed in next
+    // major version as it adds an unnecessary data-test-* attribute
+    setDataTestSelector(this, {
+      testSelector: 'input-field',
+      testSelectorProperty: '_dataTestSelectorInputField',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
+    });
+
+    setDataTestSelector(this, {
+      testSelector: 'do-field',
+      testSelectorProperty: '_dataTestSelectorField'
+    });
+
+    setDataTestSelector(this, {
+      testSelector: 'do-label',
+      testSelectorProperty: '_dataTestSelectorLabel'
+    });
+
+    setDataTestSelector(this, {
+      testSelector: 'do-control',
+      testSelectorProperty: '_dataTestSelectorControl'
+    });
+
+    setDataTestSelector(this, {
+      testSelector: 'do-feedback',
+      testSelectorProperty: '_dataTestSelectorFeedback'
+    });
+
+    setDataTestSelector(this, {
+      testSelector: 'do-hint',
+      testSelectorProperty: '_dataTestSelectorHint'
+    });
+  },
+
+  _setChildClasses() {
+    let defaultClasses = get(this, 'config.defaultClasses');
 
     if (isEmpty(get(this, 'labelClasses'))) {
       set(this, 'labelClasses', defaultClasses.label);

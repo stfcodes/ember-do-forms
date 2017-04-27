@@ -167,38 +167,40 @@ The `{{do-hint}}` component is very easy to customize. Just pass a block and it 
 ```
 
 #### Test selectors
-If you have added the excellent [`ember-test-selectors`](https://github.com/simplabs/ember-test-selectors) addon to your project you can freely use `data-test-*` to components that have tags and the `ember-test-selectors` will work as advertised.
+If you have added the excellent [`ember-test-selectors`](https://github.com/simplabs/ember-test-selectors) addon to your project you can freely use `data-test-*` to components that have tags and the `ember-test-selectors` will work as advertised. It doesn't work though for components that are wrapper components for other components, which `ember-do-forms` uses in many places (and other form builders use them as well).
 
-It doesn't work though for components that are wrapper components for other components, which `ember-do-forms` uses in many places (and other form builders as well).
+You can learn more about why you should use `ember-test-selectors` [by watching this video](https://embermap.com/video/ember-test-selectors).
 
-Fear not, because `ember-do-forms` has your back for its tagless components:
+You can turn on the auto generation of `data-test-*` attributes by changing the default configuration:
+```js
+module.exports = function(environment) {
+  var ENV = {
+    'ember-do-forms': {
+      autoDataTestSelectors: true
+    }
+  };
+};
+```
+Now, given you have something like:
 ```hbs
 {{#do-form user submit=(action 'saveTask') as |form|}}
-  {{#form.do-field 'firstName' as |field|}}
-    {{field.do-control data-test-do-control='first-name-control'}}
-    {{field.do-feedback data-test-do-feedback='first-name-feedback'}}
-  {{/form.do-field}}
-
-  <!-- You probably won't need as many data-test-*  -->
-  {{form.input-field 'lastName' label='Last name' hint='What your teacher calls you'
-    data-test-input-field='last-name-field'
-    data-test-do-label='last-name-label'
-    data-test-do-control='last-name-control'
-    data-test-do-feedback='last-name-feedback'
-    data-test-do-hint='last-name-hint'
-  }}
+  {{form.input-field 'lastName' label='Last name' hint='What your teacher calls you'}}
 {{/do-form}}
 ```
-After this you can freely use `testSelector` in your acceptance tests:
-* `find(testSelector('input-field', 'last-name-field'))`
-* `find(testSelector('do-label', 'last-name-label'))`
-* `find(testSelector('do-control', 'last-name-control'))`
-* `find(testSelector('do-feedback', 'last-name-feedback'))`
-* `find(testSelector('do-hint', 'last-name-hint'))`
 
-The __caveat__ here is that the names of the `data-test-*` attributes __must match those in the examples__ for `do-control`, `do-feedback` and `input-field` components, and __only those attributes are supported__.
+You can use `testSelector` in your acceptance tests:
+* `find(testSelector('do-field', 'lastName'));`
+* `find(testSelector('do-label', 'lastName'));`
+* `find(testSelector('do-control', 'lastName'));`
+* `find(testSelector('do-feedback', 'lastName'));`
+* `find(testSelector('do-hint', 'lastName'));`
 
-For components with tags, like `do-form`, `do-field`, `do-label` and `do-hint`, these restrictions don't apply.
+You can also manually set the attributes: 
+```hbs
+{{field.do-control 'lastName' data-test-do-control='mySpecialSelector' }}
+```
+
+The __caveat__ is that the names of the `data-test-*` attributes __must match the component names__ for `do-control`, `do-feedback` and `input-field` components (which are tagless), and __only those attributes are supported__. For components with tags, like `do-form`, `do-field`, `do-label` and `do-hint`, these restrictions don't apply.
 
 #### Component customizations
 If you have more complex components for controls for example, rest assured, you can use them. Even some context gets passed in to your custom components!
@@ -227,18 +229,43 @@ If you have more complex components for controls for example, rest assured, you 
 
 ## Configuration
 
-The default configuration only tells `ember-do-forms` where to find the errors property.
+The default configuration for `ember-do-forms` is very light.
 ```js
 module.exports = function(environment) {
   var ENV = {
     'ember-do-forms': {
-      errorsPath: 'validations.attrs.{PROPERTY_NAME}.errors'
+      // The path to be read on the object for an errors array
+      errorsPath: 'validations.attrs.{PROPERTY_NAME}.errors',
+
+      // Auto generate relevant data-test-* for components
+      // Overridable per component
+      autoDataTestSelectors: false,
+
+      // CSS classes to be applied to components
+      // Overridable per component
+      defaultClasses: {
+        form: [],
+        field: [],
+        label: [],
+        control: [],
+        feedback: [],
+        hint: []
+      },
+
+      // CSS classes to be applied to do-field and do-control
+      // components based on the validation state of the object
+      validationClasses: {
+        fieldSuccess: [],
+        fieldError: [],
+        controlSuccess: [],
+        controlError: []
+      }
     }
   };
 };
 ```
 
-You can easily extend this configuration with more classes. For example Bootstrap 4 classes:
+You can easily extend this configuration. For example Bootstrap 4 classes:
 ```js
 module.exports = function(environment) {
   var ENV = {

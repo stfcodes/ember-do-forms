@@ -20,7 +20,11 @@ const DoFeedbackComponent = Component.extend({
   showFeedback: false,
 
   init() {
-    setDataTestSelector(this, 'do-feedback');
+    setDataTestSelector(this, {
+      testSelector: 'do-feedback',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
+    });
 
     this._super(...arguments);
     let defaultClasses = get(this, 'config.defaultClasses.feedback');

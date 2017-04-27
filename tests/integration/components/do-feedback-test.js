@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import configDefaults from 'ember-do-forms/utils/config-defaults';
 
 const {
   get,
@@ -9,11 +8,7 @@ const {
   Service
 } = Ember;
 
-const ConfigStub = Service.extend(configDefaults({
-  defaultClasses: {
-    feedback: ['feedback-element']
-  }
-}));
+const ConfigStub = Service.extend();
 
 moduleForComponent('do-feedback', 'Integration | Component | do feedback', {
   integration: true,
@@ -29,13 +24,13 @@ moduleForComponent('do-feedback', 'Integration | Component | do feedback', {
 test('renders nothing by default (even with message)', function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-feedback message=message}}`);
-  assert.equal(this.$('.feedback-element').length, 0);
+  assert.notOk(this.$().children().length, 'no feedback element');
 });
 
 test("doesn't render if it has no message", function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-feedback showFeedback=hasErrors}}`);
-  assert.equal(this.$('.feedback-element').length, 0);
+  assert.notOk(this.$().children().length, 'no feedback element');
 });
 
 test('it renders some feedback', function(assert) {
@@ -55,13 +50,13 @@ test('it renders some feedback', function(assert) {
 test('its tag is a div by default', function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-feedback message showFeedback=hasErrors}}`);
-  assert.equal(this.$('div.feedback-element').length, 1);
+  assert.ok(this.$('div').length, 'renders a div');
 });
 
 test('its tag can be changed', function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-feedback message showFeedback=hasErrors wrapperTagName='span'}}`);
-  assert.equal(this.$('span.feedback-element').length, 1);
+  assert.equal(this.$('span').length, 1);
 });
 
 test('it also has positionalParams', function(assert) {
@@ -71,11 +66,19 @@ test('it also has positionalParams', function(assert) {
 });
 
 test('it has feedbackClasses applied from configuration', function(assert) {
+  assert.expect(1);
+  this.set('config.defaultClasses', {
+    feedback: ['feedback-element']
+  });
   this.render(hbs`{{do-feedback message showFeedback=hasErrors}}`);
   assert.equal(this.$('div').hasClass('feedback-element'), true, 'has default feedbackClasses');
 });
 
 test('configuration feedbackClasses can be overridden by own classNames', function(assert) {
+  assert.expect(2);
+  this.set('config.defaultClasses', {
+    feedback: ['feedback-element']
+  });
   this.render(hbs`{{do-feedback message showFeedback=hasErrors classNames='my-custom-feedback-class'}}`);
   assert.equal(this.$('div').hasClass('my-custom-feedback-class'), true, 'feedbackClasses are overridden correctly');
   assert.equal(this.$('div').hasClass('feedback-element'), false, 'no default feedbackClasses');
@@ -85,4 +88,18 @@ test('it passes down data-test-do-feedback to the wrapper component', function(a
   assert.expect(1);
   this.render(hbs`{{do-feedback showFeedback=hasErrors message=message data-test-do-feedback='feedback-element'}}`);
   assert.equal(this.$('div').attr('data-test-do-feedback'), 'feedback-element', 'has the data attribute');
+});
+
+test('data-test-do-feedback attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.render(hbs`{{do-feedback showFeedback=hasErrors message=message propertyName='firstName'}}`);
+  assert.equal(this.$('div').attr('data-test-do-feedback'), 'firstName', 'has the data attribute');
+});
+
+test('data-test-do-feedback attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.render(hbs`{{do-feedback showFeedback=hasErrors message=message propertyName='firstName' data-test-do-feedback='something-else'}}`);
+  assert.equal(this.$('div').attr('data-test-do-feedback'), 'something-else', 'has the data attribute');
 });

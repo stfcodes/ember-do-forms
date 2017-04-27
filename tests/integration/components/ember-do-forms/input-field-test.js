@@ -207,3 +207,46 @@ test('it passes down data-test-* attributes to its child components', function(a
   assert.equal(this.$('.feedback').attr('data-test-do-feedback'), 'feedback', 'feedback has the data attribute');
   assert.equal(this.$('.hint').attr('data-test-do-hint'), 'hint', 'hint has the data attribute');
 });
+
+test('data-test-* attributes are correctly set when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(6);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.set('object.validations', {
+    attrs: { name: { errors: [{ message: 'too cool' }] } }
+  });
+  this.render(hbs`{{ember-do-forms/input-field 'name' object=object showAllValidations=true label='Your Name' hint='First and last'}}`);
+
+  assert.equal(this.$('div').attr('data-test-input-field'), 'name', 'input field has the data attribute');
+
+  assert.equal(this.$('div').attr('data-test-do-field'), 'name', 'field has the data attribute');
+  assert.equal(this.$('.label').attr('data-test-do-label'), 'name', 'label has the data attribute');
+  assert.equal(this.$('.control').attr('data-test-do-control'), 'name', 'control has the data attribute');
+  assert.equal(this.$('.feedback').attr('data-test-do-feedback'), 'name', 'feedback has the data attribute');
+  assert.equal(this.$('.hint').attr('data-test-do-hint'), 'name', 'hint has the data attribute');
+});
+
+test('data-test-* attributes are overriden when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(6);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.set('object.validations', {
+    attrs: { name: { errors: [{ message: 'too cool' }] } }
+  });
+  this.render(hbs`
+    {{ember-do-forms/input-field 'name' object=object showAllValidations=true label='Your Name' hint='First and last'
+      data-test-input-field='never'
+      data-test-do-field='ever'
+      data-test-do-label='gonna'
+      data-test-do-control='give'
+      data-test-do-feedback='you'
+      data-test-do-hint='up'
+    }}
+  `);
+
+  assert.equal(this.$('div').attr('data-test-input-field'), 'never', 'input field has the data attribute');
+
+  assert.equal(this.$('div').attr('data-test-do-field'), 'ever', 'field has the data attribute');
+  assert.equal(this.$('.label').attr('data-test-do-label'), 'gonna', 'label has the data attribute');
+  assert.equal(this.$('.control').attr('data-test-do-control'), 'give', 'control has the data attribute');
+  assert.equal(this.$('.feedback').attr('data-test-do-feedback'), 'you', 'feedback has the data attribute');
+  assert.equal(this.$('.hint').attr('data-test-do-hint'), 'up', 'hint has the data attribute');
+});

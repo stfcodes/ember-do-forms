@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/do-label';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
+import setDataTestSelector from '../utils/set-data-test-selector';
 
 const {
   Component,
@@ -19,6 +20,12 @@ const DoLabelComponent = Component.extend({
   attributeBindings: ['for'],
 
   init() {
+    setDataTestSelector(this, {
+      testSelector: 'do-label',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
+    });
+
     this._super(...arguments);
     let classNames = get(this, 'classNames');
     let classes    = getWithDefault(this, 'config.defaultClasses', {});

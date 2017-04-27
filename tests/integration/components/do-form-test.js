@@ -6,15 +6,12 @@ import configDefaults from 'ember-do-forms/utils/config-defaults';
 
 const {
   get,
-  Object,
+  Object: EmObject,
   set,
   Service
 } = Ember;
 
 const ConfigStub = Service.extend(configDefaults({
-  defaultClasses: {
-    form: ['default-form-class']
-  },
   validationClasses: {
     fieldSuccess: ['field-success'],
     fieldError: ['field-error'],
@@ -31,7 +28,7 @@ moduleForComponent('do-form', 'Integration | Component | do form', {
 
     set(this, 'submitted', false);
 
-    set(this, 'object', Object.create({
+    set(this, 'object', EmObject.create({
       name: 'Stefan',
       lastName: ''
     }));
@@ -132,12 +129,14 @@ test('the field component can be changed to any component', function(assert) {
 
 test('it has formClasses applied from configuration', function(assert) {
   assert.expect(1);
+  this.set('config.defaultClasses.form', ['default-form-class']);
   this.render(hbs`{{do-form object submit=(action submitTask)}}`);
   assert.equal(this.$('form').hasClass('default-form-class'), true, 'has default formClasses');
 });
 
 test('configuration formClasses can be overridden by own classNames', function(assert) {
   assert.expect(2);
+  this.set('config.defaultClasses.form', ['default-form-class']);
   this.render(hbs`{{do-form object submit=(action submitTask) classNames='my-custom-form-class'}}`);
   assert.equal(this.$('form').hasClass('my-custom-form-class'), true, 'formClasses are overridden correctly');
   assert.equal(this.$('form').hasClass('default-form-class'), false, 'no default formClasses');

@@ -6,7 +6,7 @@ import configDefaults from 'ember-do-forms/utils/config-defaults';
 
 const {
   get,
-  Object,
+  Object: EmObject,
   Service,
   set
 } = Ember;
@@ -29,7 +29,7 @@ moduleForComponent('do-field', 'Integration | Component | do form field', {
   beforeEach() {
     this.register('service:ember-do-forms/config', ConfigStub);
     this.inject.service('ember-do-forms/config', { as: 'config' });
-    set(this, 'object', Object.create({
+    set(this, 'object', EmObject.create({
       name: 'Stefan',
       lastName: ''
     }));
@@ -59,6 +59,7 @@ test('it renders a div by default', function(assert) {
 });
 
 test('it can render a label with correct context', function(assert) {
+  assert.expect(3);
   this.render(hbs`
     {{#do-field 'name' object=object controlId='myControl' as |field|}}
       {{field.do-label 'Name' }}
@@ -352,3 +353,42 @@ test('configuration fieldClasses can be overridden by own classNames', function(
   assert.equal(this.$('div').hasClass('my-custom-field-class'), true, 'fieldClasses are overridden correctly');
   assert.equal(this.$('div').hasClass('default-field-class'), false, 'no default fieldClasses');
 });
+
+test('data-test-* attributes are correctly set when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(5);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.render(hbs`
+    {{#do-field 'lastName' object=object as |field|}}
+      {{field.do-label 'Last name'}}
+      {{field.do-control 'text' }}
+      {{field.do-feedback message="Can't be blank" showFeedback=true wrapperTagName='p'}}
+      {{field.do-hint 'What your teacher calls you' }}
+    {{/do-field}}
+  `);
+
+  assert.equal(this.$('div').attr('data-test-do-field'), 'lastName', 'do-field has the data attribute');
+  assert.equal(this.$('label').attr('data-test-do-label'), 'lastName', 'do-label has the data attribute');
+  assert.equal(this.$('input').attr('data-test-do-control'), 'lastName', 'do-control has the data attribute');
+  assert.equal(this.$('p').attr('data-test-do-feedback'), 'lastName', 'do-feedback has the data attribute');
+  assert.equal(this.$('small').attr('data-test-do-hint'), 'lastName', 'do-hint has the data attribute');
+});
+
+test('data-test-* attributes are overriden when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(5);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.render(hbs`
+    {{#do-field 'lastName' object=object data-test-do-field='never' as |field|}}
+      {{field.do-label 'Last name' data-test-do-label='gonna'}}
+      {{field.do-control 'text' data-test-do-control='give'}}
+      {{field.do-feedback message="Can't be blank" showFeedback=true wrapperTagName='p' data-test-do-feedback='you'}}
+      {{field.do-hint 'What your teacher calls you' data-test-do-hint='up'}}
+    {{/do-field}}
+  `);
+
+  assert.equal(this.$('div').attr('data-test-do-field'), 'never', 'do-field has the data attribute');
+  assert.equal(this.$('label').attr('data-test-do-label'), 'gonna', 'do-label has the data attribute');
+  assert.equal(this.$('input').attr('data-test-do-control'), 'give', 'do-control has the data attribute');
+  assert.equal(this.$('p').attr('data-test-do-feedback'), 'you', 'do-feedback has the data attribute');
+  assert.equal(this.$('small').attr('data-test-do-hint'), 'up', 'do-hint has the data attribute');
+});
+

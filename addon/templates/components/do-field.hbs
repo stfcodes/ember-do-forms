@@ -4,6 +4,7 @@
 
   do-label=(component labelComponent
     for=controlId
+    propertyName=propertyName
   )
 
   do-control=(component controlComponent
@@ -11,6 +12,7 @@
     value=(get object propertyName)
     id=controlId
     controlName=controlName
+    propertyName=propertyName
     validationClass=controlValidationClasses
     update=(action 'onUpdate' object propertyName)
   )
@@ -18,7 +20,10 @@
   do-feedback=(component feedbackComponent
     message=errorMessage
     showFeedback=showValidation
+    propertyName=propertyName
   )
 
-  do-hint=(component hintComponent)
+  do-hint=(component hintComponent
+    propertyName=propertyName
+  )
 )}}

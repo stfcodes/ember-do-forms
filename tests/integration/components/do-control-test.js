@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import configDefaults from 'ember-do-forms/utils/config-defaults';
 import attrsFor from '../../helpers/control-attributes';
 
 const {
@@ -9,11 +8,7 @@ const {
   Service
 } = Ember;
 
-const ConfigStub = Service.extend(configDefaults({
-  defaultClasses: {
-    control: ['default-input-class']
-  }
-}));
+const ConfigStub = Service.extend();
 
 moduleForComponent('do-control', 'Integration | Component | do control', {
   integration: true,
@@ -67,17 +62,22 @@ test('it can render with a block', function(assert) {
   assert.equal(this.$('input').val(), 'MyValue', 'it binds to the correct value');
   assert.equal(this.$('input').attr('id'), 'pizza', 'it binds to the correct id');
   assert.equal(this.$('input').hasClass('pizza-validation'), true, 'it binds to the correct validationClass');
-
 });
 
 test('it has inputClasses applied from configuration', function(assert) {
   assert.expect(1);
+  set(this, 'config.defaultClasses', {
+    control: ['default-input-class']
+  });
   this.render(hbs`{{do-control 'text'}}`);
   assert.equal(this.$('input').hasClass('default-input-class'), true, 'has default inputClasses');
 });
 
 test('configuration inputClasses can be overridden by own classNames', function(assert) {
   assert.expect(2);
+  set(this, 'config.defaultClasses', {
+    control: ['default-input-class']
+  });
   this.render(hbs`{{do-control 'text' classNames='my-custom-input-class'}}`);
   assert.equal(this.$('input').hasClass('my-custom-input-class'), true, 'inputClasses are overridden correctly');
   assert.equal(this.$('input').hasClass('default-input-class'), false, 'no default inputClasses');
@@ -147,4 +147,18 @@ test('it passes down data-test-do-control to the one-way-input', function(assert
   assert.expect(1);
   this.render(hbs`{{do-control data-test-do-control='first-name'}}`);
   assert.equal(this.$('input').attr('data-test-do-control'), 'first-name', 'has the data attribute');
+});
+
+test('data-test-do-control attribute is set when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.render(hbs`{{do-control propertyName='firstName'}}`);
+  assert.equal(this.$('input').attr('data-test-do-control'), 'firstName', 'has the data attribute');
+});
+
+test('data-test-do-control attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', true);
+  this.render(hbs`{{do-control propertyName='firstName' data-test-do-control='something-else'}}`);
+  assert.equal(this.$('input').attr('data-test-do-control'), 'something-else', 'has the data attribute');
 });

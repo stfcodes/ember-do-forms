@@ -24,7 +24,11 @@ const DoControlComponent = Component.extend({
   }).readOnly(),
 
   init() {
-    setDataTestSelector(this, 'do-control');
+    setDataTestSelector(this, {
+      testSelector: 'do-control',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
+    });
 
     this._super(...arguments);
     let defaultClasses = get(this, 'config.defaultClasses.control');
