@@ -77,7 +77,14 @@ test('configuration hintClasses can be overridden by own classNames', function(a
   assert.equal(this.$('small').hasClass('hint-element'), false, 'no default hintClasses');
 });
 
-test('data-test-do-hint attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
+test('data-test-do-hint attribute is absent when config.autoDataTestSelectors is false', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', false);
+  this.render(hbs`{{do-hint propertyName='firstName'}}`);
+  assert.notOk(this.$('small').attr('data-test-do-hint'), 'data attribute was not generated');
+});
+
+test('data-test-do-hint attribute is set when config.autoDataTestSelectors is true', function(assert) {
   assert.expect(1);
   set(this, 'config.autoDataTestSelectors', true);
   this.render(hbs`{{do-hint propertyName='firstName'}}`);

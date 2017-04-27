@@ -50,27 +50,37 @@ const InputFieldComponent = Component.extend({
 
     setDataTestSelector(this, {
       testSelector: 'do-field',
-      testSelectorProperty: '_dataTestSelectorField'
+      testSelectorProperty: '_dataTestSelectorField',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
     });
 
     setDataTestSelector(this, {
       testSelector: 'do-label',
-      testSelectorProperty: '_dataTestSelectorLabel'
+      testSelectorProperty: '_dataTestSelectorLabel',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
     });
 
     setDataTestSelector(this, {
       testSelector: 'do-control',
-      testSelectorProperty: '_dataTestSelectorControl'
+      testSelectorProperty: '_dataTestSelectorControl',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
     });
 
     setDataTestSelector(this, {
       testSelector: 'do-feedback',
-      testSelectorProperty: '_dataTestSelectorFeedback'
+      testSelectorProperty: '_dataTestSelectorFeedback',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
     });
 
     setDataTestSelector(this, {
       testSelector: 'do-hint',
-      testSelectorProperty: '_dataTestSelectorHint'
+      testSelectorProperty: '_dataTestSelectorHint',
+      autoTestSelector: get(this, 'config.autoDataTestSelectors'),
+      testSelectorValue: get(this, 'propertyName')
     });
   },
 

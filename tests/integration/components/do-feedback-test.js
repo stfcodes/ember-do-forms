@@ -90,7 +90,14 @@ test('it passes down data-test-do-feedback to the wrapper component', function(a
   assert.equal(this.$('div').attr('data-test-do-feedback'), 'feedback-element', 'has the data attribute');
 });
 
-test('data-test-do-feedback attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
+test('data-test-do-feedback attribute is absent when config.autoDataTestSelectors is true', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', false);
+  this.render(hbs`{{do-feedback showFeedback=hasErrors message=message propertyName='firstName'}}`);
+  assert.notOk(this.$('div').attr('data-test-do-feedback'), 'data attribute was not generated');
+});
+
+test('data-test-do-feedback attribute is set when config.autoDataTestSelectors is true', function(assert) {
   assert.expect(1);
   set(this, 'config.autoDataTestSelectors', true);
   this.render(hbs`{{do-feedback showFeedback=hasErrors message=message propertyName='firstName'}}`);

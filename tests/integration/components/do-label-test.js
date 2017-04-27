@@ -58,7 +58,14 @@ test('configuration labelClasses can be overridden by own classNames', function(
   assert.equal(this.$('label').hasClass('default-label-class'), false, 'no default labelClasses');
 });
 
-test('data-test-do-label attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
+test('data-test-do-label attribute is absent when config.autoDataTestSelectors is false', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', false);
+  this.render(hbs`{{do-label propertyName='firstName'}}`);
+  assert.notOk(this.$('label').attr('data-test-do-label'), 'data attribute was not generated');
+});
+
+test('data-test-do-label attribute is set when config.autoDataTestSelectors is true', function(assert) {
   assert.expect(1);
   set(this, 'config.autoDataTestSelectors', true);
   this.render(hbs`{{do-label propertyName='firstName'}}`);

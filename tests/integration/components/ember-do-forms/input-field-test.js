@@ -208,6 +208,22 @@ test('it passes down data-test-* attributes to its child components', function(a
   assert.equal(this.$('.hint').attr('data-test-do-hint'), 'hint', 'hint has the data attribute');
 });
 
+test('data-test-* attributes are absent when config.autoDataTestSelectors is false', function(assert) {
+  assert.expect(6);
+  set(this, 'config.autoDataTestSelectors', false);
+  this.set('object.validations', {
+    attrs: { name: { errors: [{ message: 'too cool' }] } }
+  });
+  this.render(hbs`{{ember-do-forms/input-field 'name' object=object showAllValidations=true label='Your Name' hint='First and last'}}`);
+
+  assert.notOk(this.$('div').attr('data-test-input-field'), 'input field data attribute was not generated');
+  assert.notOk(this.$('div').attr('data-test-do-field'), 'field data attribute was not generated');
+  assert.notOk(this.$('.label').attr('data-test-do-label'), 'label data attribute was not generated');
+  assert.notOk(this.$('.control').attr('data-test-do-control'), 'control data attribute was not generated');
+  assert.notOk(this.$('.feedback').attr('data-test-do-feedback'), 'feedback data attribute was not generated');
+  assert.notOk(this.$('.hint').attr('data-test-do-hint'), 'hint data attribute was not generated');
+});
+
 test('data-test-* attributes are correctly set when config.autoDataTestSelectors is true', function(assert) {
   assert.expect(6);
   set(this, 'config.autoDataTestSelectors', true);
@@ -217,7 +233,6 @@ test('data-test-* attributes are correctly set when config.autoDataTestSelectors
   this.render(hbs`{{ember-do-forms/input-field 'name' object=object showAllValidations=true label='Your Name' hint='First and last'}}`);
 
   assert.equal(this.$('div').attr('data-test-input-field'), 'name', 'input field has the data attribute');
-
   assert.equal(this.$('div').attr('data-test-do-field'), 'name', 'field has the data attribute');
   assert.equal(this.$('.label').attr('data-test-do-label'), 'name', 'label has the data attribute');
   assert.equal(this.$('.control').attr('data-test-do-control'), 'name', 'control has the data attribute');
@@ -243,7 +258,6 @@ test('data-test-* attributes are overriden when config.autoDataTestSelectors is 
   `);
 
   assert.equal(this.$('div').attr('data-test-input-field'), 'never', 'input field has the data attribute');
-
   assert.equal(this.$('div').attr('data-test-do-field'), 'ever', 'field has the data attribute');
   assert.equal(this.$('.label').attr('data-test-do-label'), 'gonna', 'label has the data attribute');
   assert.equal(this.$('.control').attr('data-test-do-control'), 'give', 'control has the data attribute');

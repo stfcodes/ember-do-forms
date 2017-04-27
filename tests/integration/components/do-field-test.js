@@ -354,6 +354,25 @@ test('configuration fieldClasses can be overridden by own classNames', function(
   assert.equal(this.$('div').hasClass('default-field-class'), false, 'no default fieldClasses');
 });
 
+test('data-test-* attributes are absent when config.autoDataTestSelectors is false', function(assert) {
+  assert.expect(5);
+  set(this, 'config.autoDataTestSelectors', false);
+  this.render(hbs`
+    {{#do-field 'lastName' object=object as |field|}}
+      {{field.do-label 'Last name'}}
+      {{field.do-control 'text' }}
+      {{field.do-feedback message="Can't be blank" showFeedback=true wrapperTagName='p'}}
+      {{field.do-hint 'What your teacher calls you' }}
+    {{/do-field}}
+  `);
+
+  assert.notOk(this.$('div').attr('data-test-do-field'), 'do-field data attribute was not generated');
+  assert.notOk(this.$('label').attr('data-test-do-label'), 'do-label data attribute was not generated');
+  assert.notOk(this.$('input').attr('data-test-do-control'), 'do-control data attribute was not generated');
+  assert.notOk(this.$('p').attr('data-test-do-feedback'), 'do-feedback data attribute was not generated');
+  assert.notOk(this.$('small').attr('data-test-do-hint'), 'do-hint data attribute was not generated');
+});
+
 test('data-test-* attributes are correctly set when config.autoDataTestSelectors is true', function(assert) {
   assert.expect(5);
   set(this, 'config.autoDataTestSelectors', true);

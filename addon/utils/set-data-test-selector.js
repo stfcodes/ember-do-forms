@@ -9,6 +9,8 @@ const {
 // (for usage with ember-test-selector) to child components.
 export default function setDataTestSelector(component, options = {}) {
   options.testSelectorProperty = options.testSelectorProperty || '_dataTestSelector';
+  options.autoTestSelector     = options.autoTestSelector || false;
+
   let isTagless     = isBlank(component.tagName);
 
   let property      = `data-test-${options.testSelector}`;

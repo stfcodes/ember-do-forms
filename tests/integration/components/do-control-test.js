@@ -149,6 +149,13 @@ test('it passes down data-test-do-control to the one-way-input', function(assert
   assert.equal(this.$('input').attr('data-test-do-control'), 'first-name', 'has the data attribute');
 });
 
+test('data-test-do-control attribute is absent when config.autoDataTestSelectors is false', function(assert) {
+  assert.expect(1);
+  set(this, 'config.autoDataTestSelectors', false);
+  this.render(hbs`{{do-control propertyName='firstName'}}`);
+  assert.notOk(this.$('input').attr('data-test-do-control'), 'data attribute was not generated');
+});
+
 test('data-test-do-control attribute is set when config.autoDataTestSelectors is true', function(assert) {
   assert.expect(1);
   set(this, 'config.autoDataTestSelectors', true);
