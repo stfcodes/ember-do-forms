@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.8.1](https://github.com/shuriu/ember-do-forms/tree/v1.8.1) (2017-05-01)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.0...v1.8.1)
+
+**Merged pull requests:**
+
+- chore\(package\): update ember-cli to version 2.13.0 [\#15](https://github.com/shuriu/ember-do-forms/pull/15) ([shuriu](https://github.com/shuriu))
+
 ## [v1.8.0](https://github.com/shuriu/ember-do-forms/tree/v1.8.0) (2017-04-27)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.7.1...v1.8.0)
 
