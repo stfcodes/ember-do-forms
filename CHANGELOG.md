@@ -1,5 +1,19 @@
 # Change Log
 
+## [v1.8.2](https://github.com/shuriu/ember-do-forms/tree/v1.8.2) (2017-05-18)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.1...v1.8.2)
+
+**Closed issues:**
+
+- Issue with checkbox [\#20](https://github.com/shuriu/ember-do-forms/issues/20)
+- An in-range update of ember-cli-htmlbars is breaking the build 🚨 [\#17](https://github.com/shuriu/ember-do-forms/issues/17)
+
+**Merged pull requests:**
+
+- fix\(package\): update ember-cli-htmlbars to version 2.0.1 [\#22](https://github.com/shuriu/ember-do-forms/pull/22) ([shuriu](https://github.com/shuriu))
+- Update ember-cli-dependency-checker to the latest version 🚀 [\#21](https://github.com/shuriu/ember-do-forms/pull/21) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update ember-cli to the latest version 🚀 [\#16](https://github.com/shuriu/ember-do-forms/pull/16) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+
 ## [v1.8.1](https://github.com/shuriu/ember-do-forms/tree/v1.8.1) (2017-05-01)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.0...v1.8.1)
 
