@@ -1,5 +1,16 @@
 # Change Log
 
+## [v1.9.0](https://github.com/shuriu/ember-do-forms/tree/v1.9.0) (2017-05-23)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.2...v1.9.0)
+
+**Closed issues:**
+
+- An in-range update of ember-cp-validations is breaking the build 🚨 [\#19](https://github.com/shuriu/ember-do-forms/issues/19)
+
+**Merged pull requests:**
+
+- Update ember-cli to the latest version 🚀 [\#23](https://github.com/shuriu/ember-do-forms/pull/23) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
+
 ## [v1.8.2](https://github.com/shuriu/ember-do-forms/tree/v1.8.2) (2017-05-18)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.1...v1.8.2)
 
@@ -11,8 +22,8 @@
 **Merged pull requests:**
 
 - fix\(package\): update ember-cli-htmlbars to version 2.0.1 [\#22](https://github.com/shuriu/ember-do-forms/pull/22) ([shuriu](https://github.com/shuriu))
-- Update ember-cli-dependency-checker to the latest version 🚀 [\#21](https://github.com/shuriu/ember-do-forms/pull/21) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
-- Update ember-cli to the latest version 🚀 [\#16](https://github.com/shuriu/ember-do-forms/pull/16) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update ember-cli-dependency-checker to the latest version 🚀 [\#21](https://github.com/shuriu/ember-do-forms/pull/21) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
+- Update ember-cli to the latest version 🚀 [\#16](https://github.com/shuriu/ember-do-forms/pull/16) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
 
 ## [v1.8.1](https://github.com/shuriu/ember-do-forms/tree/v1.8.1) (2017-05-01)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.0...v1.8.1)
@@ -42,7 +53,7 @@
 
 **Merged pull requests:**
 
-- Update ember-cli to the latest version 🚀 [\#4](https://github.com/shuriu/ember-do-forms/pull/4) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update ember-cli to the latest version 🚀 [\#4](https://github.com/shuriu/ember-do-forms/pull/4) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
 
 ## [v1.7.0](https://github.com/shuriu/ember-do-forms/tree/v1.7.0) (2017-04-21)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.6.0...v1.7.0)
@@ -52,7 +63,7 @@
 
 **Merged pull requests:**
 
-- Add Greenkeeper badge 🌴 [\#1](https://github.com/shuriu/ember-do-forms/pull/1) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Add Greenkeeper badge 🌴 [\#1](https://github.com/shuriu/ember-do-forms/pull/1) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
 
 ## [v1.5.4](https://github.com/shuriu/ember-do-forms/tree/v1.5.4) (2017-04-20)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.5.3...v1.5.4)
