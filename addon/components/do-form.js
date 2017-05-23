@@ -27,12 +27,14 @@ const DoFormComponent = Component.extend({
     let defaultClasses = get(this, 'config.defaultClasses.form');
 
     assert('{{do-form}} requires an object to be passed in.', isPresent(get(this, 'object')));
-    assert('{{do-form}} requires a submit action to be passed in.', isPresent(submitAction));
 
     set(this, 'submit', function(event) {
       event.preventDefault();
       set(this, 'showAllValidations', true);
-      submitAction();
+
+      if (isPresent(submitAction)) {
+        submitAction();
+      }
     });
 
     if (isEmpty(this.classNames) || hasOnlyEmberView(this.classNames)) {

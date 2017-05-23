@@ -46,23 +46,16 @@ test('it requires an object as context', function(assert) {
   }, /{{do-form}} requires an object/);
 });
 
-test('it requires a submit action', function(assert) {
-  assert.expect(1);
-  assert.expectAssertion(() => {
-    this.render(hbs`{{do-form object}}`);
-  }, /{{do-form}} requires a submit action/);
-});
-
 test('it has an object as the first positional param', function(assert) {
   assert.expect(1);
-  this.render(hbs`{{do-form object submit=(action submitTask)}}`);
+  this.render(hbs`{{do-form object}}`);
   assert.equal(this.$('form').length, 1);
 });
 
 test('it passes down its objectName to the context', function(assert) {
   assert.expect(1);
   this.render(hbs`
-    {{#do-form object submit=(action submitTask) objectName='pizza' as |form|}}
+    {{#do-form object objectName='pizza' as |form|}}
       {{#form.do-field 'name' as |field|}}
         {{field.do-control 'text'}}
       {{/form.do-field}}
@@ -74,7 +67,7 @@ test('it passes down its objectName to the context', function(assert) {
 
 test('passes an input-field to the context', function(assert) {
   this.render(hbs`
-    {{#do-form object submit=(action submitTask) as |form|}}
+    {{#do-form object as |form|}}
       {{form.input-field 'name' label='Full name' hint='Never gonna give you up'}}
     {{/do-form}}
   `);
@@ -116,6 +109,22 @@ test('it can submit', function(assert) {
   assert.equal(this.$('.field-success').length, 2, 'all the fields are successful now');
 });
 
+test('it shows validations when submitting even without a submit action', function(assert) {
+  this.set('object.validations', {
+    attrs: { lastName: { errors: [{ message: "can't be blank" }] } }
+  });
+  this.render(hbs`
+    {{#do-form object as |form|}}
+      {{form.do-field 'lastName'}}
+      <button type='submit'>Submit</button>
+    {{/do-form}}
+  `);
+
+  assert.equal(this.$('.field-error').length, 0, 'no error fields initially');
+  this.$('form').submit();
+  assert.equal(this.$('.field-error').length, 1, 'name lastName has error');
+});
+
 test('has a do-fields contextual component', function(assert) {
   set(this, 'differentObject', EmObject.create({
     name: 'Rick',
@@ -151,7 +160,7 @@ test('the field component can be changed to any component', function(assert) {
   assert.expect(1);
   registerTestComponent(this);
   this.render(hbs`
-    {{#do-form object submit=(action submitTask) fieldComponent='test-component' as |form|}}
+    {{#do-form object fieldComponent='test-component' as |form|}}
       {{form.do-field}}
     {{/do-form}}
   `);
@@ -161,14 +170,14 @@ test('the field component can be changed to any component', function(assert) {
 test('it has formClasses applied from configuration', function(assert) {
   assert.expect(1);
   this.set('config.defaultClasses.form', ['default-form-class']);
-  this.render(hbs`{{do-form object submit=(action submitTask)}}`);
+  this.render(hbs`{{do-form object}}`);
   assert.equal(this.$('form').hasClass('default-form-class'), true, 'has default formClasses');
 });
 
 test('configuration formClasses can be overridden by own classNames', function(assert) {
   assert.expect(2);
   this.set('config.defaultClasses.form', ['default-form-class']);
-  this.render(hbs`{{do-form object submit=(action submitTask) classNames='my-custom-form-class'}}`);
+  this.render(hbs`{{do-form object classNames='my-custom-form-class'}}`);
   assert.equal(this.$('form').hasClass('my-custom-form-class'), true, 'formClasses are overridden correctly');
   assert.equal(this.$('form').hasClass('default-form-class'), false, 'no default formClasses');
 });

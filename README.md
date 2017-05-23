@@ -66,7 +66,7 @@ Another icky part is customisation, which most other form builder addons fail sh
 * `propertyName` is the property the field binds to on the object.
 * `labelText` is the text to display for the label
 * `controlType` is a one-way-control valid control. Just omit the `one-way`. For example `{{field.do-control 'checkbox'}}` will render a `{{one-way-checkbox}}` under the hood.
-* `submit` pass in any action you want there. Works great with [`ember-concurrency`](https://github.com/machty/ember-concurrency)!
+* `submit` pass in any action you want there. Or not, because it isn't required. Works great with [`ember-concurrency`](https://github.com/machty/ember-concurrency)!
 * `{{do-feedback}}` shows the validation error message if it exists. It is bound by default to `field.errorMessage`.
 * `{{do-hint}}` shows any hint text you want via the `hintText` parameter.
 * use any type of button you want. Use a bare `<button type='Submit'>`, use it with [`ember-async-button`](https://github.com/DockYard/ember-async-button) or do it [with style](http://ember-concurrency.com/#/docs/examples/loading-ui).
@@ -90,7 +90,7 @@ Also the classNames of its rendered sub-components can be modified using `labelC
 You can customize the rendered CSS by modifying the default [config](#configuration). But you can also customize classes by individual component.
 
 ```hbs
-{{#do-form user submit=(action 'saveTask') classNames='my-custom-form-class' as |form|}}
+{{#do-form user classNames='my-custom-form-class' as |form|}}
 
   {{#form.do-field 'fullName' classNames='my-custom-field-class' as |field|}}
     {{field.do-label 'fullName' classNames='my-custom-label-class'}}
@@ -105,7 +105,7 @@ You can customize the rendered CSS by modifying the default [config](#configurat
 #### Component block form
 You can modify the contents of a field easily. Below there is a [Bootstrap 4 custom checkbox](https://v4-alpha.getbootstrap.com/components/forms/#checkboxes) for example. The default `tagName` for a field is `<div>`.
 ```hbs
-{{#do-form user submit=(action 'saveTask') as |form|}}
+{{#do-form user as |form|}}
 
   {{#form.do-field 'profileVisible' classNames='form-group' as |field|}}
     {{#field.do-label classNames='custom-control custom-checkbox'}}
@@ -121,7 +121,7 @@ You can modify the contents of a field easily. Below there is a [Bootstrap 4 cus
 
 You can also modify the content of the `{{do-control}}` component. Use whatever you like, the `context` has access to `id`, `value` and `validationClass`, so your custom control will *just work™*. The default `tagName` is `''`.
 ```hbs
-{{#do-form user submit=(action 'saveTask') as |form|}}
+{{#do-form user as |form|}}
 
   {{#form.do-field 'customValue' as |field|}}
     {{field.do-label 'Custom Field'}}
@@ -136,7 +136,7 @@ You can also modify the content of the `{{do-control}}` component. Use whatever 
 
 The `{{do-feedback}}` component can be easily customized as well. Just pass a block and it will have access to the error `message`, and displays only if there is one. **The caveat here** is that the component tag name should only be configured via `wrapperTagName`, and the reason is that this component should be hidden unless an error message is present. The default `wrapperTagName` is `<div>`.
 ```hbs
-{{#do-form user submit=(action 'saveTask') as |form|}}
+{{#do-form user as |form|}}
 
   {{#form.do-field 'firstName' as |field|}}
     {{field.do-label 'First Name'}}
@@ -151,7 +151,7 @@ The `{{do-feedback}}` component can be easily customized as well. Just pass a bl
 
 The `{{do-hint}}` component is very easy to customize. Just pass a block and it will have access to `hintText`. The default `tagName` is `<small>`.
 ```hbs
-{{#do-form user submit=(action 'saveTask') as |form|}}
+{{#do-form user as |form|}}
 
   {{#form.do-field 'fullName' as |field|}}
     {{field.do-label 'fullName'}}
@@ -182,7 +182,7 @@ module.exports = function(environment) {
 ```
 Now, given you have something like:
 ```hbs
-{{#do-form user submit=(action 'saveTask') as |form|}}
+{{#do-form user as |form|}}
   {{form.input-field 'lastName' label='Last name' hint='What your teacher calls you'}}
 {{/do-form}}
 ```
@@ -204,7 +204,7 @@ The __caveat__ is that the names of the `data-test-*` attributes __must match th
 #### Component customizations
 If you have more complex components for controls for example, rest assured, you can use them. Even some context gets passed in to your custom components!
 ```hbs
-{{#do-form user submit=(action 'saveTask') as |form|}}
+{{#do-form user as |form|}}
   {{#form.do-field 'customValue'
     labelComponent='my-very-smart-i18n-label'
     controlComponent='my-fancy-datepicker'
