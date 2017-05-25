@@ -30,7 +30,7 @@ const DoLabelComponent = Component.extend({
 
   classNameBindings: ['validationClasses'],
 
-  showValidation: computed.or('showSelfValidation', 'showAllValidations').readOnly(),
+  showValidation: computed.or('showSelfValidation', 'showAllValidations'),
   hasErrors: computed.notEmpty('errors').readOnly(),
 
   controlId: computed('propertyName', function() {
