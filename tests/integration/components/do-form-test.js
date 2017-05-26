@@ -30,7 +30,8 @@ moduleForComponent('do-form', 'Integration | Component | do form', {
 
     set(this, 'object', EmObject.create({
       name: 'Stefan',
-      lastName: ''
+      lastName: '',
+      profileVisible: true
     }));
 
     set(this, 'submitTask', () => {
@@ -75,6 +76,16 @@ test('passes an input-field to the context', function(assert) {
   assert.equal(this.$('input').val(), get(this, 'object.name'), 'input has the correct value');
   assert.equal(this.$('label').text().trim(), 'Full name', 'has correct label');
   assert.equal(this.$('small').text().trim(), 'Never gonna give you up', 'has correct hint text');
+});
+
+test('passes a checkbox-field to the context', function(assert) {
+  this.render(hbs`
+    {{#do-form object as |form|}}
+      {{form.checkbox-field 'profileVisible' label='Visible profile'}}
+    {{/do-form}}
+  `);
+  assert.equal(this.$('input').attr('type'), 'checkbox', 'has a checkbox input');
+  assert.equal(this.$('input').is(':checked'), get(this, 'object.profileVisible'), 'input has the correct value');
 });
 
 test('it can submit', function(assert) {

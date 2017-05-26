@@ -35,6 +35,7 @@ Another icky part is customisation, which most other form builder addons fail sh
 1. [Usage](#usage)
     * [Basic Usage](#basic-usage)
     * [Input field](#input-field)
+    * [Checkbox field](#checkbox-field)
     * [CSS customizations](#css-customizations)
     * [Component block form](#component-block-form)
     * [Test selectors](#test-selectors)
@@ -84,7 +85,18 @@ You can also use the `{{ember-do-forms/input-field}}` component to combine all o
 
 If you want to skip labels and hints, just omit the `label` and `hint` arguments.
 
-Also the classNames of its rendered sub-components can be modified using `labelClasses`, `controlClasses`, `feedbackClasses` and `hintClasses`.
+Also the `classNames` of its rendered sub-components can be modified using `labelClasses`, `controlClasses`, `feedbackClasses` and `hintClasses`.
+
+#### Checkbox field
+Same idea as the `{{ember-do-forms/input-field}}` component but providing some syntactic sugar for checkboxes.
+
+```hbs
+{{#do-form object as |form|}}
+  {{form.checkbox-field 'profileVisible' label='Profile visible' hint='Make your profile visible for the rest of the world?'}}
+{{/do-form}}
+```
+
+If you want to skip the hint, just omit the `hint` argument. The same `classNames` that can be applied to the `input-field` also apply to the `checkbox-field`.
 
 #### CSS customizations
 You can customize the rendered CSS by modifying the default [config](#configuration). But you can also customize classes by individual component.
