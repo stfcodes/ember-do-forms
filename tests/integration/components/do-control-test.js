@@ -143,6 +143,29 @@ test('controls support a variety of HTML5 attributes', function(assert) {
   assert.equal(this.$('textarea').attr('wrap'), textareaAttrs.wrap, 'it sets the wrap attribute');
 });
 
+test('it supports one-way-select simple options', function(assert) {
+  this.set('selectedOption', { value: 'pasta', label: 'Famous pasta' });
+  this.set('selectOptions', [
+    { value: 'pizza', label: 'The best pizza' },
+    { value: 'pasta', label: 'Famous pasta' },
+    { value: 'steak', label: 'Glorious steak' }
+  ]);
+  this.render(hbs`
+    {{do-control 'select' value=selectedOption
+      options=selectOptions
+      prompt="Favourite food"
+      promptIsSelectable=true
+      optionLabelPath='label'
+      optionValuePath='value'
+    }}
+  `);
+
+  assert.ok(this.$('select').length, 'select control is rendered');
+  assert.equal(this.$('option').length, 4, 'with 4 options (including blank)');
+  assert.equal(this.$('option:selected').val(), 'pasta', 'has the correct selected option');
+  assert.equal(this.$('option:selected').text().trim(), 'Famous pasta', 'has the correct selected option label');
+});
+
 test('it passes down data-test-do-control to the one-way-input', function(assert) {
   assert.expect(1);
   this.render(hbs`{{do-control data-test-do-control='first-name'}}`);

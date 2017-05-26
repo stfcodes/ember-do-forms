@@ -19,6 +19,9 @@ const DoControlComponent = Component.extend({
 
   controlType: 'text',
 
+  // For one-way-select
+  promptIsSelectable: false,
+
   oneWayControl: computed('controlType', function() {
     return `one-way-${get(this, 'controlType')}`;
   }).readOnly(),
