@@ -24,7 +24,7 @@ const ConfigStub = Service.extend(configDefaults({
   }
 }));
 
-moduleForComponent('do-field', 'Integration | Component | do form field', {
+moduleForComponent('do-field', 'Integration | Component | do field', {
   integration: true,
   beforeEach() {
     this.register('service:ember-do-forms/config', ConfigStub);
@@ -339,6 +339,42 @@ test('the hint component can be changed to any component', function(assert) {
     {{/do-field}}
   `);
   assert.equal(this.$('dummy').length, 1, 'custom component is used for hint');
+});
+
+// FIXME: Very hacky, but works.. Some things can be dumped in data-attributes
+// for the others just render them as strings.
+test('it sets a rich context for the yielded hash', function(assert) {
+  this.set('object.validations', {
+    attrs: { name: { errors: [{ message: 'too cool' }] } }
+  });
+
+  // debugger;
+
+  this.render(hbs`
+    {{#do-field 'name' object=object objectName='user' showValidation=true as |field|}}
+      <div id='context'
+        data-object={{field.object}}
+        data-propertyName={{field.propertyName}}
+        data-controlName={{field.controlName}}
+        data-controlid={{field.controlId}}
+        data-controlValidationClasses={{field.controlValidationClasses}}
+        data-errorMessage={{field.errorMessage}}
+      ></div>
+
+      <div id='showValidation'>{{field.showValidation}}</div>
+      <div id='value'>{{field.value}}</div>
+    {{/do-field}}
+  `);
+
+  let context = this.$('#context').data();
+  assert.equal(/Ember.Object/.test(context.object), true, 'context has the object');
+  assert.equal(context.propertyname, 'name', 'context has propertyName');
+  assert.equal(context.controlname, 'user[name]', 'context has controlName');
+  assert.equal(context.controlid, `name-${this.$().children().first().attr('id')}`, 'context has controlId');
+  assert.equal(context.controlvalidationclasses, 'control-error', 'context has controlValidationClasses');
+  assert.equal(context.errormessage, 'too cool', 'context has errorMessage');
+  assert.equal(this.$('#value').text(), 'Stefan', 'context has value');
+  assert.equal(this.$('#showValidation').text(), 'true', 'context has showValidation');
 });
 
 test('it has fieldClasses applied from configuration', function(assert) {
