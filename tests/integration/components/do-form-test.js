@@ -192,3 +192,79 @@ test('configuration formClasses can be overridden by own classNames', function(a
   assert.equal(this.$('form').hasClass('my-custom-form-class'), true, 'formClasses are overridden correctly');
   assert.equal(this.$('form').hasClass('default-form-class'), false, 'no default formClasses');
 });
+
+test('update function can be changed for do-field', function(assert) {
+  set(this, 'dummyFunc', () => {
+    set(this, 'pizza', true);
+  });
+
+  this.render(hbs`
+    {{#do-form object update=(action dummyFunc) as |form|}}
+      {{#form.do-field 'name' as |field|}}
+        {{field.do-control 'text'}}
+      {{/form.do-field}}
+    {{/do-form}}
+  `);
+
+  assert.notOk(get(this, 'pizza'), 'initial value is untouched');
+  this.$('input:first').val('Something');
+  this.$('input').change();
+  assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
+  assert.equal(get(this, 'object.name'), 'Stefan', 'object has the initial value');
+});
+
+test('update function can be changed for input-field', function(assert) {
+  set(this, 'dummyFunc', () => {
+    set(this, 'pizza', true);
+  });
+
+  this.render(hbs`
+    {{#do-form object update=(action dummyFunc) as |form|}}
+      {{form.input-field 'name'}}
+    {{/do-form}}
+  `);
+
+  assert.notOk(get(this, 'pizza'), 'initial value is untouched');
+  this.$('input:first').val('Something');
+  this.$('input').change();
+  assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
+  assert.equal(get(this, 'object.name'), 'Stefan', 'object has the initial value');
+});
+
+test('update function can be changed for checkbox-field', function(assert) {
+  set(this, 'dummyFunc', () => {
+    set(this, 'pizza', true);
+  });
+
+  this.render(hbs`
+    {{#do-form object update=(action dummyFunc) as |form|}}
+      {{form.checkbox-field 'profileVisible' label='Visible profile'}}
+    {{/do-form}}
+  `);
+
+  assert.notOk(get(this, 'pizza'), 'initial value is untouched');
+  this.$('input').click();
+  assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
+  assert.equal(get(this, 'object.profileVisible'), true, 'object has the initial value');
+});
+
+test('update function can be changed for do-fields', function(assert) {
+  set(this, 'dummyFunc', () => {
+    set(this, 'pizza', true);
+  });
+
+  set(this, 'differentObject', EmObject.create({ name: 'Rick' }));
+
+  this.render(hbs`
+    {{#do-form object update=(action dummyFunc) as |form|}}
+      {{#form.do-fields differentObject as |fields|}}
+        {{fields.input-field 'name'}}
+      {{/form.do-fields}}
+    {{/do-form}}
+  `);
+
+  this.$('input:first').val('Something');
+  this.$('input').change();
+  assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
+  assert.equal(get(this, 'differentObject.name'), 'Rick', 'differentObject has the initial value');
+});

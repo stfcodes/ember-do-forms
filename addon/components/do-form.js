@@ -40,6 +40,10 @@ const DoFormComponent = Component.extend({
     if (isEmpty(this.classNames) || hasOnlyEmberView(this.classNames)) {
       this.classNames = this.classNames.concat(defaultClasses);
     }
+  },
+
+  update(object, propertyName, value) {
+    set(object, propertyName, value);
   }
 });
 

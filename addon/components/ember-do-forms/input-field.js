@@ -7,6 +7,7 @@ const {
   assert,
   Component,
   get,
+  set,
   isPresent
 } = Ember;
 
@@ -34,6 +35,10 @@ const InputFieldComponent = Component.extend(ComplexFieldMixin, {
     assert('{{ember-do-forms/input-field}} requires a propertyName to be passed in', isPresent(get(this, 'propertyName')));
 
     this._setChildClasses();
+  },
+
+  update(object, propertyName, value) {
+    set(object, propertyName, value);
   }
 });
 

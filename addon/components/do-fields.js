@@ -5,6 +5,7 @@ const {
   assert,
   Component,
   get,
+  set,
   isPresent
 } = Ember;
 
@@ -18,6 +19,10 @@ const DoFieldsComponent = Component.extend({
     this._super(...arguments);
 
     assert('{{do-fields}} requires an object to be passed in.', isPresent(get(this, 'object')));
+  },
+
+  update(object, propertyName, value) {
+    set(object, propertyName, value);
   }
 });
 
