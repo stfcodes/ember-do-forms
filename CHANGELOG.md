@@ -1,15 +1,38 @@
 # Change Log
 
-## [v1.9.0](https://github.com/shuriu/ember-do-forms/tree/v1.9.0) (2017-05-23)
-[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.2...v1.9.0)
+## [v1.11.0](https://github.com/shuriu/ember-do-forms/tree/v1.11.0) (2017-07-14)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.10.0...v1.11.0)
+
+**Implemented enhancements:**
+
+- The update function can't be changed form-wide [\#28](https://github.com/shuriu/ember-do-forms/issues/28)
+
+**Fixed bugs:**
+
+- checkbox-field is missing from do-fields [\#29](https://github.com/shuriu/ember-do-forms/issues/29)
+
+**Closed issues:**
+
+- An in-range update of loader.js is breaking the build 🚨 [\#24](https://github.com/shuriu/ember-do-forms/issues/24)
+
+**Merged pull requests:**
+
+- Update ember-cli to the latest version 🚀 [\#26](https://github.com/shuriu/ember-do-forms/pull/26) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update ember-cli-eslint to the latest version 🚀 [\#25](https://github.com/shuriu/ember-do-forms/pull/25) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v1.10.0](https://github.com/shuriu/ember-do-forms/tree/v1.10.0) (2017-05-29)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.9.0...v1.10.0)
 
 **Closed issues:**
 
 - An in-range update of ember-cp-validations is breaking the build 🚨 [\#19](https://github.com/shuriu/ember-do-forms/issues/19)
 
+## [v1.9.0](https://github.com/shuriu/ember-do-forms/tree/v1.9.0) (2017-05-23)
+[Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.2...v1.9.0)
+
 **Merged pull requests:**
 
-- Update ember-cli to the latest version 🚀 [\#23](https://github.com/shuriu/ember-do-forms/pull/23) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
+- Update ember-cli to the latest version 🚀 [\#23](https://github.com/shuriu/ember-do-forms/pull/23) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.8.2](https://github.com/shuriu/ember-do-forms/tree/v1.8.2) (2017-05-18)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.1...v1.8.2)
@@ -22,8 +45,8 @@
 **Merged pull requests:**
 
 - fix\(package\): update ember-cli-htmlbars to version 2.0.1 [\#22](https://github.com/shuriu/ember-do-forms/pull/22) ([shuriu](https://github.com/shuriu))
-- Update ember-cli-dependency-checker to the latest version 🚀 [\#21](https://github.com/shuriu/ember-do-forms/pull/21) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
-- Update ember-cli to the latest version 🚀 [\#16](https://github.com/shuriu/ember-do-forms/pull/16) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
+- Update ember-cli-dependency-checker to the latest version 🚀 [\#21](https://github.com/shuriu/ember-do-forms/pull/21) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update ember-cli to the latest version 🚀 [\#16](https://github.com/shuriu/ember-do-forms/pull/16) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.8.1](https://github.com/shuriu/ember-do-forms/tree/v1.8.1) (2017-05-01)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.8.0...v1.8.1)
@@ -53,7 +76,7 @@
 
 **Merged pull requests:**
 
-- Update ember-cli to the latest version 🚀 [\#4](https://github.com/shuriu/ember-do-forms/pull/4) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
+- Update ember-cli to the latest version 🚀 [\#4](https://github.com/shuriu/ember-do-forms/pull/4) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.7.0](https://github.com/shuriu/ember-do-forms/tree/v1.7.0) (2017-04-21)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.6.0...v1.7.0)
@@ -63,7 +86,7 @@
 
 **Merged pull requests:**
 
-- Add Greenkeeper badge 🌴 [\#1](https://github.com/shuriu/ember-do-forms/pull/1) ([greenkeeper[bot]](https://github.com/app/greenkeeper))
+- Add Greenkeeper badge 🌴 [\#1](https://github.com/shuriu/ember-do-forms/pull/1) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.5.4](https://github.com/shuriu/ember-do-forms/tree/v1.5.4) (2017-04-20)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.5.3...v1.5.4)
