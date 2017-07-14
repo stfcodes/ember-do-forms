@@ -19,7 +19,7 @@ moduleForComponent('do-fields', 'Integration | Component | do fields', {
 
     set(this, 'object', EmObject.create({
       name: 'Stefan',
-      lastName: ''
+      profileVisible: true
     }));
   }
 });
@@ -72,5 +72,21 @@ test('it has an input-field contextual component', function(assert) {
   assert.ok(this.$('div').length, 'renders the input-field component');
   assert.equal(this.$('input').val(), 'Stefan', 'control has correct value');
   assert.equal(this.$('input').attr('name'), 'rick[name]', 'control has correct name');
+  assert.equal(this.$('.feedback').text().trim(), 'too cool', 'feedback is visible');
+});
+
+test('it has an checkbox-field contextual component', function(assert) {
+  assert.expect(4);
+  this.set('object.validations', {
+    attrs: { profileVisible: { errors: [{ message: 'too cool' }] } }
+  });
+  this.render(hbs`
+    {{#do-fields object objectName='rick' showAllValidations=true as |fields|}}
+      {{fields.checkbox-field 'profileVisible' feedbackClasses='feedback'}}
+    {{/do-fields}}
+  `);
+  assert.ok(this.$('div').length, 'renders the checkbox-field component');
+  assert.equal(this.$('input').is(':checked'), true, 'input is checked');
+  assert.equal(this.$('input').attr('name'), 'rick[profileVisible]', 'control has correct name');
   assert.equal(this.$('.feedback').text().trim(), 'too cool', 'feedback is visible');
 });
