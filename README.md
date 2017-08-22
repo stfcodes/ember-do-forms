@@ -206,7 +206,7 @@ You can use `testSelector` in your acceptance tests:
 * `find(testSelector('do-feedback', 'lastName'));`
 * `find(testSelector('do-hint', 'lastName'));`
 
-You can also manually set the attributes:
+You can also manually set the attributes: 
 ```hbs
 {{field.do-control 'lastName' data-test-do-control='mySpecialSelector' }}
 ```
