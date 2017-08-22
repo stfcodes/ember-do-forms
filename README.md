@@ -25,7 +25,7 @@ Another icky part is customisation, which most other form builder addons fail sh
 ## Features
 
 * [Extremely](#css-customizations) [easy](#component-block-form) to [customize](#component-customizations), thanks to contextual components.
-* Bare minimum HTML with no CSS by default. Use it with any CSS framework you like.
+* Bare minimum HTML with no CSS by default. Use it with any CSS framework you like. 
 * Binds error and success classes (if found) on a field `focusOut` or just before `submit`. Works with [`ember-cp-validations`](https://github.com/offirgolan/ember-cp-validations) by default. [`ember-changeset-validations`](https://github.com/DockYard/ember-changeset-validations) works too with a small configuration tweak.
 * Uses [`ember-one-way-controls`](https://github.com/DockYard/ember-one-way-controls) under the hood for controls. But easily extensible with any control type.
 * [Fully compatible](#test-selectors) with [`ember-test-selectors`](https://github.com/simplabs/ember-test-selectors).
@@ -206,7 +206,7 @@ You can use `testSelector` in your acceptance tests:
 * `find(testSelector('do-feedback', 'lastName'));`
 * `find(testSelector('do-hint', 'lastName'));`
 
-You can also manually set the attributes: 
+You can also manually set the attributes:
 ```hbs
 {{field.do-control 'lastName' data-test-do-control='mySpecialSelector' }}
 ```
