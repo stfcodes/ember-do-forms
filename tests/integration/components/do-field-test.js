@@ -265,6 +265,24 @@ test('it shows feedback when it has errors', function(assert) {
   assert.equal(this.$('.feedback-class').text().trim(), "can't be blank", 'has the correct feedback message');
 });
 
+test('it shows feedback when errorsPath is an array of strings', function(assert) {
+  assert.expect(3);
+  this.set('object.validations', {
+    attrs: { lastName: { errors: ["can't be blank"] } }
+  });
+
+  this.render(hbs`
+    {{#do-field 'lastName' object=object as |field|}}
+      {{field.do-control 'text' }}
+      {{field.do-feedback}}
+    {{/do-field}}
+  `);
+  assert.equal(this.$('.feedback-class').length, 0, "there's no feedback element initially");
+  this.$('div').trigger('focusout');
+  assert.equal(this.$('.feedback-class').length, 1, 'a feedback element is present');
+  assert.equal(this.$('.feedback-class').text().trim(), "can't be blank", 'has the correct feedback message');
+});
+
 test('the feedback can also read its message from the validation key', function(assert) {
   assert.expect(2);
   this.set('object.validations', {
@@ -446,4 +464,3 @@ test('data-test-* attributes are overriden when config.autoDataTestSelectors is 
   assert.equal(this.$('p').attr('data-test-do-feedback'), 'you', 'do-feedback has the data attribute');
   assert.equal(this.$('small').attr('data-test-do-hint'), 'up', 'do-hint has the data attribute');
 });
-

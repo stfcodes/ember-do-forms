@@ -206,7 +206,7 @@ You can use `testSelector` in your acceptance tests:
 * `find(testSelector('do-feedback', 'lastName'));`
 * `find(testSelector('do-hint', 'lastName'));`
 
-You can also manually set the attributes: 
+You can also manually set the attributes:
 ```hbs
 {{field.do-control 'lastName' data-test-do-control='mySpecialSelector' }}
 ```
@@ -295,6 +295,19 @@ module.exports = function(environment) {
         controlSuccess: ['form-control-success'],
         controlError: ['form-control-danger']
       }
+    }
+  };
+};
+```
+
+To integrate with [`ember-changeset-validations`](https://github.com/DockYard/ember-changeset-validations) you should configure your errorsPath as follows:
+
+```js
+module.exports = function(environment) {
+  var ENV = {
+    'ember-do-forms': {
+      // The path to be read on the object for an errors array
+      errorsPath: 'error.{PROPERTY_NAME}.validation',
     }
   };
 };

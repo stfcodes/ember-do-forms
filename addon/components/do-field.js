@@ -51,6 +51,9 @@ const DoLabelComponent = Component.extend({
   // Should work with cp-validations and changeset-validations as well
   errorMessage: computed('errors.[]', function() {
     let firstError = this.get('errors.0') || {};
+    if (typeof firstError === 'string') {
+      return firstError;
+    }
     return firstError.message || firstError.validation;
   }),
 
