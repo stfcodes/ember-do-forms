@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+### Changed
+- bumped `ember-one-way-controls` version to `^3.1.0` to remove deprecation warnings during builds
+
+
 ## [v1.11.0](https://github.com/shuriu/ember-do-forms/tree/v1.11.0) (2017-07-14)
 [Full Changelog](https://github.com/shuriu/ember-do-forms/compare/v1.10.0...v1.11.0)
 

@@ -23,7 +23,7 @@
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^2.0.2",
     "ember-get-config": "^0.2.2",
-    "ember-one-way-controls": "^2.0.0"
+    "ember-one-way-controls": "^3.1.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
