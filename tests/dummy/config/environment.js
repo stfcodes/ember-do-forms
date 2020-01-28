@@ -1,4 +1,3 @@
-/* eslint-env node */
 'use strict';
 
 module.exports = function(environment) {
@@ -58,14 +57,18 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+<<<<<<< HEAD
 
     ENV['ember-do-forms'] = {
       errorsPath: 'myNewPath'
     };
+=======
+    ENV.APP.autoboot = false;
+>>>>>>> 8ec242f... v2.14.0...v3.0.4
   }
 
   if (environment === 'production') {
-
+    // here you can enable a production-specific feature
   }
 
   return ENV;
