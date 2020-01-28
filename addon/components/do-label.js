@@ -1,16 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { isEmpty } from '@ember/utils';
+import { set, getWithDefault, get } from '@ember/object';
 import layout from '../templates/components/do-label';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
 import setDataTestSelector from '../utils/set-data-test-selector';
-
-const {
-  Component,
-  get,
-  getWithDefault,
-  inject: { service },
-  isEmpty,
-  set
-} = Ember;
 
 const DoLabelComponent = Component.extend({
   layout,
@@ -27,6 +21,7 @@ const DoLabelComponent = Component.extend({
     });
 
     this._super(...arguments);
+
     let classNames = get(this, 'classNames');
     let classes    = getWithDefault(this, 'config.defaultClasses', {});
 
@@ -35,10 +30,6 @@ const DoLabelComponent = Component.extend({
     }
   }
 
-});
-
-DoLabelComponent.reopenClass({
-  positionalParams: ['labelText']
 });
 
 export default DoLabelComponent;

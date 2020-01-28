@@ -25,7 +25,7 @@ Another icky part is customisation, which most other form builder addons fail sh
 ## Features
 
 * [Extremely](#css-customizations) [easy](#component-block-form) to [customize](#component-customizations), thanks to contextual components.
-* Bare minimum HTML with no CSS by default. Use it with any CSS framework you like. 
+* Bare minimum HTML with no CSS by default. Use it with any CSS framework you like.
 * Binds error and success classes (if found) on a field `focusOut` or just before `submit`. Works with [`ember-cp-validations`](https://github.com/offirgolan/ember-cp-validations) by default. [`ember-changeset-validations`](https://github.com/DockYard/ember-changeset-validations) works too with a small configuration tweak.
 * Uses [`ember-one-way-controls`](https://github.com/DockYard/ember-one-way-controls) under the hood for controls. But easily extensible with any control type.
 * [Fully compatible](#test-selectors) with [`ember-test-selectors`](https://github.com/simplabs/ember-test-selectors).
@@ -66,7 +66,7 @@ Another icky part is customisation, which most other form builder addons fail sh
 * `object` is the object the form binds to. It's the only positional param.
 * `propertyName` is the property the field binds to on the object.
 * `labelText` is the text to display for the label
-* `controlType` is a one-way-control valid control. Just omit the `one-way`. For example `{{field.do-control 'checkbox'}}` will render a `{{one-way-checkbox}}` under the hood.
+* `controlType` is the type of control to render. Valid values are `textarea`, `select`, or a valid value for the HTML input `type` attribute. For example `{{field.do-control controlType='checkbox'}}` will render a `<input type="checkbox"` and `{{field.do-control controlType='select'}}` will render a `<select>`.
 * `submit` pass in any action you want there. Or not, because it isn't required. Works great with [`ember-concurrency`](https://github.com/machty/ember-concurrency)!
 * `{{do-feedback}}` shows the validation error message if it exists. It is bound by default to `field.errorMessage`.
 * `{{do-hint}}` shows any hint text you want via the `hintText` parameter.
@@ -206,7 +206,7 @@ You can use `testSelector` in your acceptance tests:
 * `find(testSelector('do-feedback', 'lastName'));`
 * `find(testSelector('do-hint', 'lastName'));`
 
-You can also manually set the attributes: 
+You can also manually set the attributes:
 ```hbs
 {{field.do-control 'lastName' data-test-do-control='mySpecialSelector' }}
 ```

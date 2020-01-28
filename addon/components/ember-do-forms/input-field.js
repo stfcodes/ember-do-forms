@@ -1,24 +1,23 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import layout from '../../templates/components/ember-do-forms/input-field';
 import setDataTestSelector from '../../utils/set-data-test-selector';
-import ComplexFieldMixin from '../../mixins/complex-field';
+import setTestSelectors from '../../utils/set-test-selectors';
+import setChildClasses from '../../utils/set-child-classes';
 
-const {
-  assert,
-  Component,
-  get,
-  set,
-  isPresent
-} = Ember;
-
-const InputFieldComponent = Component.extend(ComplexFieldMixin, {
+const InputFieldComponent = Component.extend({
   layout,
   tagName: '',
+
+  config: service('ember-do-forms/config'),
 
   controlType: 'text',
 
   init() {
-    this._setTestSelectors();
+    setTestSelectors(this);
 
     // FIXME: data-test-input-field should be removed in next
     // major version as it adds an unnecessary data-test-* attribute
@@ -34,16 +33,12 @@ const InputFieldComponent = Component.extend(ComplexFieldMixin, {
     assert('{{ember-do-forms/input-field}} requires an object to be passed in', isPresent(get(this, 'object')));
     assert('{{ember-do-forms/input-field}} requires a propertyName to be passed in', isPresent(get(this, 'propertyName')));
 
-    this._setChildClasses();
+    setChildClasses(this);
   },
 
   update(object, propertyName, value) {
     set(object, propertyName, value);
   }
-});
-
-InputFieldComponent.reopenClass({
-  positionalParams: ['propertyName']
 });
 
 export default InputFieldComponent;

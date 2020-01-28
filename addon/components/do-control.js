@@ -1,15 +1,12 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { equal } from '@ember/object/computed';
+import { get, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { isEmpty } from '@ember/utils';
 import layout from '../templates/components/do-control';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
 import setDataTestSelector from '../utils/set-data-test-selector';
-
-const {
-  computed,
-  Component,
-  get,
-  inject: { service },
-  isEmpty
-} = Ember;
+import { tryInvoke } from '@ember/utils';
 
 const DoControlComponent = Component.extend({
   layout,
@@ -19,14 +16,25 @@ const DoControlComponent = Component.extend({
 
   controlType: 'text',
 
+  shouldRenderTextArea: equal('controlType', 'textarea'),
+
+  shouldRenderSelect: equal('controlType', 'select'),
+
+  shouldRenderCheckboxOrRadio: computed('controlType', function () {
+    return ['checkbox', 'radio'].includes(this.controlType);
+  }),
+
   // For one-way-select
   promptIsSelectable: false,
 
-  oneWayControl: computed('controlType', function() {
-    return `one-way-${get(this, 'controlType')}`;
-  }).readOnly(),
+  controlClasses: computed('validationClass', 'classNames', function () {
+    return `${this.validationClass || ''} ${this.classNames && this.classNames.join(' ')}`;
+  }),
 
   init() {
+    // it is not obvious to me why this is necessary but it seems to be
+    this.set('shouldHaveReadonlyAttribute', this.readonly);
+
     setDataTestSelector(this, {
       testSelector: 'do-control',
       autoTestSelector: get(this, 'config.autoDataTestSelectors'),
@@ -39,11 +47,13 @@ const DoControlComponent = Component.extend({
     if (isEmpty(this.classNames) || hasOnlyEmberView(this.classNames)) {
       this.classNames = this.classNames.concat(defaultClasses);
     }
-  }
-});
+  },
 
-DoControlComponent.reopenClass({
-  positionalParams: ['controlType', 'value']
+  actions: {
+    onUpdate (val) {
+      tryInvoke(this, 'update', [val]);
+    }
+  }
 });
 
 export default DoControlComponent;

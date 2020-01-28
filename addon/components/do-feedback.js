@@ -1,14 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { isEmpty } from '@ember/utils';
 import layout from '../templates/components/do-feedback';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
 import setDataTestSelector from '../utils/set-data-test-selector';
-
-const {
-  Component,
-  get,
-  inject: { service },
-  isEmpty
-} = Ember;
 
 const DoFeedbackComponent = Component.extend({
   layout,
@@ -33,10 +29,6 @@ const DoFeedbackComponent = Component.extend({
       this.classNames = this.classNames.concat(defaultClasses);
     }
   }
-});
-
-DoFeedbackComponent.reopenClass({
-  positionalParams: ['message']
 });
 
 export default DoFeedbackComponent;

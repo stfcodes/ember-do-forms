@@ -1,11 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { run } from '@ember/runloop';
+import { set } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
-
-const {
-  Controller,
-  run,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   firstName: {

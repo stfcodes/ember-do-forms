@@ -1,13 +1,8 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import layout from '../templates/components/do-fields';
-
-const {
-  assert,
-  Component,
-  get,
-  set,
-  isPresent
-} = Ember;
 
 const DoFieldsComponent = Component.extend({
   layout,
@@ -24,10 +19,6 @@ const DoFieldsComponent = Component.extend({
   update(object, propertyName, value) {
     set(object, propertyName, value);
   }
-});
-
-DoFieldsComponent.reopenClass({
-  positionalParams: ['object']
 });
 
 export default DoFieldsComponent;

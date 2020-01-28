@@ -1,8 +1,4 @@
-import Ember from 'ember';
-
-const {
-  merge
-} = Ember;
+import { assign } from '@ember/polyfills';
 
 const ATTRIBUTES = {
   input: {
@@ -43,5 +39,5 @@ const ATTRIBUTES = {
 };
 
 export default function(controlType, others = {}) {
-  return merge(ATTRIBUTES[controlType], others);
+  return assign(ATTRIBUTES[controlType], others);
 }

@@ -1,9 +1,4 @@
-import Ember from 'ember';
-
-const {
-  A,
-  isArray
-} = Ember;
+import { isArray, A } from '@ember/array';
 
 // The classNames on a Component return [] after Ember 2.11,
 // but before that it returns ['ember-view'].
