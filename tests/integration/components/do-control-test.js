@@ -66,7 +66,7 @@ module('Integration | Component | do control', function(hooks) {
     `);
     assert.equal(this.element.querySelector('input').value, 'MyValue', 'it binds to the correct value');
     assert.equal(this.element.querySelector('input').id, 'pizza', 'it binds to the correct id');
-    assert.equal(this.element.querySelector('input').classList.contains('pizza-validation'), true, 'it binds to the correct validationClass');
+    assert.dom(this.element.querySelector('input')).hasClass('pizza-validation', 'it binds to the correct validationClass');
   });
 
   test('it has inputClasses applied from configuration', async function(assert) {
@@ -75,7 +75,7 @@ module('Integration | Component | do control', function(hooks) {
       control: ['default-input-class']
     });
     await render(hbs`{{do-control controlType='text'}}`);
-    assert.equal(this.element.querySelector('input').classList.contains('default-input-class'), true, 'has default inputClasses');
+    assert.dom(this.element.querySelector('input')).hasClass('default-input-class', 'has default inputClasses');
   });
 
   test('configuration inputClasses can be overridden by own classNames', async function(assert) {
@@ -84,8 +84,8 @@ module('Integration | Component | do control', function(hooks) {
       control: ['default-input-class']
     });
     await render(hbs`{{do-control controlType='text' classNames='my-custom-input-class'}}`);
-    assert.equal(this.element.querySelector('input').classList.contains('my-custom-input-class'), true, 'inputClasses are overridden correctly');
-    assert.equal(this.element.querySelector('input').classList.contains('default-input-class'), false, 'no default inputClasses');
+    assert.dom(this.element.querySelector('input')).hasClass('my-custom-input-class', 'inputClasses are overridden correctly');
+    assert.dom(this.element.querySelector('input')).hasNoClass('default-input-class', 'no default inputClasses');
   });
 
   test('controls support a variety of HTML5 attributes', async function(assert) {
@@ -138,7 +138,7 @@ module('Integration | Component | do control', function(hooks) {
     assert.equal(inputEl.getAttribute('step'), inputAttrs.step, 'it sets the step attribute');
 
     await render(hbs`{{do-control controlType='checkbox' checked=checked}}`);
-    assert.ok(this.$('input').is(':checked'), 'it sets the checked attribute');
+    assert.ok(this.element.querySelector('input').checked, 'it sets the checked attribute');
 
     await render(hbs`{{do-control controlType='email' multiple=multiple}}`);
     inputEl = this.element.querySelector('input');
@@ -171,7 +171,7 @@ module('Integration | Component | do control', function(hooks) {
     assert.ok(this.element.querySelectorAll('select').length, 'select control is rendered');
     assert.equal(this.element.querySelectorAll('option').length, 4, 'with 4 options (including blank)');
     assert.equal(this.element.querySelector('option:checked').value, 'pasta', 'has the correct selected option');
-    assert.equal(this.element.querySelector('option:checked').textContent.trim(), 'Famous pasta', 'has the correct selected option label');
+    assert.dom(this.element.querySelector('option:checked')).hasText('Famous pasta', 'has the correct selected option label');
   });
 
   test('it passes down data-test-do-control to the one-way-input', async function(assert) {

@@ -30,7 +30,7 @@ module('Integration | Component | do feedback', function(hooks) {
   test('it renders some feedback', async function(assert) {
     assert.expect(3);
     await render(hbs`{{do-feedback showFeedback=hasErrors message=message}}`);
-    assert.equal(this.element.textContent.trim(), get(this, 'message'));
+    assert.dom(this.element).hasText(get(this, 'message'));
 
     await render(hbs`
       {{#do-feedback showFeedback=hasErrors message=message as |msg|}}
@@ -38,7 +38,7 @@ module('Integration | Component | do feedback', function(hooks) {
       {{/do-feedback}}
     `);
     assert.equal(this.element.querySelectorAll('span').length, 1, 'it renders custom HTML');
-    assert.equal(this.element.querySelector('span').textContent.trim(), get(this, 'message'), 'correctly yields the feedback message');
+    assert.dom(this.element.querySelector('span')).hasText(get(this, 'message'), 'correctly yields the feedback message');
   });
 
   test('its tag is a div by default', async function(assert) {
@@ -59,7 +59,7 @@ module('Integration | Component | do feedback', function(hooks) {
       feedback: ['feedback-element']
     });
     await render(hbs`{{do-feedback message=message showFeedback=hasErrors}}`);
-    assert.equal(this.element.querySelector('div').classList.contains('feedback-element'), true, 'has default feedbackClasses');
+    assert.dom(this.element.querySelector('div')).hasClass('feedback-element', 'has default feedbackClasses');
   });
 
   test('configuration feedbackClasses can be overridden by own classNames', async function(assert) {
@@ -68,8 +68,8 @@ module('Integration | Component | do feedback', function(hooks) {
       feedback: ['feedback-element']
     });
     await render(hbs`{{do-feedback message=message showFeedback=hasErrors classNames='my-custom-feedback-class'}}`);
-    assert.equal(this.element.querySelector('div').classList.contains('my-custom-feedback-class'), true, 'feedbackClasses are overridden correctly');
-    assert.equal(this.element.querySelector('div').classList.contains('feedback-element'), false, 'no default feedbackClasses');
+    assert.dom(this.element.querySelector('div')).hasClass('my-custom-feedback-class', 'feedbackClasses are overridden correctly');
+    assert.dom(this.element.querySelector('div')).hasNoClass('feedback-element', 'no default feedbackClasses');
   });
 
   test('it passes down data-test-do-feedback to the wrapper component', async function(assert) {

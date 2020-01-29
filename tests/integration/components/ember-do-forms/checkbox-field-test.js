@@ -50,18 +50,18 @@ module('Integration | Component | ember do forms/checkbox field', function(hooks
     await render(hbs`{{ember-do-forms/checkbox-field propertyName='profileVisible' object=object}}`);
     assert.equal(this.element.querySelectorAll('input').length, 1, 'has an input');
     assert.equal(this.element.querySelector('input').getAttribute('type'), 'checkbox', 'input is checkbox by default');
-    assert.equal(this.$('input').is(':checked'), true, 'input is checked');
+    assert.ok(this.element.querySelector('input').checked, 'input is checked');
 
     await render(hbs`{{ember-do-forms/checkbox-field propertyName='allowPets' object=object}}`);
-    assert.equal(this.$('input').is(':checked'), false, 'input is not checked');
+    assert.notOk(this.element.querySelector('input').checked, 'input is not checked');
   });
 
   test('it actually works', async function(assert) {
     assert.expect(3);
     await render(hbs`{{ember-do-forms/checkbox-field propertyName='profileVisible' object=object}}`);
-    assert.equal(this.$('input').is(':checked'), true, 'input is checked');
+    assert.ok(this.element.querySelector('input').checked, 'input is checked');
     await click('input');
-    assert.equal(this.$('input').is(':checked'), false, 'input is now unchecked');
+    assert.notOk(this.element.querySelector('input').checked, false, 'input is now unchecked');
     assert.equal(get(this, 'object.profileVisible'), false, 'sets the value correctly');
   });
 

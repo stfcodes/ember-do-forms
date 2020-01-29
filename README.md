@@ -101,6 +101,7 @@ If you want to skip the hint, just omit the `hint` argument. The same `className
 #### CSS customizations
 You can customize the rendered CSS by modifying the default [config](#configuration). But you can also customize classes by individual component.
 
+<<<<<<< HEAD
 ```hbs
 {{#do-form user classNames='my-custom-form-class' as |form|}}
 
@@ -307,6 +308,10 @@ module.exports = function(environment) {
 Also, if your feature or bugfix adheres to `ember-do-forms`'s [philosophy](#philosophy) and is tested, I will give you commit rights.
 
 ## Credits / Inspiration
+=======
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+>>>>>>> 8271254... v3.0.4...v3.8.3
 
 * [`ember-form-for`](https://github.com/martndemus/ember-form-for)
 * [`ember-bootstrap`](https://github.com/kaliber5/ember-bootstrap)

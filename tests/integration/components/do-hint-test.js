@@ -16,27 +16,27 @@ module('Integration | Component | do hint', function(hooks) {
   test('it renders', async function(assert) {
     assert.expect(2);
     await render(hbs`{{do-hint}}`);
-    assert.equal(this.element.textContent.trim(), '', 'renders nothing by default');
+    assert.dom(this.element).hasText('', 'renders nothing by default');
 
     await render(hbs`
       {{#do-hint}}
         template block text
       {{/do-hint}}
     `);
-    assert.equal(this.element.textContent.trim(), 'template block text', "renders what's passed in the block");
+    assert.dom(this.element).hasText('template block text', "renders what's passed in the block");
   });
 
   test('it renders with text', async function(assert) {
     assert.expect(2);
     await render(hbs`{{do-hint text=hintText}}`);
-    assert.equal(this.element.textContent.trim(), get(this, 'hintText'), 'renders the text');
+    assert.dom(this.element).hasText(get(this, 'hintText'), 'renders the text');
 
     await render(hbs`
       {{#do-hint text=hintText as |text|}}
         <p>{{text}}</p>
       {{/do-hint}}
     `);
-    assert.equal(this.element.querySelector('p').textContent.trim(), get(this, 'hintText'), 'also handles blocks');
+    assert.dom(this.element.querySelector('p')).hasText(get(this, 'hintText'), 'also handles blocks');
   });
 
   test('its tag is a small by default', async function(assert) {
@@ -57,7 +57,7 @@ module('Integration | Component | do hint', function(hooks) {
       hint: ['hint-element']
     });
     await render(hbs`{{do-hint text=hintText}}`);
-    assert.equal(this.element.querySelector('small').classList.contains('hint-element'), true, 'has default hintClasses');
+    assert.dom(this.element.querySelector('small')).hasClass('hint-element', 'has default hintClasses');
   });
 
   test('configuration hintClasses can be overridden by own classNames', async function(assert) {
@@ -66,8 +66,8 @@ module('Integration | Component | do hint', function(hooks) {
       hint: ['hint-element']
     });
     await render(hbs`{{do-hint text=hintText classNames='my-custom-hint-class'}}`);
-    assert.equal(this.element.querySelector('small').classList.contains('my-custom-hint-class'), true, 'hintClasses are overridden correctly');
-    assert.equal(this.element.querySelector('small').classList.contains('hint-element'), false, 'no default hintClasses');
+    assert.dom(this.element.querySelector('small')).hasClass('my-custom-hint-class', 'hintClasses are overridden correctly');
+    assert.dom(this.element.querySelector('small')).hasNoClass('hint-element', 'no default hintClasses');
   });
 
   test('data-test-do-hint attribute is absent when config.autoDataTestSelectors is false', async function(assert) {

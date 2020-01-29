@@ -54,7 +54,7 @@ module('Integration | Component | do fields', function(hooks) {
     assert.ok(this.element.querySelectorAll('div').length, 'renders the do-field component');
     assert.equal(this.element.querySelector('input').value, 'Stefan', 'control has correct value');
     assert.equal(this.element.querySelector('input').getAttribute('name'), 'rick[name]', 'control has correct name');
-    assert.equal(this.element.querySelector('.feedback').textContent.trim(), 'oh noes', 'feedback is visible');
+    assert.dom(this.element.querySelector('.feedback')).hasText('oh noes', 'feedback is visible');
   });
 
   test('it has an input-field contextual component', async function(assert) {
@@ -70,7 +70,7 @@ module('Integration | Component | do fields', function(hooks) {
     assert.ok(this.element.querySelectorAll('div').length, 'renders the input-field component');
     assert.equal(this.element.querySelector('input').value, 'Stefan', 'control has correct value');
     assert.equal(this.element.querySelector('input').getAttribute('name'), 'rick[name]', 'control has correct name');
-    assert.equal(this.element.querySelector('.feedback').textContent.trim(), 'too cool', 'feedback is visible');
+    assert.dom(this.element.querySelector('.feedback')).hasText('too cool', 'feedback is visible');
   });
 
   test('it has an checkbox-field contextual component', async function(assert) {
@@ -84,8 +84,8 @@ module('Integration | Component | do fields', function(hooks) {
       {{/do-fields}}
     `);
     assert.ok(this.element.querySelectorAll('div').length, 'renders the checkbox-field component');
-    assert.equal(this.$('input').is(':checked'), true, 'input is checked');
+    assert.ok(this.element.querySelector('input').checked, 'input is checked');
     assert.equal(this.element.querySelector('input').getAttribute('name'), 'rick[profileVisible]', 'control has correct name');
-    assert.equal(this.element.querySelector('.feedback').textContent.trim(), 'too cool', 'feedback is visible');
+    assert.dom(this.element.querySelector('.feedback')).hasText('too cool', 'feedback is visible');
   });
 });

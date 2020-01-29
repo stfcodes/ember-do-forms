@@ -67,7 +67,7 @@ module('Integration | Component | do field', function(hooks) {
     `);
 
     assert.equal(this.element.querySelectorAll('label').length, 1);
-    assert.equal(this.element.querySelector('label').textContent.trim(), 'Name');
+    assert.dom(this.element.querySelector('label')).hasText('Name');
     assert.equal(this.element.querySelector('label').getAttribute('for'), 'myControl', 'label has the correct for attribute');
   });
 
@@ -213,7 +213,7 @@ module('Integration | Component | do field', function(hooks) {
     });
     this.set('object.feedbacks', { name: { things: ['error'] } });
     await render(hbs`{{do-field propertyName='name' object=object config=config showAllValidations=true}}`);
-    assert.equal(this.element.querySelector('div').classList.contains('custom-error-prop'), true, 'errorsPath is read correctly');
+    assert.dom(this.element.querySelector('div')).hasClass('custom-error-prop', 'errorsPath is read correctly');
   });
 
   test('it binds validation classes to the field and input when focusing out', async function(assert) {
@@ -227,24 +227,24 @@ module('Integration | Component | do field', function(hooks) {
         {{field.do-control controlType='text'}}
       {{/do-field}}
     `);
-    await triggerEvent('.field', 'blur');
+    await triggerEvent('.field', 'focusout');
 
-    assert.ok(this.element.querySelector('div').classList.contains('field-success'), 'adds .field-success to the field if it has errors');
-    assert.ok(this.element.querySelector('input').classList.contains('control-success'), 'adds .control-success to the input with error');
-    assert.notOk(this.element.querySelector('div').classList.contains('field-error'), 'no .field-error class initially');
-    assert.notOk(this.element.querySelector('input').classList.contains('control-error'), 'no .control-error class initially');
+    assert.dom(this.element.querySelector('div')).hasClass('field-success', 'adds .field-success to the field if it has errors');
+    assert.dom(this.element.querySelector('input')).hasClass('control-success', 'adds .control-success to the input with error');
+    assert.dom(this.element.querySelector('div')).hasNoClass('field-error', 'no .field-error class initially');
+    assert.dom(this.element.querySelector('input')).hasNoClass('control-error', 'no .control-error class initially');
 
     await render(hbs`
       {{#do-field propertyName='lastName' object=object as |field|}}
         {{field.do-control controlType='text'}}
       {{/do-field}}
     `);
-    await triggerEvent('.field', 'blur');
+    await triggerEvent('.field', 'focusout');
 
-    assert.ok(this.element.querySelector('div').classList.contains('field-error'), 'adds .field-error to fields with errors');
-    assert.ok(this.element.querySelector('input').classList.contains('control-error'), 'adds .control-error to the input with error');
-    assert.notOk(this.element.querySelector('div').classList.contains('field-success'), 'no .field-success class');
-    assert.notOk(this.element.querySelector('input').classList.contains('control-success'), 'no .control-success class');
+    assert.dom(this.element.querySelector('div')).hasClass('field-error', 'adds .field-error to fields with errors');
+    assert.dom(this.element.querySelector('input')).hasClass('control-error', 'adds .control-error to the input with error');
+    assert.dom(this.element.querySelector('div')).hasNoClass('field-success', 'no .field-success class');
+    assert.dom(this.element.querySelector('input')).hasNoClass('control-success', 'no .control-success class');
   });
 
   test('it shows feedback when it has errors', async function(assert) {
@@ -259,10 +259,11 @@ module('Integration | Component | do field', function(hooks) {
         {{field.do-feedback}}
       {{/do-field}}
     `);
+
     assert.equal(this.element.querySelectorAll('.feedback').length, 0, "there's no feedback element initially");
-    await triggerEvent('.field', 'blur');
+    await triggerEvent('.field', 'focusout');
     assert.equal(this.element.querySelectorAll('.feedback').length, 1, 'a feedback element is present');
-    assert.equal(this.element.querySelector('.feedback').textContent.trim(), "can't be blank", 'has the correct feedback message');
+    assert.dom(this.element.querySelector('.feedback')).hasText('can\'t be blank', 'has the correct feedback message');
   });
 
   test('the feedback can also read its message from the validation key', async function(assert) {
@@ -277,7 +278,7 @@ module('Integration | Component | do field', function(hooks) {
       {{/do-field}}
     `);
     assert.equal(this.element.querySelectorAll('.feedback').length, 1, 'a feedback element is present');
-    assert.equal(this.element.querySelector('.feedback').textContent.trim(), 'changeset-validations', 'has the correct feedback message');
+    assert.dom(this.element.querySelector('.feedback')).hasText('changeset-validations', 'has the correct feedback message');
   });
 
   test('feedback changes as errors get fixed', async function(assert) {
@@ -295,13 +296,13 @@ module('Integration | Component | do field', function(hooks) {
         {{field.do-feedback}}
       {{/do-field}}
     `);
-    await triggerEvent('.field', 'blur');
-    assert.equal(this.element.querySelector('.feedback').textContent.trim(), "can't be blank", 'only the first message is shown initially');
+    await triggerEvent('.field', 'focusout');
+    assert.dom(this.element.querySelector('.feedback')).hasText('can\'t be blank', 'only the first message is shown initially');
 
     this.set('object.validations', {
       attrs: { lastName: { errors: [{ message: 'Never gonna give you up' }] } }
     });
-    assert.equal(this.element.querySelector('.feedback').textContent.trim(), 'Never gonna give you up', 'feedback text changes as errors dissappear');
+    assert.dom(this.element.querySelector('.feedback')).hasText('Never gonna give you up', 'feedback text changes as errors dissappear');
 
     this.set('object.validations', {
       attrs: { lastName: { errors: [] } }
@@ -327,7 +328,7 @@ module('Integration | Component | do field', function(hooks) {
         {{field.do-hint text='hint-text'}}
       {{/do-field}}
     `);
-    assert.equal(this.element.querySelector('*').textContent.trim(), 'hint-text', 'renders the hint component');
+    assert.dom(this.element.querySelector('*')).hasText('hint-text', 'renders the hint component');
   });
 
   test('the hint component can be changed to any component', async function(assert) {
@@ -364,28 +365,28 @@ module('Integration | Component | do field', function(hooks) {
       {{/do-field}}
     `);
 
-    let context = this.$('#context').data();
+    let context = this.element.querySelector('#context').dataset;
     assert.equal(/Ember.Object/.test(context.object), true, 'context has the object');
     assert.equal(context.propertyname, 'name', 'context has propertyName');
     assert.equal(context.controlname, 'user[name]', 'context has controlName');
-    assert.equal(context.controlid, `name-${this.$().children().first().attr('id')}`, 'context has controlId');
+    assert.equal(context.controlid, `name-${this.element.querySelector('.field').id}`, 'context has controlId');
     assert.equal(context.controlvalidationclasses, 'control-error', 'context has controlValidationClasses');
     assert.equal(context.errormessage, 'too cool', 'context has errorMessage');
-    assert.equal(this.element.querySelector('#value').textContent, 'Stefan', 'context has value');
-    assert.equal(this.element.querySelector('#showValidation').textContent, 'true', 'context has showValidation');
+    assert.dom(this.element.querySelector('#value')).hasText('Stefan', 'context has value');
+    assert.dom(this.element.querySelector('#showValidation')).hasText('true', 'context has showValidation');
   });
 
   test('it has fieldClasses applied from configuration', async function(assert) {
     assert.expect(1);
     await render(hbs`{{do-field propertyName='name' object=object}}`);
-    assert.equal(this.element.querySelector('div').classList.contains('field'), true, 'has default fieldClasses');
+    assert.dom(this.element.querySelector('div')).hasClass('field', 'has default fieldClasses');
   });
 
   test('configuration fieldClasses can be overridden by own classNames', async function(assert) {
     assert.expect(2);
     await render(hbs`{{do-field propertyName='name' object=object classNames='my-custom-field-class'}}`);
-    assert.equal(this.element.querySelector('div').classList.contains('my-custom-field-class'), true, 'fieldClasses are overridden correctly');
-    assert.equal(this.element.querySelector('div').classList.contains('default-field-class'), false, 'no default fieldClasses');
+    assert.dom(this.element.querySelector('div')).hasClass('my-custom-field-class', 'fieldClasses are overridden correctly');
+    assert.dom(this.element.querySelector('div')).hasNoClass('default-field-class', 'no default fieldClasses');
   });
 
   test('data-test-* attributes are absent when config.autoDataTestSelectors is false', async function(assert) {

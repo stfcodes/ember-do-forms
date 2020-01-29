@@ -68,8 +68,8 @@ module('Integration | Component | do form', function(hooks) {
     `);
     assert.equal(this.element.querySelector('input').getAttribute('type'), 'text', 'has a text input');
     assert.equal(this.element.querySelector('input').value, get(this, 'object.name'), 'input has the correct value');
-    assert.equal(this.element.querySelector('label').textContent.trim(), 'Full name', 'has correct label');
-    assert.equal(this.element.querySelector('small').textContent.trim(), 'Never gonna give you up', 'has correct hint text');
+    assert.dom(this.element.querySelector('label')).hasText('Full name', 'has correct label');
+    assert.dom(this.element.querySelector('small')).hasText('Never gonna give you up', 'has correct hint text');
   });
 
   test('passes a checkbox-field to the context', async function(assert) {
@@ -79,7 +79,7 @@ module('Integration | Component | do form', function(hooks) {
       {{/do-form}}
     `);
     assert.equal(this.element.querySelector('input').getAttribute('type'), 'checkbox', 'has a checkbox input');
-    assert.equal(this.$('input').is(':checked'), get(this, 'object.profileVisible'), 'input has the correct value');
+    assert.equal(this.element.querySelector('input').checked, get(this, 'object.profileVisible'), 'input has the correct value');
   });
 
   test('it can submit', async function(assert) {
@@ -151,8 +151,8 @@ module('Integration | Component | do form', function(hooks) {
       {{/do-form}}
     `);
 
-    assert.equal(this.$('input:first').val(), 'Stefan', 'first control has correct context');
-    assert.equal(this.$('input:last').val(), 'Rick', 'second control has correct context');
+    assert.equal(this.element.querySelector('input').value, 'Stefan', 'first control has correct context');
+    assert.equal(this.element.querySelector('form .field:last-of-type input').value, 'Rick', 'second control has correct context');
 
     assert.equal(this.element.querySelectorAll('.field-error').length, 0, 'no error fields initially');
     assert.equal(this.element.querySelectorAll('.field-success').length, 0, 'no success fields initially');
@@ -178,15 +178,15 @@ module('Integration | Component | do form', function(hooks) {
     assert.expect(1);
     this.set('config.defaultClasses.form', ['default-form-class']);
     await render(hbs`{{do-form object=object}}`);
-    assert.equal(this.element.querySelector('form').classList.contains('default-form-class'), true, 'has default formClasses');
+    assert.dom(this.element.querySelector('form')).hasClass('default-form-class', 'has default formClasses');
   });
 
   test('configuration formClasses can be overridden by own classNames', async function(assert) {
     assert.expect(2);
     this.set('config.defaultClasses.form', ['default-form-class']);
     await render(hbs`{{do-form object=object classNames='my-custom-form-class'}}`);
-    assert.equal(this.element.querySelector('form').classList.contains('my-custom-form-class'), true, 'formClasses are overridden correctly');
-    assert.equal(this.element.querySelector('form').classList.contains('default-form-class'), false, 'no default formClasses');
+    assert.dom(this.element.querySelector('form')).hasClass('my-custom-form-class', 'formClasses are overridden correctly');
+    assert.dom(this.element.querySelector('form')).hasNoClass('default-form-class', 'no default formClasses');
   });
 
   test('update function can be changed for do-field', async function(assert) {
@@ -203,7 +203,7 @@ module('Integration | Component | do form', function(hooks) {
     `);
 
     assert.notOk(get(this, 'pizza'), 'initial value is untouched');
-    this.$('input:first').val('Something');
+    this.element.querySelector('input').value = 'something';
     await triggerEvent('input', 'change');
     assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
     assert.equal(get(this, 'object.name'), 'Stefan', 'object has the initial value');
@@ -221,7 +221,7 @@ module('Integration | Component | do form', function(hooks) {
     `);
 
     assert.notOk(get(this, 'pizza'), 'initial value is untouched');
-    this.$('input:first').val('Something');
+    this.element.querySelector('input').value = 'something';
     await triggerEvent('input', 'change');
     assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
     assert.equal(get(this, 'object.name'), 'Stefan', 'object has the initial value');
@@ -259,7 +259,7 @@ module('Integration | Component | do form', function(hooks) {
       {{/do-form}}
     `);
 
-    this.$('input:first').val('Something');
+    this.element.querySelector('input').value = 'something';
     await triggerEvent('input', 'change');
     assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
     assert.equal(get(this, 'differentObject.name'), 'Rick', 'differentObject has the initial value');

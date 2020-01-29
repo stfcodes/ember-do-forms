@@ -9,12 +9,12 @@ module('Integration | Component | ember do forms/feedback wrapper', function(hoo
   test('it renders', async function(assert) {
     assert.expect(2);
     await render(hbs`{{ember-do-forms/feedback-wrapper}}`);
-    assert.equal(this.element.textContent.trim(), '');
+    assert.dom(this.element).hasText('');
     await render(hbs`
       {{#ember-do-forms/feedback-wrapper}}
         template block text
       {{/ember-do-forms/feedback-wrapper}}
     `);
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom(this.element).hasText('template block text');
   });
 });

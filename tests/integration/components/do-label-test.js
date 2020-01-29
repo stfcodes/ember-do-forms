@@ -33,7 +33,7 @@ module('Integration | Component | do form label', function(hooks) {
       label: ['default-label-class']
     });
     await render(hbs`{{do-label 'text'}}`);
-    assert.equal(this.element.querySelector('label').classList.contains('default-label-class'), true, 'has default labelClasses');
+    assert.dom(this.element.querySelector('label')).hasClass('default-label-class', 'has default labelClasses');
   });
 
   test('configuration labelClasses can be overridden by own classNames', async function(assert) {
@@ -42,8 +42,8 @@ module('Integration | Component | do form label', function(hooks) {
       label: ['default-label-class']
     });
     await render(hbs`{{do-label 'text' classNames='my-custom-label-class'}}`);
-    assert.equal(this.element.querySelector('label').classList.contains('my-custom-label-class'), true, 'labelClasses are overridden correctly');
-    assert.equal(this.element.querySelector('label').classList.contains('default-label-class'), false, 'no default labelClasses');
+    assert.dom(this.element.querySelector('label')).hasClass('my-custom-label-class', 'labelClasses are overridden correctly');
+    assert.dom(this.element.querySelector('label')).hasNoClass('default-label-class', 'no default labelClasses');
   });
 
   test('data-test-do-label attribute is absent when config.autoDataTestSelectors is false', async function(assert) {
