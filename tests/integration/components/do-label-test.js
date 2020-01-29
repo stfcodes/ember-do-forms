@@ -1,80 +1,69 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { set } from '@ember/object';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const {
-  set,
-  Service
-} = Ember;
+module('Integration | Component | do form label', function(hooks) {
+  setupRenderingTest(hooks);
 
-const ConfigStub = Service.extend();
-
-moduleForComponent('do-label', 'Integration | Component | do form label', {
-  integration: true,
-  beforeEach() {
-    this.register('service:ember-do-forms/config', ConfigStub);
-    this.inject.service('ember-do-forms/config', { as: 'config' });
-  }
-});
-
-test('it renders a label', function(assert) {
-  assert.expect(1);
-  this.render(hbs`{{do-label}}`);
-  assert.equal(this.$('label').length, 1);
-});
-
-test('it renders with labelText positionalParam', function(assert) {
-  assert.expect(1);
-  this.render(hbs`{{do-label 'my Text'}}`);
-  assert.equal(this.$().text().trim(), 'my Text');
-});
-
-test('it renders with a block', function(assert) {
-  assert.expect(1);
-  this.render(hbs`
-    {{#do-label}}
-      <small>Something</small>
-    {{/do-label}}
-  `);
-  assert.equal(this.$('label').html().trim(), '<small>Something</small>');
-});
-
-test('it has labelClasses applied from configuration', function(assert) {
-  assert.expect(1);
-  this.set('config.defaultClasses', {
-    label: ['default-label-class']
+  hooks.beforeEach(function() {
+    this.config = this.owner.lookup('service:ember-do-forms/config');
   });
-  this.render(hbs`{{do-label 'text'}}`);
-  assert.equal(this.$('label').hasClass('default-label-class'), true, 'has default labelClasses');
-});
 
-test('configuration labelClasses can be overridden by own classNames', function(assert) {
-  assert.expect(2);
-  this.set('config.defaultClasses', {
-    label: ['default-label-class']
+  test('it renders a label', async function(assert) {
+    assert.expect(1);
+    await render(hbs`{{do-label}}`);
+    assert.equal(this.element.querySelectorAll('label').length, 1);
   });
-  this.render(hbs`{{do-label 'text' classNames='my-custom-label-class'}}`);
-  assert.equal(this.$('label').hasClass('my-custom-label-class'), true, 'labelClasses are overridden correctly');
-  assert.equal(this.$('label').hasClass('default-label-class'), false, 'no default labelClasses');
-});
 
-test('data-test-do-label attribute is absent when config.autoDataTestSelectors is false', function(assert) {
-  assert.expect(1);
-  set(this, 'config.autoDataTestSelectors', false);
-  this.render(hbs`{{do-label propertyName='firstName'}}`);
-  assert.notOk(this.$('label').attr('data-test-do-label'), 'data attribute was not generated');
-});
+  test('it renders with a block', async function(assert) {
+    assert.expect(1);
+    await render(hbs`
+      {{#do-label}}
+        <small>Something</small>
+      {{/do-label}}
+    `);
+    assert.equal(this.element.querySelector('label').innerHTML.trim(), '<small>Something</small>');
+  });
 
-test('data-test-do-label attribute is set when config.autoDataTestSelectors is true', function(assert) {
-  assert.expect(1);
-  set(this, 'config.autoDataTestSelectors', true);
-  this.render(hbs`{{do-label propertyName='firstName'}}`);
-  assert.equal(this.$('label').attr('data-test-do-label'), 'firstName', 'has the data attribute');
-});
+  test('it has labelClasses applied from configuration', async function(assert) {
+    assert.expect(1);
+    this.set('config.defaultClasses', {
+      label: ['default-label-class']
+    });
+    await render(hbs`{{do-label 'text'}}`);
+    assert.equal(this.element.querySelector('label').classList.contains('default-label-class'), true, 'has default labelClasses');
+  });
 
-test('data-test-do-label attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
-  assert.expect(1);
-  set(this, 'config.autoDataTestSelectors', true);
-  this.render(hbs`{{do-label propertyName='firstName' data-test-do-label='something-else'}}`);
-  assert.equal(this.$('label').attr('data-test-do-label'), 'something-else', 'has the data attribute');
+  test('configuration labelClasses can be overridden by own classNames', async function(assert) {
+    assert.expect(2);
+    this.set('config.defaultClasses', {
+      label: ['default-label-class']
+    });
+    await render(hbs`{{do-label 'text' classNames='my-custom-label-class'}}`);
+    assert.equal(this.element.querySelector('label').classList.contains('my-custom-label-class'), true, 'labelClasses are overridden correctly');
+    assert.equal(this.element.querySelector('label').classList.contains('default-label-class'), false, 'no default labelClasses');
+  });
+
+  test('data-test-do-label attribute is absent when config.autoDataTestSelectors is false', async function(assert) {
+    assert.expect(1);
+    set(this, 'config.autoDataTestSelectors', false);
+    await render(hbs`{{do-label propertyName='firstName'}}`);
+    assert.notOk(this.element.querySelector('label').getAttribute('data-test-do-label'), 'data attribute was not generated');
+  });
+
+  test('data-test-do-label attribute is set when config.autoDataTestSelectors is true', async function(assert) {
+    assert.expect(1);
+    set(this, 'config.autoDataTestSelectors', true);
+    await render(hbs`{{do-label propertyName='firstName'}}`);
+    assert.equal(this.element.querySelector('label').getAttribute('data-test-do-label'), 'firstName', 'has the data attribute');
+  });
+
+  test('data-test-do-label attribute is overridden when config.autoDataTestSelectors is true', async function(assert) {
+    assert.expect(1);
+    set(this, 'config.autoDataTestSelectors', true);
+    await render(hbs`{{do-label propertyName='firstName' data-test-do-label='something-else'}}`);
+    assert.equal(this.element.querySelector('label').getAttribute('data-test-do-label'), 'something-else', 'has the data attribute');
+  });
 });

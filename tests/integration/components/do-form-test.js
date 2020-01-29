@@ -1,30 +1,20 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import EmObject, { set, get } from '@ember/object';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, click, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import registerTestComponent from '../../ember-test-component';
-import configDefaults from 'ember-do-forms/utils/config-defaults';
+import Ember from 'ember';
+import Component from '@ember/component';
 
-const {
-  get,
-  Object: EmObject,
-  set,
-  Service
-} = Ember;
+module('Integration | Component | do form', function(hooks) {
+  setupRenderingTest(hooks);
 
-const ConfigStub = Service.extend(configDefaults({
-  validationClasses: {
-    fieldSuccess: ['field-success'],
-    fieldError: ['field-error'],
-    controlSuccess: ['control-success'],
-    controlError: ['control-error']
-  }
-}));
+  let onError;
 
-moduleForComponent('do-form', 'Integration | Component | do form', {
-  integration: true,
-  beforeEach() {
-    this.register('service:ember-do-forms/config', ConfigStub);
-    this.inject.service('ember-do-forms/config', { as: 'config' });
+  hooks.beforeEach(function() {
+    onError = Ember.onerror;
+
+    this.config = this.owner.lookup('service:ember-do-forms/config');
 
     set(this, 'submitted', false);
 
@@ -37,234 +27,241 @@ moduleForComponent('do-form', 'Integration | Component | do form', {
     set(this, 'submitTask', () => {
       set(this, 'submitted', true);
     });
-  }
-});
 
-test('it requires an object as context', function(assert) {
-  assert.expect(1);
-  assert.expectAssertion(() => {
-    this.render(hbs`{{do-form}}`);
-  }, /{{do-form}} requires an object/);
-});
-
-test('it has an object as the first positional param', function(assert) {
-  assert.expect(1);
-  this.render(hbs`{{do-form object}}`);
-  assert.equal(this.$('form').length, 1);
-});
-
-test('it passes down its objectName to the context', function(assert) {
-  assert.expect(1);
-  this.render(hbs`
-    {{#do-form object objectName='pizza' as |form|}}
-      {{#form.do-field 'name' as |field|}}
-        {{field.do-control 'text'}}
-      {{/form.do-field}}
-    {{/do-form}}
-  `);
-
-  assert.equal(this.$('input').attr('name'), 'pizza[name]', 'controls have objectName in their names');
-});
-
-test('passes an input-field to the context', function(assert) {
-  this.render(hbs`
-    {{#do-form object as |form|}}
-      {{form.input-field 'name' label='Full name' hint='Never gonna give you up'}}
-    {{/do-form}}
-  `);
-  assert.equal(this.$('input').attr('type'), 'text', 'has a text input');
-  assert.equal(this.$('input').val(), get(this, 'object.name'), 'input has the correct value');
-  assert.equal(this.$('label').text().trim(), 'Full name', 'has correct label');
-  assert.equal(this.$('small').text().trim(), 'Never gonna give you up', 'has correct hint text');
-});
-
-test('passes a checkbox-field to the context', function(assert) {
-  this.render(hbs`
-    {{#do-form object as |form|}}
-      {{form.checkbox-field 'profileVisible' label='Visible profile'}}
-    {{/do-form}}
-  `);
-  assert.equal(this.$('input').attr('type'), 'checkbox', 'has a checkbox input');
-  assert.equal(this.$('input').is(':checked'), get(this, 'object.profileVisible'), 'input has the correct value');
-});
-
-test('it can submit', function(assert) {
-  assert.expect(7);
-  this.set('object.validations', {
-    attrs: { lastName: { errors: [{ message: "can't be blank" }] } }
+    const TestComponent = Component.extend({ tagName: 'dummy' });
+    this.owner.register('component:test-component', TestComponent);
   });
 
-  this.render(hbs`
-    {{#do-form object submit=(action submitTask) as |form|}}
-      {{form.do-field 'name'}}
-      {{form.do-field 'lastName'}}
-      <button type='submit'>Submit</button>
-    {{/do-form}}
-  `);
-
-  assert.equal(this.$('.field-error').length, 0, 'no error fields initially');
-  assert.equal(this.$('.field-success').length, 0, 'no success fields initially');
-
-  this.$('form').submit();
-  assert.equal(get(this, 'submitted'), true, 'submit action was called');
-
-  assert.equal(this.$('.field-error').length, 1, 'one field with error');
-  assert.equal(this.$('.field-success').length, 1, 'one field with success');
-
-  // Clear the validations
-  this.set('object.validations', {
-    attrs: { lastName: { errors: [] } }
+  hooks.afterEach(function() {
+    Ember.onerror = onError;
+    this.owner.unregister('component:test-component');
   });
 
-  assert.equal(this.$('.field-error').length, 0, 'no error fields now');
-  assert.equal(this.$('.field-success').length, 2, 'all the fields are successful now');
-});
+  test('it requires an object as context', async function(assert) {
+    assert.expect(1);
 
-test('it shows validations when submitting even without a submit action', function(assert) {
-  this.set('object.validations', {
-    attrs: { lastName: { errors: [{ message: "can't be blank" }] } }
-  });
-  this.render(hbs`
-    {{#do-form object as |form|}}
-      {{form.do-field 'lastName'}}
-      <button type='submit'>Submit</button>
-    {{/do-form}}
-  `);
+    Ember.onerror = function(error) {
+      assert.equal(error.message, 'Assertion Failed: {{do-form}} requires an object to be passed in.');
+    };
 
-  assert.equal(this.$('.field-error').length, 0, 'no error fields initially');
-  this.$('form').submit();
-  assert.equal(this.$('.field-error').length, 1, 'name lastName has error');
-});
-
-test('has a do-fields contextual component', function(assert) {
-  set(this, 'differentObject', EmObject.create({
-    name: 'Rick',
-    validations: {
-      attrs: { name: { errors: [{ message: 'too cool' }] } }
-    }
-  }));
-  this.render(hbs`
-    {{#do-form object submit=(action submitTask) as |form|}}
-      {{form.input-field 'name'}}
-
-      {{#form.do-fields differentObject as |fields|}}
-        {{fields.input-field 'name'}}
-      {{/form.do-fields}}
-
-      <button type='submit'>Submit</button>
-    {{/do-form}}
-  `);
-
-  assert.equal(this.$('input:first').val(), 'Stefan', 'first control has correct context');
-  assert.equal(this.$('input:last').val(), 'Rick', 'second control has correct context');
-
-  assert.equal(this.$('.field-error').length, 0, 'no error fields initially');
-  assert.equal(this.$('.field-success').length, 0, 'no success fields initially');
-
-  this.$('form').submit();
-
-  assert.equal(this.$('.field-error').length, 1, 'one field with error');
-  assert.equal(this.$('.field-success').length, 1, 'one field with success');
-});
-
-test('the field component can be changed to any component', function(assert) {
-  assert.expect(1);
-  registerTestComponent(this);
-  this.render(hbs`
-    {{#do-form object fieldComponent='test-component' as |form|}}
-      {{form.do-field}}
-    {{/do-form}}
-  `);
-  assert.equal(this.$('dummy').length, 1, 'custom component is used when specified');
-});
-
-test('it has formClasses applied from configuration', function(assert) {
-  assert.expect(1);
-  this.set('config.defaultClasses.form', ['default-form-class']);
-  this.render(hbs`{{do-form object}}`);
-  assert.equal(this.$('form').hasClass('default-form-class'), true, 'has default formClasses');
-});
-
-test('configuration formClasses can be overridden by own classNames', function(assert) {
-  assert.expect(2);
-  this.set('config.defaultClasses.form', ['default-form-class']);
-  this.render(hbs`{{do-form object classNames='my-custom-form-class'}}`);
-  assert.equal(this.$('form').hasClass('my-custom-form-class'), true, 'formClasses are overridden correctly');
-  assert.equal(this.$('form').hasClass('default-form-class'), false, 'no default formClasses');
-});
-
-test('update function can be changed for do-field', function(assert) {
-  set(this, 'dummyFunc', () => {
-    set(this, 'pizza', true);
+    await render(hbs`{{do-form}}`);
   });
 
-  this.render(hbs`
-    {{#do-form object update=(action dummyFunc) as |form|}}
-      {{#form.do-field 'name' as |field|}}
-        {{field.do-control 'text'}}
-      {{/form.do-field}}
-    {{/do-form}}
-  `);
+  test('it passes down its objectName to the context', async function(assert) {
+    assert.expect(1);
+    await render(hbs`
+      {{#do-form object=object objectName='pizza' as |form|}}
+        {{#form.do-field propertyName='name' as |field|}}
+          {{field.do-control controlType='text'}}
+        {{/form.do-field}}
+      {{/do-form}}
+    `);
 
-  assert.notOk(get(this, 'pizza'), 'initial value is untouched');
-  this.$('input:first').val('Something');
-  this.$('input').change();
-  assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
-  assert.equal(get(this, 'object.name'), 'Stefan', 'object has the initial value');
-});
-
-test('update function can be changed for input-field', function(assert) {
-  set(this, 'dummyFunc', () => {
-    set(this, 'pizza', true);
+    assert.equal(this.element.querySelector('input').getAttribute('name'), 'pizza[name]', 'controls have objectName in their names');
   });
 
-  this.render(hbs`
-    {{#do-form object update=(action dummyFunc) as |form|}}
-      {{form.input-field 'name'}}
-    {{/do-form}}
-  `);
-
-  assert.notOk(get(this, 'pizza'), 'initial value is untouched');
-  this.$('input:first').val('Something');
-  this.$('input').change();
-  assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
-  assert.equal(get(this, 'object.name'), 'Stefan', 'object has the initial value');
-});
-
-test('update function can be changed for checkbox-field', function(assert) {
-  set(this, 'dummyFunc', () => {
-    set(this, 'pizza', true);
+  test('passes an input-field to the context', async function(assert) {
+    await render(hbs`
+      {{#do-form object=object as |form|}}
+        {{form.input-field propertyName='name' label='Full name' hint='Never gonna give you up'}}
+      {{/do-form}}
+    `);
+    assert.equal(this.element.querySelector('input').getAttribute('type'), 'text', 'has a text input');
+    assert.equal(this.element.querySelector('input').value, get(this, 'object.name'), 'input has the correct value');
+    assert.equal(this.element.querySelector('label').textContent.trim(), 'Full name', 'has correct label');
+    assert.equal(this.element.querySelector('small').textContent.trim(), 'Never gonna give you up', 'has correct hint text');
   });
 
-  this.render(hbs`
-    {{#do-form object update=(action dummyFunc) as |form|}}
-      {{form.checkbox-field 'profileVisible' label='Visible profile'}}
-    {{/do-form}}
-  `);
-
-  assert.notOk(get(this, 'pizza'), 'initial value is untouched');
-  this.$('input').click();
-  assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
-  assert.equal(get(this, 'object.profileVisible'), true, 'object has the initial value');
-});
-
-test('update function can be changed for do-fields', function(assert) {
-  set(this, 'dummyFunc', () => {
-    set(this, 'pizza', true);
+  test('passes a checkbox-field to the context', async function(assert) {
+    await render(hbs`
+      {{#do-form object=object as |form|}}
+        {{form.checkbox-field propertyName='profileVisible' label='Visible profile'}}
+      {{/do-form}}
+    `);
+    assert.equal(this.element.querySelector('input').getAttribute('type'), 'checkbox', 'has a checkbox input');
+    assert.equal(this.$('input').is(':checked'), get(this, 'object.profileVisible'), 'input has the correct value');
   });
 
-  set(this, 'differentObject', EmObject.create({ name: 'Rick' }));
+  test('it can submit', async function(assert) {
+    assert.expect(8);
+    this.set('object.validations', {
+      attrs: { lastName: { errors: [{ message: "can't be blank" }] } }
+    });
 
-  this.render(hbs`
-    {{#do-form object update=(action dummyFunc) as |form|}}
-      {{#form.do-fields differentObject as |fields|}}
-        {{fields.input-field 'name'}}
-      {{/form.do-fields}}
-    {{/do-form}}
-  `);
+    await render(hbs`
+      {{#do-form object=object submit=(action submitTask) as |form|}}
+        {{form.do-field propertyName='name'}}
+        {{form.do-field propertyName='lastName'}}
+        <button type='submit'>Submit</button>
+      {{/do-form}}
+    `);
 
-  this.$('input:first').val('Something');
-  this.$('input').change();
-  assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
-  assert.equal(get(this, 'differentObject.name'), 'Rick', 'differentObject has the initial value');
+    assert.equal(this.element.querySelectorAll('.field-error').length, 0, 'no error fields initially');
+    assert.equal(this.element.querySelectorAll('.field-success').length, 0, 'no success fields initially');
+
+    assert.notOk(get(this, 'submitted'), 'submitted is initially false');
+    await triggerEvent('form', 'submit');
+    // await click('button');
+    assert.ok(get(this, 'submitted'), 'submit action was called');
+
+    assert.equal(this.element.querySelectorAll('.field-error').length, 1, 'one field with error');
+    assert.equal(this.element.querySelectorAll('.field-success').length, 1, 'one field with success');
+
+    // Clear the validations
+    this.set('object.validations', {
+      attrs: { lastName: { errors: [] } }
+    });
+
+    assert.equal(this.element.querySelectorAll('.field-error').length, 0, 'no error fields now');
+    assert.equal(this.element.querySelectorAll('.field-success').length, 2, 'all the fields are successful now');
+  });
+
+  test('it shows validations when submitting even without a submit action', async function(assert) {
+    this.set('object.validations', {
+      attrs: { lastName: { errors: [{ message: "can't be blank" }] } }
+    });
+    await render(hbs`
+      {{#do-form object=object as |form|}}
+        {{form.do-field propertyName='lastName'}}
+        <button type='submit'>Submit</button>
+      {{/do-form}}
+    `);
+
+    assert.equal(this.element.querySelectorAll('.field-error').length, 0, 'no error fields initially');
+    await triggerEvent('form', 'submit');
+    assert.equal(this.element.querySelectorAll('.field-error').length, 1, 'name lastName has error');
+  });
+
+  test('has a do-fields contextual component', async function(assert) {
+    set(this, 'differentObject', EmObject.create({
+      name: 'Rick',
+      validations: {
+        attrs: { name: { errors: [{ message: 'too cool' }] } }
+      }
+    }));
+    await render(hbs`
+      {{#do-form object=object submit=(action submitTask) as |form|}}
+        {{form.input-field propertyName='name'}}
+
+        {{#form.do-fields object=differentObject as |fields|}}
+          {{fields.input-field propertyName='name'}}
+        {{/form.do-fields}}
+
+        <button type='submit'>Submit</button>
+      {{/do-form}}
+    `);
+
+    assert.equal(this.$('input:first').val(), 'Stefan', 'first control has correct context');
+    assert.equal(this.$('input:last').val(), 'Rick', 'second control has correct context');
+
+    assert.equal(this.element.querySelectorAll('.field-error').length, 0, 'no error fields initially');
+    assert.equal(this.element.querySelectorAll('.field-success').length, 0, 'no success fields initially');
+
+    await triggerEvent('form', 'submit');
+
+    assert.equal(this.element.querySelectorAll('.field-error').length, 1, 'one field with error');
+    assert.equal(this.element.querySelectorAll('.field-success').length, 1, 'one field with success');
+  });
+
+  test('the field component can be changed to any component', async function(assert) {
+    assert.expect(1);
+
+    await render(hbs`
+      {{#do-form object=object fieldComponent='test-component' as |form|}}
+        {{form.do-field}}
+      {{/do-form}}
+    `);
+    assert.equal(this.element.querySelectorAll('dummy').length, 1, 'custom component is used when specified');
+  });
+
+  test('it has formClasses applied from configuration', async function(assert) {
+    assert.expect(1);
+    this.set('config.defaultClasses.form', ['default-form-class']);
+    await render(hbs`{{do-form object=object}}`);
+    assert.equal(this.element.querySelector('form').classList.contains('default-form-class'), true, 'has default formClasses');
+  });
+
+  test('configuration formClasses can be overridden by own classNames', async function(assert) {
+    assert.expect(2);
+    this.set('config.defaultClasses.form', ['default-form-class']);
+    await render(hbs`{{do-form object=object classNames='my-custom-form-class'}}`);
+    assert.equal(this.element.querySelector('form').classList.contains('my-custom-form-class'), true, 'formClasses are overridden correctly');
+    assert.equal(this.element.querySelector('form').classList.contains('default-form-class'), false, 'no default formClasses');
+  });
+
+  test('update function can be changed for do-field', async function(assert) {
+    set(this, 'dummyFunc', () => {
+      set(this, 'pizza', true);
+    });
+
+    await render(hbs`
+      {{#do-form object=object update=(action dummyFunc) as |form|}}
+        {{#form.do-field propertyName='name' as |field|}}
+          {{field.do-control controlType='text'}}
+        {{/form.do-field}}
+      {{/do-form}}
+    `);
+
+    assert.notOk(get(this, 'pizza'), 'initial value is untouched');
+    this.$('input:first').val('Something');
+    await triggerEvent('input', 'change');
+    assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
+    assert.equal(get(this, 'object.name'), 'Stefan', 'object has the initial value');
+  });
+
+  test('update function can be changed for input-field', async function(assert) {
+    set(this, 'dummyFunc', () => {
+      set(this, 'pizza', true);
+    });
+
+    await render(hbs`
+      {{#do-form object=object update=(action dummyFunc) as |form|}}
+        {{form.input-field propertyName='name'}}
+      {{/do-form}}
+    `);
+
+    assert.notOk(get(this, 'pizza'), 'initial value is untouched');
+    this.$('input:first').val('Something');
+    await triggerEvent('input', 'change');
+    assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
+    assert.equal(get(this, 'object.name'), 'Stefan', 'object has the initial value');
+  });
+
+  test('update function can be changed for checkbox-field', async function(assert) {
+    set(this, 'dummyFunc', () => {
+      set(this, 'pizza', true);
+    });
+
+    await render(hbs`
+      {{#do-form object=object update=(action dummyFunc) as |form|}}
+        {{form.checkbox-field propertyName='profileVisible' label='Visible profile'}}
+      {{/do-form}}
+    `);
+
+    assert.notOk(get(this, 'pizza'), 'initial value is untouched');
+    await click('input');
+    assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
+    assert.equal(get(this, 'object.profileVisible'), true, 'object has the initial value');
+  });
+
+  test('update function can be changed for do-fields', async function(assert) {
+    set(this, 'dummyFunc', () => {
+      set(this, 'pizza', true);
+    });
+
+    set(this, 'differentObject', EmObject.create({ name: 'Rick' }));
+
+    await render(hbs`
+      {{#do-form object=object update=(action dummyFunc) as |form|}}
+        {{#form.do-fields object=differentObject as |fields|}}
+          {{fields.input-field propertyName='name'}}
+        {{/form.do-fields}}
+      {{/do-form}}
+    `);
+
+    this.$('input:first').val('Something');
+    await triggerEvent('input', 'change');
+    assert.equal(get(this, 'pizza'), true, 'correctly used the update function');
+    assert.equal(get(this, 'differentObject.name'), 'Rick', 'differentObject has the initial value');
+  });
 });

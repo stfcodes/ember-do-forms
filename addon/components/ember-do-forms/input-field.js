@@ -1,15 +1,10 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import layout from '../../templates/components/ember-do-forms/input-field';
 import setDataTestSelector from '../../utils/set-data-test-selector';
 import ComplexFieldMixin from '../../mixins/complex-field';
-
-const {
-  assert,
-  Component,
-  get,
-  set,
-  isPresent
-} = Ember;
 
 const InputFieldComponent = Component.extend(ComplexFieldMixin, {
   layout,
@@ -40,10 +35,6 @@ const InputFieldComponent = Component.extend(ComplexFieldMixin, {
   update(object, propertyName, value) {
     set(object, propertyName, value);
   }
-});
-
-InputFieldComponent.reopenClass({
-  positionalParams: ['propertyName']
 });
 
 export default InputFieldComponent;

@@ -1,99 +1,93 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { set, get } from '@ember/object';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const {
-  get,
-  set,
-  Service
-} = Ember;
+module('Integration | Component | do hint', function(hooks) {
+  setupRenderingTest(hooks);
 
-const ConfigStub = Service.extend();
-
-moduleForComponent('do-hint', 'Integration | Component | do hint', {
-  integration: true,
-  beforeEach() {
-    this.register('service:ember-do-forms/config', ConfigStub);
-    this.inject.service('ember-do-forms/config', { as: 'config' });
+  hooks.beforeEach(function() {
+    this.config = this.owner.lookup('service:ember-do-forms/config');
 
     set(this, 'hintText', 'Never gonna give you up');
-  }
-});
-
-test('it renders', function(assert) {
-  assert.expect(2);
-  this.render(hbs`{{do-hint}}`);
-  assert.equal(this.$().text().trim(), '', 'renders nothing by default');
-
-  this.render(hbs`
-    {{#do-hint}}
-      template block text
-    {{/do-hint}}
-  `);
-  assert.equal(this.$().text().trim(), 'template block text', "renders what's passed in the block");
-});
-
-test('it has a text positionalParam', function(assert) {
-  assert.expect(2);
-  this.render(hbs`{{do-hint hintText}}`);
-  assert.equal(this.$().text().trim(), get(this, 'hintText'), 'renders the text');
-
-  this.render(hbs`
-    {{#do-hint hintText as |text|}}
-      <p>{{text}}</p>
-    {{/do-hint}}
-  `);
-  assert.equal(this.$('p').text().trim(), get(this, 'hintText'), 'also handles blocks');
-});
-
-test('its tag is a small by default', function(assert) {
-  assert.expect(1);
-  this.render(hbs`{{do-hint}}`);
-  assert.equal(this.$('small').length, 1);
-});
-
-test('its tag can be changed', function(assert) {
-  assert.expect(1);
-  this.render(hbs`{{do-hint hintText tagName='div'}}`);
-  assert.equal(this.$('div').length, 1);
-});
-
-test('it has hintClasses applied from configuration', function(assert) {
-  assert.expect(1);
-  this.set('config.defaultClasses', {
-    hint: ['hint-element']
   });
-  this.render(hbs`{{do-hint hintText}}`);
-  assert.equal(this.$('small').hasClass('hint-element'), true, 'has default hintClasses');
-});
 
-test('configuration hintClasses can be overridden by own classNames', function(assert) {
-  assert.expect(2);
-  this.set('config.defaultClasses', {
-    hint: ['hint-element']
+  test('it renders', async function(assert) {
+    assert.expect(2);
+    await render(hbs`{{do-hint}}`);
+    assert.equal(this.element.textContent.trim(), '', 'renders nothing by default');
+
+    await render(hbs`
+      {{#do-hint}}
+        template block text
+      {{/do-hint}}
+    `);
+    assert.equal(this.element.textContent.trim(), 'template block text', "renders what's passed in the block");
   });
-  this.render(hbs`{{do-hint hintText classNames='my-custom-hint-class'}}`);
-  assert.equal(this.$('small').hasClass('my-custom-hint-class'), true, 'hintClasses are overridden correctly');
-  assert.equal(this.$('small').hasClass('hint-element'), false, 'no default hintClasses');
-});
 
-test('data-test-do-hint attribute is absent when config.autoDataTestSelectors is false', function(assert) {
-  assert.expect(1);
-  set(this, 'config.autoDataTestSelectors', false);
-  this.render(hbs`{{do-hint propertyName='firstName'}}`);
-  assert.notOk(this.$('small').attr('data-test-do-hint'), 'data attribute was not generated');
-});
+  test('it renders with text', async function(assert) {
+    assert.expect(2);
+    await render(hbs`{{do-hint text=hintText}}`);
+    assert.equal(this.element.textContent.trim(), get(this, 'hintText'), 'renders the text');
 
-test('data-test-do-hint attribute is set when config.autoDataTestSelectors is true', function(assert) {
-  assert.expect(1);
-  set(this, 'config.autoDataTestSelectors', true);
-  this.render(hbs`{{do-hint propertyName='firstName'}}`);
-  assert.equal(this.$('small').attr('data-test-do-hint'), 'firstName', 'has the data attribute');
-});
+    await render(hbs`
+      {{#do-hint text=hintText as |text|}}
+        <p>{{text}}</p>
+      {{/do-hint}}
+    `);
+    assert.equal(this.element.querySelector('p').textContent.trim(), get(this, 'hintText'), 'also handles blocks');
+  });
 
-test('data-test-do-hint attribute is overridden when config.autoDataTestSelectors is true', function(assert) {
-  assert.expect(1);
-  set(this, 'config.autoDataTestSelectors', true);
-  this.render(hbs`{{do-hint propertyName='firstName' data-test-do-hint='something-else'}}`);
-  assert.equal(this.$('small').attr('data-test-do-hint'), 'something-else', 'has the data attribute');
+  test('its tag is a small by default', async function(assert) {
+    assert.expect(1);
+    await render(hbs`{{do-hint}}`);
+    assert.equal(this.element.querySelectorAll('small').length, 1);
+  });
+
+  test('its tag can be changed', async function(assert) {
+    assert.expect(1);
+    await render(hbs`{{do-hint text=hintText tagName='div'}}`);
+    assert.equal(this.element.querySelectorAll('div').length, 1);
+  });
+
+  test('it has hintClasses applied from configuration', async function(assert) {
+    assert.expect(1);
+    this.set('config.defaultClasses', {
+      hint: ['hint-element']
+    });
+    await render(hbs`{{do-hint text=hintText}}`);
+    assert.equal(this.element.querySelector('small').classList.contains('hint-element'), true, 'has default hintClasses');
+  });
+
+  test('configuration hintClasses can be overridden by own classNames', async function(assert) {
+    assert.expect(2);
+    this.set('config.defaultClasses', {
+      hint: ['hint-element']
+    });
+    await render(hbs`{{do-hint text=hintText classNames='my-custom-hint-class'}}`);
+    assert.equal(this.element.querySelector('small').classList.contains('my-custom-hint-class'), true, 'hintClasses are overridden correctly');
+    assert.equal(this.element.querySelector('small').classList.contains('hint-element'), false, 'no default hintClasses');
+  });
+
+  test('data-test-do-hint attribute is absent when config.autoDataTestSelectors is false', async function(assert) {
+    assert.expect(1);
+    set(this, 'config.autoDataTestSelectors', false);
+    await render(hbs`{{do-hint propertyName='firstName'}}`);
+    assert.notOk(this.element.querySelector('small').getAttribute('data-test-do-hint'), 'data attribute was not generated');
+  });
+
+  test('data-test-do-hint attribute is set when config.autoDataTestSelectors is true', async function(assert) {
+    assert.expect(1);
+    set(this, 'config.autoDataTestSelectors', true);
+    await render(hbs`{{do-hint propertyName='firstName'}}`);
+    assert.equal(this.element.querySelector('small').getAttribute('data-test-do-hint'), 'firstName', 'has the data attribute');
+  });
+
+  test('data-test-do-hint attribute is overridden when config.autoDataTestSelectors is true', async function(assert) {
+    assert.expect(1);
+    set(this, 'config.autoDataTestSelectors', true);
+    await render(hbs`{{do-hint propertyName='firstName' data-test-do-hint='something-else'}}`);
+    assert.equal(this.element.querySelector('small').getAttribute('data-test-do-hint'), 'something-else', 'has the data attribute');
+  });
 });

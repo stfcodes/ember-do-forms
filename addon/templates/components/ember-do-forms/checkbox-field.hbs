@@ -1,4 +1,4 @@
-{{#do-field propertyName
+{{#do-field propertyName=propertyName
   object=object
   objectName=objectName
   update=(action update)
@@ -8,8 +8,8 @@
   data-test-do-field=_dataTestSelectorField
   as |field|}}
 
-  {{#field.do-label label classNames=labelClasses data-test-do-label=_dataTestSelectorLabel}}
-    {{field.do-control 'checkbox' classNames=controlClasses
+  {{#field.do-label labelText=label classNames=labelClasses data-test-do-label=_dataTestSelectorLabel}}
+    {{field.do-control controlType='checkbox' classNames=controlClasses
       checked=(get object propertyName)
       form=form
       autofocus=autofocus
@@ -27,6 +27,6 @@
   {{field.do-feedback classNames=feedbackClasses data-test-do-feedback=_dataTestSelectorFeedback}}
 
   {{#if hint}}
-    {{field.do-hint hint classNames=hintClasses data-test-do-hint=_dataTestSelectorHint}}
+    {{field.do-hint text=hint classNames=hintClasses data-test-do-hint=_dataTestSelectorHint}}
   {{/if}}
 {{/do-field}}

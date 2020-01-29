@@ -1,13 +1,8 @@
-import Ember from 'ember';
+import { isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
+import { set, get } from '@ember/object';
+import Mixin from '@ember/object/mixin';
 import setDataTestSelector from '../utils/set-data-test-selector';
-
-const {
-  get,
-  isEmpty,
-  inject: { service },
-  set,
-  Mixin
-} = Ember;
 
 export default Mixin.create({
   config: service('ember-do-forms/config'),

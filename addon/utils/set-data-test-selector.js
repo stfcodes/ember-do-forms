@@ -1,9 +1,5 @@
-import Ember from 'ember';
-
-const {
-  isBlank,
-  set
-} = Ember;
+import { isBlank } from '@ember/utils';
+import { set } from '@ember/object';
 
 // The idea is to pass down data-test-* attributes
 // (for usage with ember-test-selector) to child components.

@@ -1,15 +1,11 @@
-import Ember from 'ember';
-import config from 'ember-get-config';
+import { assign } from '@ember/polyfills';
+import { set } from '@ember/object';
 import configDefaults from '../../utils/config-defaults';
 
-const {
-  merge,
-  set
-} = Ember;
-
-export function initialize(application) {
-  let doFormConfig  = merge(configDefaults(), config['ember-do-forms']);
-  let configService = application.lookup('service:ember-do-forms/config');
+export function initialize(applicationInstance) {
+  const config = applicationInstance.resolveRegistration('config:environment')['ember-do-forms'];
+  let doFormConfig  = assign(configDefaults(), config);
+  let configService = applicationInstance.lookup('service:ember-do-forms/config');
 
   Object.keys(doFormConfig).forEach((key) => {
     set(configService, key, doFormConfig[key]);

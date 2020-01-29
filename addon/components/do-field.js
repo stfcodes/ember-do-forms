@@ -1,3 +1,9 @@
+import { or, notEmpty } from '@ember/object/computed';
+import { assert } from '@ember/debug';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { isPresent, isEmpty } from '@ember/utils';
+import { set, get, computed } from '@ember/object';
 import Ember from 'ember';
 import layout from '../templates/components/do-field';
 import presence from '../utils/presence';
@@ -5,15 +11,7 @@ import hasOnlyEmberView from '../utils/has-only-ember-view';
 import setDataTestSelector from '../utils/set-data-test-selector';
 
 const {
-  assert,
-  computed,
-  Component,
-  get,
-  inject: { service },
-  isEmpty,
-  isPresent,
-  mixin,
-  set
+  mixin
 } = Ember;
 
 const DoLabelComponent = Component.extend({
@@ -30,8 +28,8 @@ const DoLabelComponent = Component.extend({
 
   classNameBindings: ['validationClasses'],
 
-  showValidation: computed.or('showSelfValidation', 'showAllValidations'),
-  hasErrors: computed.notEmpty('errors').readOnly(),
+  showValidation: or('showSelfValidation', 'showAllValidations'),
+  hasErrors: notEmpty('errors').readOnly(),
 
   controlId: computed('propertyName', function() {
     return `${get(this, 'propertyName')}-${get(this, 'elementId')}`;
@@ -112,10 +110,6 @@ const DoLabelComponent = Component.extend({
       get(this, 'update')(object, propertyName, value);
     }
   }
-});
-
-DoLabelComponent.reopenClass({
-  positionalParams: ['propertyName']
 });
 
 export default DoLabelComponent;

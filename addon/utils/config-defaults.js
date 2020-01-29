@@ -1,8 +1,4 @@
-import Ember from 'ember';
-
-const {
-  merge
-} = Ember;
+import { assign } from '@ember/polyfills';
 
 export default function configDefaults(others) {
   let DEFAULTS = {
@@ -34,5 +30,5 @@ export default function configDefaults(others) {
     }
   };
 
-  return merge(DEFAULTS, others);
+  return assign(DEFAULTS, others);
 }

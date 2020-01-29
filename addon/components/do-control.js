@@ -1,15 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { isEmpty } from '@ember/utils';
 import layout from '../templates/components/do-control';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
 import setDataTestSelector from '../utils/set-data-test-selector';
-
-const {
-  computed,
-  Component,
-  get,
-  inject: { service },
-  isEmpty
-} = Ember;
 
 const DoControlComponent = Component.extend({
   layout,
@@ -40,10 +35,6 @@ const DoControlComponent = Component.extend({
       this.classNames = this.classNames.concat(defaultClasses);
     }
   }
-});
-
-DoControlComponent.reopenClass({
-  positionalParams: ['controlType', 'value']
 });
 
 export default DoControlComponent;

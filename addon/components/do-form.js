@@ -1,16 +1,10 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import Component from '@ember/component';
+import { isPresent, isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
+import { set, get } from '@ember/object';
 import layout from '../templates/components/do-form';
 import hasOnlyEmberView from '../utils/has-only-ember-view';
-
-const {
-  assert,
-  Component,
-  get,
-  isEmpty,
-  isPresent,
-  inject: { service },
-  set
-} = Ember;
 
 const DoFormComponent = Component.extend({
   layout,
@@ -45,10 +39,6 @@ const DoFormComponent = Component.extend({
   update(object, propertyName, value) {
     set(object, propertyName, value);
   }
-});
-
-DoFormComponent.reopenClass({
-  positionalParams: ['object']
 });
 
 export default DoFormComponent;
