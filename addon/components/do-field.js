@@ -53,21 +53,25 @@ const DoLabelComponent = Component.extend({
   }),
 
   validationClasses: computed('showValidation', 'hasErrors', function() {
+    let result;
     let classes = get(this, 'config.validationClasses');
     let hasErrors = get(this, 'hasErrors');
 
     if (get(this, 'showValidation')) {
-      return presence(hasErrors ? classes.fieldError : classes.fieldSuccess);
+      result = presence(hasErrors ? classes.fieldError : classes.fieldSuccess);
     }
+    return result;
   }).readOnly(),
 
   controlValidationClasses: computed('showValidation', 'hasErrors', function() {
+    let result;
     let classes = get(this, 'config.validationClasses');
     let hasErrors = get(this, 'hasErrors');
 
     if (get(this, 'showValidation')) {
-      return presence(hasErrors ? classes.controlError : classes.controlSuccess);
+      result = presence(hasErrors ? classes.controlError : classes.controlSuccess);
     }
+    return result;
   }).readOnly(),
 
   init() {
