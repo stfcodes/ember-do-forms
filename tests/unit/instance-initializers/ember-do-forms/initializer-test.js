@@ -6,6 +6,7 @@ import { initialize } from 'dummy/instance-initializers/ember-do-forms/initializ
 import { module, test } from 'qunit';
 import destroyApp from '../../../helpers/destroy-app';
 import configDefaults from 'ember-do-forms/utils/config-defaults';
+import config from 'ember-get-config';
 
 const ConfigStub = Service.extend(configDefaults());
 
@@ -15,11 +16,7 @@ module('Unit | Instance Initializer | ember do forms/initializer', function(hook
       this.application = Application.create();
       this.appInstance = this.application.buildInstance();
       this.appInstance.register('service:ember-do-forms/config', ConfigStub);
-      this.appInstance.register('config:environment', {
-        'ember-do-forms': {
-          errorsPath: 'myNewPath'
-        }
-      });
+      config['ember-do-forms'] = { errorsPath: 'myNewPath' };
     });
   });
 

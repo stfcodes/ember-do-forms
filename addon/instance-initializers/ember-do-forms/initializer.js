@@ -1,18 +1,15 @@
-import { assign } from '@ember/polyfills';
+import { merge } from '@ember/polyfills';
 import { set } from '@ember/object';
+import config from 'ember-get-config';
 import configDefaults from '../../utils/config-defaults';
 
-export function initialize(applicationInstance) {
-  debugger;
-  const config = applicationInstance.resolveRegistration('config:environment')['ember-do-forms'];
-  if (config || applicationInstance.router) {
-    let doFormConfig  = assign(configDefaults(), config);
-    let configService = applicationInstance.lookup('service:ember-do-forms/config');
+export function initialize(appInstance) {
+  const doFormConfig  = merge(configDefaults(), config['ember-do-forms']);
+  const configService = appInstance.lookup('service:ember-do-forms/config');
 
-    Object.keys(doFormConfig).forEach((key) => {
-      set(configService, key, doFormConfig[key]);
-    });
-  }
+  Object.keys(doFormConfig).forEach((key) => {
+    set(configService, key, doFormConfig[key]);
+  });
 }
 
 export default {
