@@ -6,50 +6,123 @@
     update=update
   )}}
 {{else}}
-  {{component oneWayControl
-    data-test-do-control=_dataTestSelector
+  {{#if this.shouldRenderTextArea}}
+    <textarea
+      oninput={{action "onUpdate" value="target.value"}}
+      onchange={{action "onUpdate" value="target.value"}}
 
-    id=id
-    value=value
-    class=validationClass
-    classNames=classNames
-    update=update
+      data-test-do-control={{_dataTestSelector}}
 
-    options=options
-    optionValuePath=optionValuePath
-    optionLabelPath=optionLabelPath
-    optionTargetPath=optionTargetPath
-    optionComponent=optionComponent
-    groupLabelPath=groupLabelPath
+      id={{id}}
+      value={{value}}
+      class={{controlClasses}}
 
-    includeBlank=includeBlank
-    prompt=prompt
-    promptIsSelectable=promptIsSelectable
+      name={{controlName}}
+      autocomplete={{autocomplete}}
+      form={{form}}
+      autofocus={{autofocus}}
+      disabled={{disabled}}
+      inputmode={{inputmode}}
+      maxlength={{maxlength}}
+      minlength={{minlength}}
+      placeholder={{placeholder}}
+      readonly={{shouldHaveReadonlyAttribute}}
+      required={{required}}
+      rows={{rows}}
+      cols={{cols}}
+      wrap={{wrap}}
+      spellcheck={{spellcheck}}
+      tabindex={{tabindex}}
+      title={{title}}>
+    </textarea>
+  {{else if this.shouldRenderSelect}}
+    {{one-way-select
+      update=update
 
-    name=controlName
-    autocomplete=autocomplete
-    form=form
-    autofocus=autofocus
-    checked=checked
-    disabled=disabled
-    inputmode=inputmode
-    list=list
-    max=max
-    maxlength=maxlength
-    min=min
-    minlength=minlength
-    multiple=multiple
-    pattern=pattern
-    placeholder=placeholder
-    readonly=readonly
-    required=required
-    rows=rows
-    cols=cols
-    wrap=wrap
-    size=size
-    spellcheck=spellcheck
-    step=step
-    tabindex=tabindex
-    title=title
-  }}
+      data-test-do-control=_dataTestSelector
+
+      id=id
+      value=value
+      class=validationClass
+      classNames=classNames
+
+      options=options
+      optionValuePath=optionValuePath
+      optionLabelPath=optionLabelPath
+      optionTargetPath=optionTargetPath
+      optionComponent=optionComponent
+      groupLabelPath=groupLabelPath
+
+      includeBlank=includeBlank
+      prompt=prompt
+      promptIsSelectable=promptIsSelectable
+
+      name=controlName
+      autocomplete=autocomplete
+      form=form
+      autofocus=autofocus
+      disabled=disabled
+      inputmode=inputmode
+      multiple=multiple
+      readonly=shouldHaveReadonlyAttribute
+      required=required
+
+      size=size
+      tabindex=tabindex
+      title=title
+    }}
+  {{else if this.shouldRenderCheckboxOrRadio}}
+    <input onclick={{action "onUpdate" value="target.checked"}}
+      type={{controlType}}
+      data-test-do-control={{_dataTestSelector}}
+
+      id={{id}}
+      value={{value}}
+      class={{controlClasses}}
+
+      name={{controlName}}
+      autocomplete={{autocomplete}}
+      form={{form}}
+      autofocus={{autofocus}}
+      checked={{checked}}
+      disabled={{disabled}}
+      inputmode={{inputmode}}
+
+      required={{required}}
+      tabindex={{tabindex}}
+      title={{title}}>
+  {{else}}
+    <input
+      oninput={{action "onUpdate" value="target.value"}}
+      onchange={{action "onUpdate" value="target.value"}}
+
+      type={{controlType}}
+      data-test-do-control={{_dataTestSelector}}
+
+      id={{id}}
+      value={{value}}
+      class={{controlClasses}}
+
+      name={{controlName}}
+      autocomplete={{autocomplete}}
+      form={{form}}
+      autofocus={{autofocus}}
+      disabled={{disabled}}
+      inputmode={{inputmode}}
+      list={{list}}
+      max={{max}}
+      maxlength={{maxlength}}
+      min={{min}}
+      minlength={{minlength}}
+      multiple={{multiple}}
+      pattern={{pattern}}
+      placeholder={{placeholder}}
+      readonly={{shouldHaveReadonlyAttribute}}
+      required={{required}}
+      size={{size}}
+      spellcheck={{spellcheck}}
+      step={{step}}
+      tabindex={{tabindex}}
+      title={{title}}>
+  {{/if}}
 {{/if}}

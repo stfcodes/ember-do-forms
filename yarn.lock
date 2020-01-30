@@ -4314,7 +4314,7 @@ ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.0:
   resolved "https://registry.yarnpkg.com/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.1.0.tgz#de3baedd093163b6c2461f95964888c1676325ac"
   integrity sha512-Zr4my8Xn+CzO0gIuFNXji0eTRml5AxZUTDQz/wsNJ5AJAtyFWCY4QtKdoELNNbiCVGt1lq5yLiwTm4scGKu6xA==
 
-ember-cli-babel@^6.0.0, ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.16.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@^6.9.0, ember-cli-babel@^6.9.2:
+ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.16.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@^6.9.0, ember-cli-babel@^6.9.2:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
   integrity sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA==
@@ -4747,15 +4747,14 @@ ember-maybe-import-regenerator@^0.1.6:
     ember-cli-babel "^6.0.0-beta.4"
     regenerator-runtime "^0.9.5"
 
-ember-one-way-controls@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ember-one-way-controls/-/ember-one-way-controls-3.1.0.tgz#5037d024aea0466a1dd787a79fbfd82b5df8c71e"
-  integrity sha512-SH/BcT7WWUWBuabOZ6TEPLrpG/FxL7MEIcXWjSzA6E0gCsIrB87jJL5uM12cwBjF9o3hEDUN/y5zNu1D8Wfomw==
+ember-one-way-select@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ember-one-way-select/-/ember-one-way-select-4.0.0.tgz#4da2a8b8abb3360feaa69099ea31989ad3068e89"
+  integrity sha512-KmdSJqaTuKA+yn+qmlIVKJ+6qXpJeyOt8UBGRFjIdXoa7PPlYSiZ4eRe4uTcy3CUqXHDCPC+8/9AnZe061SBMw==
   dependencies:
-    ember-cli-babel "^6.0.0"
+    ember-cli-babel "^6.6.0"
     ember-cli-htmlbars "^2.0.1"
     ember-invoke-action "^1.5.0"
-    ember-runtime-enumerable-includes-polyfill "^2.0.0"
 
 ember-qunit-assert-helpers@^0.2.2:
   version "0.2.2"
@@ -4815,14 +4814,6 @@ ember-router-generator@^2.0.0:
     "@babel/parser" "^7.4.5"
     "@babel/traverse" "^7.4.5"
     recast "^0.18.1"
-
-ember-runtime-enumerable-includes-polyfill@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/ember-runtime-enumerable-includes-polyfill/-/ember-runtime-enumerable-includes-polyfill-2.1.0.tgz#dc6d4a028471e4acc350dfd2a149874fb20913f5"
-  integrity sha512-au18iI8VbEDYn3jLFZzETnKN5ciPgCUxMRucEP3jkq7qZ6sE0FVKpWMPY/h9tTND3VOBJt6fgPpEBJoJVCUudg==
-  dependencies:
-    ember-cli-babel "^6.9.0"
-    ember-cli-version-checker "^2.1.0"
 
 ember-source-channel-url@^1.0.1:
   version "1.2.0"
