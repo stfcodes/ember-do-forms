@@ -3,17 +3,12 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import Component from '@ember/component';
 
 module('Integration | Component | do field', function(hooks) {
   setupRenderingTest(hooks);
 
-  let onError;
-
   hooks.beforeEach(function() {
-    onError = Ember.onerror;
-
     this.config = this.owner.lookup('service:ember-do-forms/config');
 
     set(this, 'object', EmObject.create({
@@ -26,27 +21,7 @@ module('Integration | Component | do field', function(hooks) {
   });
 
   hooks.afterEach(function() {
-    Ember.onerror = onError;
     this.owner.unregister('component:test-component');
-  });
-
-  test('it requires an object as context', async function(assert) {
-    assert.expect(1);
-
-    Ember.onerror = function(error) {
-      assert.equal(error.message, 'Assertion Failed: {{do-field}} requires an object to be passed in');
-    };
-    await render(hbs`{{do-field}}`);
-  });
-
-  test('it requires a propertyName as context', async function(assert) {
-    assert.expect(1);
-
-    Ember.onerror = function(error) {
-      assert.equal(error.message, 'Assertion Failed: {{do-field}} requires a propertyName to be passed in');
-    };
-
-    await render(hbs`{{do-field object=object}}`);
   });
 
   test('it renders a div by default', async function(assert) {

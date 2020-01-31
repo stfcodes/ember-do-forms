@@ -3,36 +3,17 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
 module('Integration | Component | do fields', function(hooks) {
   setupRenderingTest(hooks);
 
-  let onError;
-
   hooks.beforeEach(function() {
-    onError = Ember.onerror;
-
     this.config = this.owner.lookup('service:ember-do-forms/config');
 
     set(this, 'object', EmObject.create({
       name: 'Stefan',
       profileVisible: true
     }));
-  });
-
-  hooks.afterEach(function() {
-    Ember.onerror = onError;
-  });
-
-  test('it requires an object as context', async function(assert) {
-    assert.expect(1);
-
-    Ember.onerror = function(error) {
-      assert.equal(error.message, 'Assertion Failed: {{do-fields}} requires an object to be passed in.');
-    };
-
-    await render(hbs`{{do-fields}}`);
   });
 
   test('it renders nothing by default', async function(assert) {

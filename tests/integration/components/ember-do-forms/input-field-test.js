@@ -4,45 +4,16 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import attrsFor from '../../../helpers/control-attributes';
-import Ember from 'ember';
 
 module('Integration | Component | ember do forms/input field', function(hooks) {
   setupRenderingTest(hooks);
 
-  let onError;
-
   hooks.beforeEach(function() {
-    onError = Ember.onerror;
-
     this.config = this.owner.lookup('service:ember-do-forms/config');
 
     set(this, 'object', Object.create({
       name: 'Stefan'
     }));
-  });
-
-  hooks.afterEach(function() {
-    Ember.onerror = onError;
-  });
-
-  test('it requires an object as context', async function(assert) {
-    assert.expect(1);
-
-    Ember.onerror = function(error) {
-      assert.equal(error.message, 'Assertion Failed: {{ember-do-forms/input-field}} requires an object to be passed in');
-    };
-
-    await render(hbs`{{ember-do-forms/input-field}}`);
-  });
-
-  test('it requires a propertyName as context', async function(assert) {
-    assert.expect(1);
-
-    Ember.onerror = function(error) {
-      assert.equal(error.message, 'Assertion Failed: {{ember-do-forms/input-field}} requires a propertyName to be passed in');
-    };
-
-    await render(hbs`{{ember-do-forms/input-field object=object}}`);
   });
 
   test('it has a text control by default', async function(assert) {
